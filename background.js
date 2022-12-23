@@ -9,16 +9,16 @@ chrome.runtime.onInstalled.addListener(() => {
 	})
 })
 
+const isDndBeyond = /^https?:\/\/.*\.dndbeyond\.com\/character/;
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-	if (changeInfo.status === 'complete' && /^http/.test(tab.url)) {
-		chrome.scripting.executeScript({
-			target: { tabId: tabId },
-			files: ["./content.js"]
-		})
-		.then(() => {
-			console.log("INJECTED THE FOREGROUND SCRIPT.");
-		})
-		.catch(err => console.log(err));
+	if (changeInfo.status === 'complete') {
+		if (isDndBeyond.test(tab.url)) {
+			console.log("Is dnd beyond!")
+			chrome.scripting.executeScript({
+				target: { tabId: tabId },
+				files: ["src/dndbeyond/content.js"]
+			})
+		}
 	}
 });
