@@ -62,14 +62,13 @@ class DndBeyondCharacter extends Character {
 			return parseInt(max_hit_points) ?? 0;
 			
 		}	else {
+			// Open health-manager panel by clickin on health data
 			document.querySelector('.ct-status-summary-mobile__data')?.click()
 			const health_manager = document.querySelector('.ct-health-manager');
 			if (health_manager) {
 				const max_hit_points = document.querySelector('.ct-health-manager__health-max-current').textContent;
-				const toggle_btn = document.querySelector('.ct-quick-nav__edge-toggle--visible');
-				if (toggle_btn) {
-					toggle_btn.click();
-				}
+				// Close health-manager panel by clickin on close button
+				document.querySelector('.ct-quick-nav__edge-toggle--visible')?.click();
 				return parseInt(max_hit_points) ?? 0;
 			}
 		}

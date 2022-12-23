@@ -67,8 +67,6 @@ class Character {
 		this.temp_hit_points = temp_hit_points;
 	}
 	
-
-
 	getDict() {
 		return {
 			"url": this.url,
@@ -76,9 +74,7 @@ class Character {
 			"avatar": this.avatar,
 			"level": this.level,
 			"armor_class": this.armor_class,
-			"hit_points": this.hit_points,
 			"max_hit_points": this.max_hit_points,
-			"temp_hit_points": this.temp_hit_points
 		}
 	}
 }

@@ -1,12 +1,6 @@
 const documentChanged = (mutations) => {
 	character.updateCharacter();
-	// mutations.forEach(mut => {
-	// 	Array.from(mut.addedNodes).some((element) => {
-	// 		if (element.classList.contains('ct-quick-info__ability')) {
-	// 			console.log(element)
-	// 		}
-	// 	})
-	// })
+	storeCharacter(character);
 }
 
 const character = new DndBeyondCharacter();
