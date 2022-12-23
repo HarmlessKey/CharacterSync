@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+	"author": "HarmlessHarm",
+  "name": "D&D Character Sync",
+  "description": "Syncs character data across D&D apps",
+  "version": "0.1",
+	"background": {
+		"service_worker": "background.js"
+	},
+  "action": {
+    "default_popup": "index.html",
+    "default_icon": {
+			"32":"icons/hk_icon_32.png"
+		}
+  },
+	"permissions": [
+    "storage",
+		"activeTab",
+		"scripting",
+		"tabs"
+  ],
+	"host_permissions": [
+		"*://*.dndbeyond.com/characters/*"
+	]
+}
