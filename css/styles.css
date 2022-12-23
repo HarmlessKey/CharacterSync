@@ -1,0 +1,191 @@
+@import './variables.css';
+@import "./font-awesome/fontawesome.min.css";
+@import "./font-awesome/solid.min.css";
+@import "./font-awesome/brands.min.css";
+
+body {
+	all: unset;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	color: var(--neutral-8);
+}
+#root {
+	min-width: 365px;
+}
+#header {
+	padding: .8rem;
+	border-bottom: solid 1px var(--neutral-2);
+}
+h1, h2, h3, h4 {
+	all: unset;
+	margin: 0 0 .5em 0;
+}
+h2 { 
+	font-weight: bold;
+	font-size: 1.2rem;
+}
+p {
+	margin: 0 0 .5rem 0;
+}
+a { 
+	color: var(--primary);
+	text-decoration: none;
+}
+#header h1 {
+	all: unset;
+	font-size: 1.5rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.top {
+	text-align: center;
+	font-size: 1.8rem;
+	padding: 1rem 0;
+	color: var(--neutral-7);
+}
+.top .fa-sync-alt {
+	font-size: 4rem;
+	display: block;
+}
+button, .btn {
+	all: unset;
+	background-color: var(--primary);
+	color: var(--white);
+	padding: .75rem;
+	border-radius: .3rem;
+	box-sizing: border-box;
+	text-align: center;
+	font-weight: bold;
+	cursor: pointer;
+}
+button:hover, .btn:hover {
+	background-color: var(--primary-hover);
+}
+button > * {
+	pointer-events: none;
+}
+.btn-sm {
+ font-size: .75rem;
+ padding: .4rem;
+ font-weight: light;
+}
+.btn-clear {
+	background: none;
+	color: var(--primary);
+}
+.btn-clear:hover {
+	background-color: var(--overlay);
+}
+.btn-neutral {
+	background-color: var(--neutral-3);
+	color: var(--neutral-5);
+}
+.btn-neutral:hover {
+	background-color: var(--neutral-2);
+}
+.btn-logo {
+	border: solid 1px var(--primary);
+}
+.btn-logo img {
+	width: 200px;
+}
+
+#tabs { padding: .5rem; }
+#tabs button { color: var(--neutral-4); }
+#tabs button.is-active { 
+	background-color: var(--overlay);
+	color: var(--neutral-8);
+}
+.tab-pane { 
+	display: none; 
+	padding: .3rem;
+	max-height: 450px;
+	overflow: auto;
+}
+.tab-pane.is-active { display: block; }
+
+.step {
+	display: none;
+}
+.step.is-active {
+	display: block;
+}
+.step.on-site.is-active {
+	display: flex;
+	flex-direction: column;
+}
+.step.on-site img {
+	width: 200px;
+	margin: 1.5rem auto;
+}
+.step.on-site p {
+	text-align: center;
+	font-size: 1.5rem;
+	padding: 0 1rem;
+}
+
+.step.on-site p a {
+	text-decoration: none;
+}
+
+ul.characters { all: unset; }
+ul.characters li {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: .5rem;
+	border-radius: .3rem;
+}
+ul.characters li:hover { background-color: var(--overlay); }
+ul.characters li .character { 
+	display: flex;
+	align-items: center;
+}
+ul.characters li .character .avatar {
+	width: 45px;
+	height: 45px;
+	border: solid 2px var(--primary);
+	border-radius: .2rem;
+	margin-right: .5rem;
+	background-color: var(--neutral-2);
+}
+ul.characters li .character .info .resource { 
+	color: var(--neutral-5);
+	font-size: .8rem;
+	font-weight: light;
+}
+ul.characters li .character .info .name { 
+	font-weight: bold;
+	font-size: 1.1rem;
+}
+ul.characters li .actions {
+	display: flex;
+	justify-content: flex-end;
+}
+
+/* Classes */
+.w-full { width: 100%; }
+.mb-1 { margin-bottom: .5rem; }
+.mt-1 { margin-top: .5rem; }
+.ml-1 { margin-left: .5rem; }
+.mr-1 { margin-right: .5rem; }
+.my-1 { margin: .5rem 0; }
+.mx-1 { margin: 0 .5rem; }
+.m-1 { margin: .5rem; }
+.pb-1 { padding-bottom: .5rem; }
+.pt-1 { padding-top: .5rem; }
+.pl-1 { padding-left: .5rem; }
+.pr-1 { padding-right: .5rem; }
+.py-1 { padding: .5rem 0; }
+.px-1 { padding: 0 .5rem; }
+.p-1 { padding: .5rem; }
+
+.primary { color: var(--primary); }
+.bg-primary { background-color: var(--primary); }
+
+.truncate {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	color: inherit;
+}

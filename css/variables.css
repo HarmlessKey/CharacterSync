@@ -1,0 +1,20 @@
+:root {
+	--primary: #da362e;
+	--primary-hover: #d85049;
+	--white: #fff;
+	--font-color: #202225;
+	
+	--neutral-11: #080808;
+	--neutral-10: #191a1c;
+	--neutral-9: #202225;
+	--neutral-8: #393a3d;
+	--neutral-7: #5c5e64;
+	--neutral-6: #868a92;
+	--neutral-5: #777b81;
+	--neutral-4: #a0a3a8;
+	--neutral-3: #b2b6bb;
+	--neutral-2: #d8d8d8;
+	--neutral-1: #ffffff;
+
+	--overlay: #d8d8d873;
+}

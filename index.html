@@ -1,14 +1,131 @@
 <html>
+	<head>
+		<link href="css/styles.css" rel="stylesheet">
+	</head>
   <body>
-    <h1>D&D Character Sync</h1>
-    
-		<button id="storeUrlInStorage">Store</button>
-		<button id="resetStorage">Reset</button>
-		<button id="isActive">Check Active</button>
-		
-		<span>By Harmless Key</span>
+		<div id="root">
+			<div id="header">
+				<h1>
+					<span>
+						<i class="fas fa-sync-alt" aria-hidden="true"></i>
+						D&D Character Sync
+					</span>
+					<i class="fab fa-d-and-d primary" aria-hidden="true"></i>
+				</h1>
+			</div>
+			<div id="tabs">
+				<button data-pane="#start" class="btn-sm btn-clear is-active">Start</button>
+				<button data-pane="#my-characters" class="btn-sm btn-clear">My Characters</button>
+			</div>
+
+			<!-- START -->
+			<div id="start" class="tab-pane is-active">
+				<div id="zero" class="step is-active">
+					<div class="top">
+						<i aria-hidden="true" class="fas fa-sync-alt"></i>
+						Sync the stats of your Dungeons & Dragons characters.
+					</div>
+					<button class="w-full step-select" data-step="#first">Get started <i class="ml-1 fas fa-arrow-right"></i></button>
+				</div>
+
+				<!-- D&D BEYOND -->
+				<div class="step on-site" id="dndbeyond">
+					<img alt="D&D Beyond" src="/assets/images/logo_dnd_beyond.webp" />
+					<p>
+						Select a character from <a class="open-page" href="https://dndbeyond.com/characters">my characters</a> to sync.
+					</p>
+				</div>
+				<div class="step on-site" id="dndbeyond-sync">
+					<img alt="D&D Beyond" src="/assets/images/logo_dnd_beyond.webp" />
+					<button class="w-full">
+						<i class="fas fa-sync-alt" aria-hidden="true"></i>
+						Sync character
+					</button>
+				</div>
+
+				<!-- HARMLESS KEY -->
+				<div class="step on-site" id="harmlesskey">
+					<img alt="Harmless Key" src="/assets/images/logo_harmless_key.png" />
+					<p>
+						Select a character from 
+						<a class="open-page" href="https://harmlesskey.com/content/players">players</a> or 
+						<a class="open-page" href="https://harmlesskey.com/content/characters">characters</a> to sync.
+					</p>
+				</div>
+				<div class="step on-site" id="harmlesskey-sync">
+					<img alt="Harmless Key" src="/assets/images/logo_harmless_key.png" />
+					<button class="w-full">
+						<i class="fas fa-sync-alt" aria-hidden="true"></i>
+						Sync character
+					</button>
+				</div>
+				
+				<!-- DEFAULT -->
+				<div class="step" id="first">
+					<h2>
+						<button class="btn-clear step-select" data-step="#zero">
+							<i class="fas fa-arrow-left" aria-hidden="true"></i>
+						</button>
+						1. Resource
+					</h2>
+					<p>Where do you want to sync characters from?</p>
+					<button class="btn-clear w-full mb-1 step-select btn-logo" data-step="#dndbeyond-info">
+						<img alt="D&D Beyond" src="/assets/images/logo_dnd_beyond.webp" />
+					</button>
+					<button class="btn-clear w-full step-select btn-logo" data-step="#harmlesskey-info">
+						<img alt="Harmless Key" src="/assets/images/logo_harmless_key.png" />
+					</button>
+				</div>
+				<div class="step" id="dndbeyond-info">
+					<h2>
+						<button class="btn-clear step-select" data-step="#first">
+							<i class="fas fa-arrow-left" aria-hidden="true"></i>
+						</button>
+						2. D&D Beyond
+					</h2>
+					<ol>
+						<li>Visit your character sheet on D&D Beyond</li>
+						<li>Open this extension</li>
+						<li>Click the sync button</li>
+					</ol>
+					<a href="https://dndbeyond.com/characters" target="_blank" rel="noopener">Go to D&D Beyond</a>
+				</div>
+				<div class="step" id="harmlesskey-info">
+					<h2>
+						<button class="btn-clear step-select" data-step="#first">
+							<i class="fas fa-arrow-left" aria-hidden="true"></i>
+						</button>
+						2. Harmless Key
+					</h2>
+					<a href="https://harmlesskey.com/content/characters" target="_blank" rel="noopener">Go to Harmless Key</a>
+				</div>
+			</div>
+			
+			<!-- CHARACTER -->
+			<div id="my-characters" class="tab-pane">
+				<ul class="characters">
+					<li>
+						<div class="character">
+							<div class="avatar"></div>
+							<div class="info">
+								<div class="resource">Harmless Key</div>
+								<div class="name truncate">Levi</div>
+							</div>
+						</div>
+						<div class="actions">
+							<button class="btn-clear">
+								<i class="fas fa-sync-alt"></i>
+							</button>
+							<button class="btn-clear">
+								<i class="fas fa-trash-alt"></i>
+							</button>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
 		
 		<script src="popup.js"></script>
-		
+		<script src="navigation.js"></script>
   </body>
 </html>

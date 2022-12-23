@@ -32,7 +32,6 @@ const outputStorage = () => {
 	})
 }
 
-
 document.getElementById("storeUrlInStorage").addEventListener("click", storeUrlInStorage);
 document.getElementById("resetStorage").addEventListener("click", resetStorage);
 document.getElementById("isActive").addEventListener('click', outputStorage);
