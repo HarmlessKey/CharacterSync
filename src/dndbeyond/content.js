@@ -1,5 +1,3 @@
-// import DndBeyondCharacter from './character';
-
 const documentChanged = (mutations) => {
 	mutations.forEach(mut => {
 		Array.from(mut.addedNodes).some((element) => {

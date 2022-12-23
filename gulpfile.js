@@ -1,27 +1,26 @@
-const gulp = require('gulp');
-const del = require('del');
+var {series, src, dest, watch} = require('gulp');
+var concat = require('gulp-concat');
+var clean = require('gulp-clean');
 
+const DNDBEYOND_CHARACTER = [
+	'src/models/character.js',
+	'src/dndbeyond/character.js',
+	'src/dndbeyond/content.js'
+]
 
-const SRC_FILES = {
-	dndbeyond_character: [
-		'src/models/character.js',
-		'src/dndbeyond/character.js',
-		'src/dndbeyond/content.js'
-	]
+const cleanDist = () => {
+	return src('./dist/', { read: false, allowEmpty: true }).pipe(clean());
 }
 
-const targets = {};
-for (const target in SRC_FILES) {
-	const task = {
-		[target]: () => gulp.src(SRC_FILES[target])
-			.pipe(concat(`${target}.js`))
-			.pipe(gulp.dest("dist"))
-	}
+const build = () => {
+	return src(DNDBEYOND_CHARACTER)
+		.pipe(concat('dndbeyond_character.js'))
+		.pipe(dest('dist/'))
 }
 
+const watchSrc = () => {
+	watch(DNDBEYOND_CHARACTER, build);
+}
 
-build = gulp.series(...Object.values(targets))
-
-gulp.task('build', build)
-
-gulp.task('default', gulp.series(['build']))
+exports.build = build;
+exports.default = series(cleanDist, build, watchSrc);

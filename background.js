@@ -17,7 +17,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 			console.log("Is dnd beyond!")
 			chrome.scripting.executeScript({
 				target: { tabId: tabId },
-				files: ["src/dndbeyond/content.js"]
+				files: ["dist/dndbeyond_character.js"]
 			})
 		}
 	}

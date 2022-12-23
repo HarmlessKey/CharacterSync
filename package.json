@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "A Chrome extension that grabs your Dungeons & Dragons character's stats from various platforms like D&D Beyond and Harmless Key.",
   "scripts": {
-     "gulp": "gulp"
+    "gulp": "gulp"
   },
   "repository": {
     "type": "git",
@@ -12,7 +12,13 @@
   "author": "Harm Manders",
   "homepage": "https://github.com/HarmlessHarm/CharacterSync#readme",
   "devDependencies": {
+    "@types/gulp": "^4.0.10",
+    "@types/gulp-concat": "^0.0.33",
+    "babel": "^6.23.0",
+    "esm": "^3.2.25",
     "gulp": "^4.0.2",
+    "gulp-clean": "^0.4.0",
+    "gulp-concat": "^2.6.1",
     "web-ext": "^7.4.0"
   }
 }

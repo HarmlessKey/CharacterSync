@@ -1,5 +1,3 @@
-import Character from '../models/character.js';
-
 class DndBeyondCharacter extends Character {
 	constructor() {
 		super("DndBeyond");
