@@ -2,10 +2,15 @@ var {series, src, dest, watch} = require('gulp');
 var concat = require('gulp-concat');
 var clean = require('gulp-clean');
 
+// const UTILS = [
+// 	'src/common/utils.js'
+// ]
+
 const DNDBEYOND_CHARACTER = [
+	'src/dndbeyond/utils.js',
 	'src/models/character.js',
 	'src/dndbeyond/character.js',
-	'src/dndbeyond/content.js'
+	'src/dndbeyond/content.js',
 ]
 
 const cleanDist = () => {
