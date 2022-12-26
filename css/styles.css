@@ -29,6 +29,7 @@ p {
 a { 
 	color: var(--primary);
 	text-decoration: none;
+	font-weight: bold;
 }
 #header h1 {
 	all: unset;
@@ -128,7 +129,11 @@ button > * {
 	text-decoration: none;
 }
 
-ul.characters { all: unset; }
+ul.characters { 
+	all: unset; 
+	margin-bottom: 1rem;
+	display: block;
+}
 ul.characters li {
 	display: flex;
 	justify-content: space-between;
@@ -148,6 +153,8 @@ ul.characters li .character .avatar {
 	border-radius: .2rem;
 	margin-right: .5rem;
 	background-color: var(--neutral-2);
+	background-position: center top;
+	background-size: cover;
 }
 ul.characters li .character .info .resource { 
 	color: var(--neutral-5);
@@ -182,10 +189,18 @@ ul.characters li .actions {
 
 .primary { color: var(--primary); }
 .bg-primary { background-color: var(--primary); }
+.neutral-5 { color: var(--neutral-5); }
+.bg-neutral-5 { background-color: var(--neutral-5); }
 
 .truncate {
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	color: inherit;
+}
+.text-center {
+	text-align: center;
+}
+.block {
+	display: block;
 }

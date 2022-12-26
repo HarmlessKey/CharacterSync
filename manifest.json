@@ -23,20 +23,5 @@
 	"host_permissions": [
 		"*://*.dndbeyond.com/characters/*",
 		"*://harmlesskey.com/content/players/*"
-	],
-	"web_accessible_resources": [
-		"assets/fonts/fa-solid-900.ttf",
-		"assets/fonts/fa-solid-900.woff2",
-		"assets/fonts/fa-brands-400.ttf",
-		"assets/fonts/fa-brands-400.woff2"
-	],
-	"content_scripts": [
-		{
-			"css": [
-				"css/font-awesome/fontawesome.min.css",
-				"css/font-awesome/solid.min.css",
-				"css/font-awesome/brands.min.css"
-			]
-		}
 	]
 }
