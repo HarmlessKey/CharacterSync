@@ -14,7 +14,7 @@ body {
 }
 #header {
 	padding: .8rem;
-	border-bottom: solid 1px var(--neutral-1);
+	border-bottom: solid 1px var(--overlay);
 }
 h1, h2, h3, h4 {
 	all: unset;
@@ -155,11 +155,15 @@ ul.characters li {
 	align-items: center;
 	padding: .5rem;
 	border-radius: .3rem;
+	flex-wrap: wrap;
+	margin-bottom: 1px;
 }
-ul.characters li:hover { background-color: var(--overlay); }
+ul.characters li:hover, ul.characters li.is-active { background-color: var(--overlay); }
 ul.characters li .character { 
 	display: flex;
 	align-items: center;
+	cursor: default;
+	flex: 1;
 }
 ul.characters li .character .avatar {
 	width: 45px;
@@ -179,10 +183,73 @@ ul.characters li .character .info .resource {
 ul.characters li .character .info .name { 
 	font-weight: bold;
 	font-size: 1.1rem;
+	max-width: 125px;
 }
 ul.characters li .actions {
 	display: flex;
 	justify-content: flex-end;
+}
+ul.characters li .sheet {
+	flex-direction: column;
+	gap: .5rem;
+	flex: 0 1 100%;
+	margin-top: .5rem;
+	padding-top: .5rem;
+	display: none;
+}
+ul.characters li.is-active .sheet {
+	display: flex;
+}
+ul.characters li .sheet .abilities {
+	display: flex;
+	flex-wrap: wrap;
+	gap: .5rem;
+	justify-content: space-between;
+}
+ul.characters li .sheet .abilities .ability {
+	flex: 0 1 31%;
+	display: flex;
+	flex-direction: column;
+	text-align: center;
+	border-radius: .2rem;
+	align-items: center;
+}
+ul.characters li .sheet .abilities .ability .name {
+	text-transform: uppercase;
+	font-size: .7rem;
+	background-color: var(--neutral-2);
+	width: calc(100% - .4rem);
+	border-radius: .1rem;
+	padding: .1rem .2rem;
+	display: flex;
+	justify-content: space-between;
+}
+ul.characters li .sheet .abilities .ability .modifier {
+	font-weight: bold;
+	font-size: 1.5rem;
+	text-align: center;
+	background-color: var(--neutral-1);
+	width: 100%;
+}
+ul.characters li .sheet .abilities .ability .score {
+	text-align: right;
+	color: var(--neutral-4);
+}
+ul.characters li .sheet .stats {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: .5rem;
+}
+ul.characters li .sheet .stats .stat {
+	text-align: center;
+}
+ul.characters li .sheet .stats .stat .value {
+	font-size: 1.5rem;
+	font-weight: bold;
+}
+ul.characters li .sheet .stats .stat .name {
+	text-transform: uppercase;
+	font-size: .7rem;
 }
 
 .input {

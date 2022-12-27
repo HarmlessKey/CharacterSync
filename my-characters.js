@@ -17,7 +17,7 @@ const characters = {
 		charisma: 10
 	},
 	"https://www.dndbeyond.com/characters/38281958": {
-		name: "Levi Wright",
+		name: "Levi Wright and A Very Long Name After",
 		source: "dndbeyond",
 		url: "https://www.dndbeyond.com/characters/38281958",
 		avatar: "https://www.dndbeyond.com/avatars/23587/772/1581111423-38281958.jpeg?width=150&height=150&fit=crop&quality=95&auto=webp",
@@ -36,6 +36,25 @@ const characters = {
 };
 
 const character_list = document.getElementById("characters");
+
+const calcMod = (value) => {
+	return value ? Math.floor((value - 10) / 2) : 0;
+}
+
+const collapse = (e) => {
+	e.preventDefault();
+	const id = e.currentTarget.parentNode.getAttribute("id");
+	const is_active = e.currentTarget.parentNode.classList.value.includes("is-active");
+
+	const all_items = document.querySelectorAll("ul#characters>li");
+	for(const li of all_items) {
+		li.classList.remove("is-active");
+	}
+	if(!is_active) {
+		const open = document.getElementById(id);
+		open.classList.add("is-active");
+	}
+}
 
 // Delete character
 const deleteCharacter = (e) => {
@@ -74,7 +93,50 @@ const renderCharacters = (list) => {
 		info.appendChild(name);
 		left.appendChild(avatar)
 		left.appendChild(info);
+		left.addEventListener("click", collapse);
 		li.appendChild(left);
+		
+
+		// Sheet
+		const sheet = document.createElement("div");
+		sheet.setAttribute("class", "sheet");
+
+		const stats = document.createElement("div");
+		stats.setAttribute("class", "stats");
+		for(const value of ["hit_points", "armor_class", "speed", "initiative"]) {
+			const stat = document.createElement("div");
+			stat.setAttribute("class", "stat");
+
+			const names = {
+				"hit_points": "Hit Points",
+				"armor_class": "Armor Class",
+				"speed": "Speed",
+				"initiative": "Initiative"
+			};
+
+			// stat.innerHTML = `<i class="fas ${stats_table[value].icon}" aria-hidden="true"></i>`;
+			stat.innerHTML = `<div class="value">${(value === "initiative") ? `<span class="neutral-4">${character[value] >= 0 ? "+" : "-"}</span>${Math.abs(character[value])}` : character[value]}</div>`;
+			stat.innerHTML += `<div class="name">${names[value]}</div>`;
+			
+			stats.appendChild(stat);
+		}
+		sheet.appendChild(stats);
+		
+		const abilities = document.createElement("div");
+		abilities.setAttribute("class", "abilities");
+		
+
+		for(const ability of ["strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma"]) {
+			const score = document.createElement("div");
+			score.setAttribute("class", "ability");
+			score.innerHTML = `<div class="name">${ability.substring(0, 3)} <strong>${character[ability]}</strong></div>`;
+			score.innerHTML += `<div class="modifier"><span class="neutral-4">${character[ability] >= 0 ? "+" : "-"}</span>${Math.abs(calcMod(character[ability]))}</div>`;
+			// score.innerHTML += `<div class="score">${character[ability]}</div>`;
+			
+			abilities.appendChild(score);
+		}
+		sheet.appendChild(abilities);
+
 	
 		// Add action buttons
 		const actions = document.createElement("div");
@@ -103,6 +165,7 @@ const renderCharacters = (list) => {
 		actions.appendChild(delete_btn);
 	
 		li.appendChild(actions);
+		li.appendChild(sheet); // Append sheet after actions
 		
 		// Add the li to the list
 		character_list.appendChild(li);
