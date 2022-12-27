@@ -6,14 +6,15 @@
 body {
 	all: unset;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-	color: var(--neutral-8);
+	color: var(--font-color);
+	background-color: var(--background-color);
 }
 #root {
 	min-width: 365px;
 }
 #header {
 	padding: .8rem;
-	border-bottom: solid 1px var(--neutral-2);
+	border-bottom: solid 1px var(--neutral-1);
 }
 h1, h2, h3, h4 {
 	all: unset;
@@ -42,7 +43,7 @@ a {
 	text-align: center;
 	font-size: 1.8rem;
 	padding: 1rem 0;
-	color: var(--neutral-7);
+	color: var(--neutral-5);
 }
 .top .fa-sync-alt {
 	font-size: 4rem;
@@ -78,28 +79,42 @@ button > * {
 	background-color: var(--overlay);
 }
 .btn-neutral {
-	background-color: var(--neutral-3);
-	color: var(--neutral-5);
+	background-color: var(--neutral-2);
+	color: var(--neutral-4);
 }
 .btn-neutral:hover {
-	background-color: var(--neutral-2);
+	background-color: var(--neutral-1);
 }
 .btn-logo {
 	border: solid 1px var(--primary);
 }
-.btn-logo img {
+.btn-logo .logo {
+
+}
+.logo {
 	width: 200px;
+	height: 80px;
+	margin: auto;
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: center top;
+}
+.logo__hk {
+	background-image: var(--hk-logo);
+}
+.logo__dndb {
+	background-image: var(--dndb-logo);
 }
 
 #tabs { padding: .5rem; }
-#tabs button { color: var(--neutral-4); }
+#tabs button { color: var(--neutral-3); }
 #tabs button.is-active { 
 	background-color: var(--overlay);
-	color: var(--neutral-8);
+	color: var(--neutral-6);
 }
 .tab-pane { 
 	display: none; 
-	padding: .3rem;
+	padding: 0 1rem 1rem 1rem;
 	max-height: 450px;
 	overflow: auto;
 }
@@ -152,12 +167,12 @@ ul.characters li .character .avatar {
 	border: solid 2px var(--primary);
 	border-radius: .2rem;
 	margin-right: .5rem;
-	background-color: var(--neutral-2);
+	background-color: var(--neutral-1);
 	background-position: center top;
 	background-size: cover;
 }
 ul.characters li .character .info .resource { 
-	color: var(--neutral-5);
+	color: var(--neutral-4);
 	font-size: .8rem;
 	font-weight: light;
 }
@@ -168,6 +183,26 @@ ul.characters li .character .info .name {
 ul.characters li .actions {
 	display: flex;
 	justify-content: flex-end;
+}
+
+.input {
+	width: auto;
+	display: flex;
+	background-color: var(--overlay);
+	border-radius: .3rem;
+	height: 2.5rem;
+	cursor: text;
+}
+.input__icon {
+	padding-left: .5rem;
+}
+.input__icon i {
+	line-height: 2.5rem;
+}
+.input input {
+	all: unset;
+	padding-left: .5rem;
+	line-height: 2.5rem;
 }
 
 /* Classes */
@@ -189,8 +224,8 @@ ul.characters li .actions {
 
 .primary { color: var(--primary); }
 .bg-primary { background-color: var(--primary); }
-.neutral-5 { color: var(--neutral-5); }
-.bg-neutral-5 { background-color: var(--neutral-5); }
+.neutral-4 { color: var(--neutral-4); }
+.bg-neutral-4 { background-color: var(--neutral-4); }
 
 .truncate {
 	white-space: nowrap;

@@ -30,14 +30,14 @@
 
 				<!-- D&D BEYOND -->
 				<div class="step on-site" id="dndbeyond">
-					<img alt="D&D Beyond" src="/assets/images/logo_dnd_beyond.webp" />
+					<div class="logo logo__dndb mb-1"></div>
 					<p>
 						Select a character from <a class="open-page" href="https://dndbeyond.com/characters">my characters</a> to sync.
 					</p>
 				</div>
 				<div class="step on-site" id="dndbeyond-sync">
-					<img alt="D&D Beyond" src="/assets/images/logo_dnd_beyond.webp" />
-					<button class="w-full">
+					<div class="logo logo__dndb mb-1"></div>
+					<button class="w-full block">
 						<i class="fas fa-sync-alt" aria-hidden="true"></i>
 						Sync character
 					</button>
@@ -45,7 +45,7 @@
 
 				<!-- HARMLESS KEY -->
 				<div class="step on-site" id="harmlesskey">
-					<img alt="Harmless Key" src="/assets/images/logo_harmless_key.png" />
+					<div class="logo logo__hk mb-1"></div>
 					<p>
 						Select a character from 
 						<a class="open-page" href="https://harmlesskey.com/content/players">players</a> or 
@@ -53,8 +53,8 @@
 					</p>
 				</div>
 				<div class="step on-site" id="harmlesskey-sync">
-					<img alt="Harmless Key" src="/assets/images/logo_harmless_key.png" />
-					<button class="w-full">
+					<div class="logo logo__hk mb-1"></div>
+					<button class="w-full block">
 						<i class="fas fa-sync-alt" aria-hidden="true"></i>
 						Sync character
 					</button>
@@ -70,10 +70,10 @@
 					</h2>
 					<p>Where do you want to sync characters from?</p>
 					<button class="btn-clear w-full mb-1 step-select btn-logo" data-step="#dndbeyond-info">
-						<img alt="D&D Beyond" src="/assets/images/logo_dnd_beyond.webp" />
+						<div class="logo logo__dndb"></div>
 					</button>
 					<button class="btn-clear w-full step-select btn-logo" data-step="#harmlesskey-info">
-						<img alt="Harmless Key" src="/assets/images/logo_harmless_key.png" />
+						<div class="logo logo__hk"></div>
 					</button>
 				</div>
 				<div class="step" id="dndbeyond-info">
@@ -88,7 +88,7 @@
 						<li>Open this extension</li>
 						<li>Click the sync button</li>
 					</ol>
-					<a href="https://dndbeyond.com/characters" target="_blank" rel="noopener">Go to D&D Beyond</a>
+					<a href="https://dndbeyond.com/characters" target="_blank" rel="noopener" class="btn w-full block">Go to D&D Beyond</a>
 				</div>
 				<div class="step" id="harmlesskey-info">
 					<h2>
@@ -97,16 +97,27 @@
 						</button>
 						2. Harmless Key
 					</h2>
-					<a href="https://harmlesskey.com/content/characters" target="_blank" rel="noopener">Go to Harmless Key</a>
+					<ol>
+						<li>Visit your character sheet on Harmless Key</li>
+						<li>Open this extension</li>
+						<li>Click the sync button</li>
+					</ol>
+					<a href="https://harmlesskey.com/content/characters" target="_blank" rel="noopener" class="block btn w-full">Go to Harmless Key</a>
 				</div>
 			</div>
 			
 			<!-- CHARACTERS -->
 			<div id="my-characters" class="tab-pane">
+				<label class="input mb-1" for="search-input">
+					<div class="input__icon">
+						<i class="fas fa-search" aria-hidden="true"></i>
+					</div>
+					<input type="text" id="search-input" />
+				</label>
 				<ul class="characters" id="characters">
 				</ul>
-				<small class="neutral-5 text-center block">
-					These characters are automatically synced everytime you visit their sheet.
+				<small class="neutral-5 text-center block mb-1">
+					These characters are automatically synced every time you visit their sheet.
 				</small>
 			</div>
 		</div>

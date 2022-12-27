@@ -2,19 +2,34 @@
 	--primary: #da362e;
 	--primary-hover: #d85049;
 	--white: #fff;
-	--font-color: #202225;
+	--font-color: #393a3d;
+	--background-color: #fff;
+	--hk-logo: url("../assets/images/logo_harmless_key.png");
+	--dndb-logo: url("../assets/images/logo_dnd_beyond.webp");
 	
-	--neutral-11: #080808;
-	--neutral-10: #191a1c;
-	--neutral-9: #202225;
-	--neutral-8: #393a3d;
-	--neutral-7: #5c5e64;
-	--neutral-6: #868a92;
-	--neutral-5: #777b81;
-	--neutral-4: #a0a3a8;
-	--neutral-3: #b2b6bb;
-	--neutral-2: #d8d8d8;
-	--neutral-1: #ffffff;
+	--neutral-6: #393a3d;
+	--neutral-5: #5c5e64;
+	--neutral-4: #777b81;
+	--neutral-3: #a0a3a8;
+	--neutral-2: #b2b6bb;
+	--neutral-1: #d8d8d8;
 
 	--overlay: #d8d8d873;
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--font-color: #d8d8d8;
+		--background-color: #202225;
+		--dndb-logo: url("../assets/images/logo_dnd_beyond_dark.webp");
+		
+		--neutral-1: #393a3d;
+		--neutral-2: #202225;
+		--neutral-3: #a0a3a8;
+		--neutral-4: #777b81;
+		--neutral-5: #b2b6bb;
+		--neutral-6: #d8d8d8;
+
+		--overlay: #d8d8d838;
+	}
 }
