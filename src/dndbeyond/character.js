@@ -4,6 +4,9 @@ class DndBeyondCharacter extends Character {
 	}
 
 	updateCharacter() {
+		if(!this.source) {
+			this.source = "DndBeyond";
+		}
 		if (!this.url) {
 			this.url = window.location.href;
 		}
@@ -28,6 +31,18 @@ class DndBeyondCharacter extends Character {
 			this.setMaxHitPoints(this.parseMaxHitPoints())
 		}
 
+		if(!this.walking_speed) {
+			this.setWalkingSpeed(this.parseWalkingSpeed());
+		}
+
+		if(!this.initiative) {
+			this.setInitiative(this.parseInitiative());
+		}
+
+		["strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma"].forEach((ability, i) => {
+			this.setAbilityScore(ability, this.parseAbilityScore(i+2));
+		});
+
 		console.log(this);
 	}
 
@@ -35,6 +50,7 @@ class DndBeyondCharacter extends Character {
 		const parsedName = document.querySelector('.ddbc-character-tidbits__heading h1')?.textContent
 		return parsedName ?? null;
 	}
+
 
 	parseAvatar() {
 		const avatar_style = document.querySelector('.ddbc-character-avatar__portrait')?.style.backgroundImage;
@@ -62,15 +78,33 @@ class DndBeyondCharacter extends Character {
 			return parseInt(max_hit_points) ?? 0;
 			
 		}	else {
-			// Open health-manager panel by clickin on health data
+			// Open health-manager panel by clicking on health data
 			document.querySelector('.ct-status-summary-mobile__data')?.click()
 			const health_manager = document.querySelector('.ct-health-manager');
 			if (health_manager) {
 				const max_hit_points = document.querySelector('.ct-health-manager__health-max-current').textContent;
-				// Close health-manager panel by clickin on close button
+				// Close health-manager panel by clicking on close button
 				document.querySelector('.ct-quick-nav__edge-toggle--visible')?.click();
 				return parseInt(max_hit_points) ?? 0;
 			}
 		}
+	}
+
+	parseWalkingSpeed() {
+		const container = isMobile() ? ".ct-combat-mobile__extra--speed" : isTablet() ? ".ct-combat-tablet__extra--speed" : ".ct-speed-box__box-value";
+		const parsedWalkingSpeed = document.querySelector(`${container} .ddbc-distance-number .ddbc-distance-number__number`)?.textContent;
+		return parseInt(parsedWalkingSpeed) ?? null;
+	}
+
+	parseInitiative() {
+		const container = isMobile() ? ".ct-combat-mobile__extra--initiative" : isTablet() ? ".ct-combat-tablet__extra--initiative" : ".ct-initiative-box__value";
+		const parsedInitiative = document.querySelector(`${container} button .ddbc-signed-number .ddbc-signed-number__number`)?.textContent;
+		return parseInt(parsedInitiative) ?? null;
+	}
+
+	parseAbilityScore(n) {
+		const container = isMobile() ? ".ct-main-mobile__abilities" : isTablet() ? ".ct-main-tablet__abilities" : ".ct-quick-info__abilities";
+		const parsedScore = document.querySelector(`${container} :nth-child(${n}) .ddbc-ability-summary .ddbc-ability-summary__secondary`)?.textContent;
+		return parseInt(parsedScore) ?? null;
 	}
 }

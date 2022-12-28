@@ -88,9 +88,6 @@ button > * {
 .btn-logo {
 	border: solid 1px var(--primary);
 }
-.btn-logo .logo {
-
-}
 .logo {
 	width: 200px;
 	height: 80px;

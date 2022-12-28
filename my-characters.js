@@ -1,39 +1,5 @@
-const characters = {
-	"https://harmlesskey.com/content/characters/-MYLOFg376Mz5NOR2hT4": {
-		name: "Jake",
-		source: "harmlesskey",
-		url: "https://harmlesskey.com/content/characters/-MYLOFg376Mz5NOR2hT4",
-		avatar: "https://www.dndbeyond.com/avatars/17/415/636377885173419481.jpeg?width=150&height=150&fit=crop&quality=95&auto=webp",
-		armor_class: 18,
-		hit_points: 39,
-		initiative: 5,
-		level: 6,
-		speed: 55,
-		strength: 8,
-		dexterity: 20,
-		constitution: 13,
-		intelligence: 12,
-		wisdom: 16,
-		charisma: 10
-	},
-	"https://www.dndbeyond.com/characters/38281958": {
-		name: "Levi Wright and A Very Long Name After",
-		source: "dndbeyond",
-		url: "https://www.dndbeyond.com/characters/38281958",
-		avatar: "https://www.dndbeyond.com/avatars/23587/772/1581111423-38281958.jpeg?width=150&height=150&fit=crop&quality=95&auto=webp",
-		armor_class: 15,
-		hit_points: 39,
-		initiative: 4,
-		level: 30,
-		speed: 55,
-		strength: 10,
-		dexterity: 18,
-		constitution: 12,
-		intelligence: 13,
-		wisdom: 16,
-		charisma: 8
-	},
-};
+const storage = await chrome.storage.local.get({dnd_sync: {}});
+const characters = storage?.dnd_sync?.characters || {};
 
 const character_list = document.getElementById("characters");
 
@@ -103,14 +69,14 @@ const renderCharacters = (list) => {
 
 		const stats = document.createElement("div");
 		stats.setAttribute("class", "stats");
-		for(const value of ["hit_points", "armor_class", "speed", "initiative"]) {
+		for(const value of ["max_hit_points", "armor_class", "walking_speed", "initiative"]) {
 			const stat = document.createElement("div");
 			stat.setAttribute("class", "stat");
 
 			const names = {
-				"hit_points": "Hit Points",
+				"max_hit_points": "Hit Points",
 				"armor_class": "Armor Class",
-				"speed": "Speed",
+				"walking_speed": "Speed",
 				"initiative": "Initiative"
 			};
 
@@ -130,7 +96,7 @@ const renderCharacters = (list) => {
 			const score = document.createElement("div");
 			score.setAttribute("class", "ability");
 			score.innerHTML = `<div class="name">${ability.substring(0, 3)} <strong>${character[ability]}</strong></div>`;
-			score.innerHTML += `<div class="modifier"><span class="neutral-4">${character[ability] >= 0 ? "+" : "-"}</span>${Math.abs(calcMod(character[ability]))}</div>`;
+			score.innerHTML += `<div class="modifier"><span class="neutral-4">${calcMod(character[ability]) >= 0 ? "+" : "-"}</span>${Math.abs(calcMod(character[ability]))}</div>`;
 			// score.innerHTML += `<div class="score">${character[ability]}</div>`;
 			
 			abilities.appendChild(score);

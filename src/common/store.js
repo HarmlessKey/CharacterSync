@@ -6,8 +6,7 @@ const storeCharacter = (character) => {
 		.then((result) => {
 			const storage = result.dnd_sync
 			storage.characters = storage.characters ?? {};
-			storage.characters[character.type] = storage.characters[character.type] ?? {};
-			storage.characters[character.type][character.url] = character.getDict()
+			storage.characters[character.url] = character.getDict()
 			return chrome.storage.local.set({dnd_sync: storage})
 		})
 		.then(() => {
