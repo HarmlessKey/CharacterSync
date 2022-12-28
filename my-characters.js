@@ -31,6 +31,7 @@ const deleteCharacter = (e) => {
 };
 
 const renderCharacters = (list) => {
+	character_list.innerHTML = ""; // Clear the list first
 	for(const character of list) {
 		const li = document.createElement("li");
 		li.setAttribute("id", character.url);
@@ -80,7 +81,6 @@ const renderCharacters = (list) => {
 				"initiative": "Initiative"
 			};
 
-			// stat.innerHTML = `<i class="fas ${stats_table[value].icon}" aria-hidden="true"></i>`;
 			stat.innerHTML = `<div class="value">${(value === "initiative") ? `<span class="neutral-4">${character[value] >= 0 ? "+" : "-"}</span>${Math.abs(character[value])}` : character[value]}</div>`;
 			stat.innerHTML += `<div class="name">${names[value]}</div>`;
 			
@@ -97,7 +97,6 @@ const renderCharacters = (list) => {
 			score.setAttribute("class", "ability");
 			score.innerHTML = `<div class="name">${ability.substring(0, 3)} <strong>${character[ability]}</strong></div>`;
 			score.innerHTML += `<div class="modifier"><span class="neutral-4">${calcMod(character[ability]) >= 0 ? "+" : "-"}</span>${Math.abs(calcMod(character[ability]))}</div>`;
-			// score.innerHTML += `<div class="score">${character[ability]}</div>`;
 			
 			abilities.appendChild(score);
 		}
@@ -139,10 +138,16 @@ const renderCharacters = (list) => {
 };
 renderCharacters(Object.values(characters));
 
+// Watch for changes
+chrome.storage.onChanged.addListener((changes, _namespace) => {
+	const new_characters = changes?.dnd_sync?.newValue?.characters || {};
+	character_list.innerHTML = "";
+	renderCharacters(Object.values(new_characters));
+});
+
 const search_input = document.getElementById("search-input");
 const search = (e) => {
 	const input = e.target.value;
-	character_list.innerHTML = "";
 	const filtered = Object.values(characters).filter(char => char.name.toLowerCase().includes(input.toLowerCase()));
 	renderCharacters(filtered);
 };

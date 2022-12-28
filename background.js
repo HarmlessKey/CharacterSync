@@ -9,7 +9,7 @@ chrome.runtime.onInstalled.addListener(() => {
 	})
 })
 
-const isDndBeyond = /^https?:\/\/.*\.dndbeyond\.com\/character/;
+const isDndBeyond = /^https?:\/\/.*\.dndbeyond\.com\/characters\/\d+/;
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 	if (changeInfo.status === 'complete') {
