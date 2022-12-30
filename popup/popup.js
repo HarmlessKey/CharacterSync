@@ -19,4 +19,7 @@ const sendMessage = async (e) => {
 	}, 1000);
 }
 
-document.getElementById("sync-character").addEventListener('click', sendMessage);
+const sync_buttons = document.querySelectorAll("button.sync-character");
+for(const button of sync_buttons) {
+	button.addEventListener('click', sendMessage);
+}
