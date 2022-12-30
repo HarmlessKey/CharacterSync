@@ -17,8 +17,12 @@ const syncCharacter = () => {
 	storeCharacter(character);
 }
 
-const documentChanged = (mutations) => {
-	syncCharacter();
+const documentChanged = async (mutations) => {
+	// Only sync automatically if the character is in storage
+	const characters = await getCharacters();
+	if(characters?.[window.location.href]) {
+		syncCharacter();
+	}
 }
 
 const character = new DndBeyondCharacter();

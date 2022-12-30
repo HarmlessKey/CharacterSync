@@ -17,9 +17,7 @@ const storeCharacter = (character) => {
 		})
 }
 
-const getCharacters = () => {
-	chrome.storage.local.get({dnd_sync: {}})
-		.then((result) => {
-			return result.dnd_sync?.characters
-		})
+const getCharacters = async () => {
+	const storage = await chrome.storage.local.get({dnd_sync: {}});
+	return storage?.dnd_sync?.characters || {};
 }

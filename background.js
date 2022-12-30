@@ -34,7 +34,7 @@ chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
 		console.log(`Function: ${func_name}`);
 		if (func_name === 'sync') {
 			syncCharacter();
-		}	
+		}
 	}
 })
 
