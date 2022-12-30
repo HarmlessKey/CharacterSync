@@ -7,43 +7,27 @@ class DndBeyondCharacter extends Character {
 		if(!this.source) {
 			this.source = "DndBeyond";
 		}
-		if (!this.url) {
-			this.url = window.location.href;
-		}
+		this.url = window.location.href;
 
-		if (!this.name) {
-			this.setName(this.parseName());
-		}
+		this.setName(this.parseName());
 
-		if (!this.avatar) {
-			this.setAvatar(this.parseAvatar());
-		}
+		this.setAvatar(this.parseAvatar());
 
-		if (!this.level) {
-			this.level = 1;
-		}
+		this.level = 1;
 
-		if (!this.armor_class) {
-			this.setArmorClass(this.parseArmorClass());
-		}
+		this.setArmorClass(this.parseArmorClass());
 
-		if (!this.max_hit_points) {
-			this.setMaxHitPoints(this.parseMaxHitPoints())
-		}
+		this.setMaxHitPoints(this.parseMaxHitPoints())
 
-		if(!this.walking_speed) {
-			this.setWalkingSpeed(this.parseWalkingSpeed());
-		}
+		this.setWalkingSpeed(this.parseWalkingSpeed());
 
-		if(!this.initiative) {
-			this.setInitiative(this.parseInitiative());
-		}
+		this.setInitiative(this.parseInitiative());
 
 		["strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma"].forEach((ability, i) => {
-			this.setAbilityScore(ability, this.parseAbilityScore(i+2));
+			this.setAbilityScore(ability, this.parseAbilityScore(i));
 		});
 
-		console.log(this);
+		console.log("updated character to:", this);
 	}
 
 	parseName() {
@@ -98,13 +82,13 @@ class DndBeyondCharacter extends Character {
 
 	parseInitiative() {
 		const container = isMobile() ? ".ct-combat-mobile__extra--initiative" : isTablet() ? ".ct-combat-tablet__extra--initiative" : ".ct-initiative-box__value";
-		const parsedInitiative = document.querySelector(`${container} button .ddbc-signed-number .ddbc-signed-number__number`)?.textContent;
+		const parsedInitiative = document.querySelector(`${container} .ddbc-signed-number .ddbc-signed-number__number`)?.textContent;
 		return parseInt(parsedInitiative) ?? null;
 	}
 
 	parseAbilityScore(n) {
-		const container = isMobile() ? ".ct-main-mobile__abilities" : isTablet() ? ".ct-main-tablet__abilities" : ".ct-quick-info__abilities";
-		const parsedScore = document.querySelector(`${container} :nth-child(${n}) .ddbc-ability-summary .ddbc-ability-summary__secondary`)?.textContent;
+		const container = isMobile() ? ".ct-main-mobile__ability" : isTablet() ? ".ct-main-tablet__ability" : ".ct-quick-info__ability";
+		const parsedScore = document.querySelectorAll(`${container}`)[n]?.querySelector('.ddbc-ability-summary__secondary')?.textContent;
 		return parseInt(parsedScore) ?? null;
 	}
 }
