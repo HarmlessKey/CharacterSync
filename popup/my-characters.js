@@ -3,6 +3,11 @@ const characters = storage?.dnd_sync?.characters || {};
 
 const character_list = document.getElementById("characters");
 
+const getCurrentTab = async () => {
+	const tabs = await chrome.tabs.query({currentWindow: true, active: true});
+	return tabs[0].url;
+}
+
 const calcMod = (value) => {
 	return value ? Math.floor((value - 10) / 2) : 0;
 }
@@ -28,9 +33,19 @@ const deleteCharacter = (e) => {
 	const li = document.getElementById(id);
 	li.parentNode.removeChild(li);
 	delete characters[id];
+	storage.dnd_sync.characters = characters;
+	chrome.storage.local.set(storage);
 };
 
-const renderCharacters = (list) => {
+// Sync Character
+const syncCharacter = async (e) => {
+	const icon = e.target.querySelector(".fa-sync-alt");
+	icon.classList.add("spin");
+	await chrome.runtime.sendMessage({ function: "sync" });
+	icon.classList.remove("spin");
+};
+
+const renderCharacters = async (list) => {
 	character_list.innerHTML = ""; // Clear the list first
 	for(const character of list) {
 		const li = document.createElement("li");
@@ -63,7 +78,6 @@ const renderCharacters = (list) => {
 		left.addEventListener("click", collapse);
 		li.appendChild(left);
 		
-
 		// Sheet
 		const sheet = document.createElement("div");
 		sheet.setAttribute("class", "sheet");
@@ -106,27 +120,34 @@ const renderCharacters = (list) => {
 		// Add action buttons
 		const actions = document.createElement("div");
 		actions.setAttribute("class", "actions");
+
+		let action_btn;
+
+		// Sync button if tab === character.url
+		if(await getCurrentTab() === character.url) {
+			action_btn = document.createElement("button");
+			action_btn.setAttribute("class", "btn btn-clear");
+			action_btn.innerHTML = '<i class="fas fa-sync-alt"></i>';
+			action_btn.addEventListener("click", syncCharacter);
+		}
+
+		// Open button on other tab
+		else {
+			action_btn = document.createElement("a");
+			action_btn.setAttribute("class", "btn btn-clear");
+			action_btn.setAttribute("href", character.url);
+			action_btn.setAttribute("target", "_blank");
+			action_btn.setAttribute("rel", "noopener");
+			action_btn.innerHTML = '<i class="fas fa-external-link-alt"></i>';
+		}
 	
-		const open_btn = document.createElement("a");
-		const sync_btn = document.createElement("a");
 		const delete_btn = document.createElement("button");
-		sync_btn.setAttribute("class", "btn btn-clear");
-		sync_btn.setAttribute("href", character.url);
-		sync_btn.setAttribute("target", "_blank");
-		sync_btn.setAttribute("rel", "noopener");
-		open_btn.setAttribute("class", "btn btn-clear");
-		open_btn.setAttribute("href", character.url);
-		open_btn.setAttribute("target", "_blank");
-		open_btn.setAttribute("rel", "noopener");
 		delete_btn.setAttribute("class", "btn-clear delete-character");
 		delete_btn.setAttribute("data-url", character.url);
 		delete_btn.addEventListener("click", deleteCharacter);
-		sync_btn.innerHTML = '<i class="fas fa-sync-alt"></i>';
-		open_btn.innerHTML = '<i class="fas fa-external-link-alt"></i>';
 		delete_btn.innerHTML = '<i class="fas fa-trash-alt"></i>';
 	
-		actions.appendChild(open_btn);
-		actions.appendChild(sync_btn);
+		actions.appendChild(action_btn);
 		actions.appendChild(delete_btn);
 	
 		li.appendChild(actions);
@@ -146,9 +167,12 @@ chrome.storage.onChanged.addListener((changes, _namespace) => {
 });
 
 const search_input = document.getElementById("search-input");
+const searchReplace = (input) => {
+	return input ? input.normalize('NFD').replace(/\p{Diacritic}/gu, "").replace(/ /g, "").toLowerCase() : input;
+};
 const search = (e) => {
 	const input = e.target.value;
-	const filtered = Object.values(characters).filter(char => char.name.toLowerCase().includes(input.toLowerCase()));
+	const filtered = Object.values(characters).filter(char => searchReplace(char.name).includes(searchReplace(input)));
 	renderCharacters(filtered);
 };
 search_input.addEventListener("keyup", search);

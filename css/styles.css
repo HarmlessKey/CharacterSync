@@ -180,7 +180,7 @@ ul.characters li .character .info .resource {
 ul.characters li .character .info .name { 
 	font-weight: bold;
 	font-size: 1.1rem;
-	max-width: 125px;
+	max-width: 180px;
 }
 ul.characters li .actions {
 	display: flex;
@@ -265,8 +265,9 @@ ul.characters li .sheet .stats .stat .name {
 }
 .input input {
 	all: unset;
-	padding-left: .5rem;
+	padding: 0 .5rem;
 	line-height: 2.5rem;
+	flex: 1;
 }
 
 /* Classes */
@@ -302,4 +303,23 @@ ul.characters li .sheet .stats .stat .name {
 }
 .block {
 	display: block;
+}
+.spin {
+	-webkit-animation: spin 2s linear infinite;
+	-moz-animation: spin 2s linear infinite;
+	animation: spin 2s linear infinite;
+}
+
+/* ANIMATIONS */
+@-moz-keyframes spin { 
+	100% { -moz-transform: rotate(360deg); } 
+}
+@-webkit-keyframes spin { 
+	100% { -webkit-transform: rotate(360deg); } 
+}
+@keyframes spin { 
+	100% { 
+		-webkit-transform: rotate(360deg); 
+		transform:rotate(360deg); 
+	} 
 }
