@@ -23,6 +23,8 @@
 	"host_permissions": [
 		"*://*.dndbeyond.com/characters/*",
 		"*://harmlesskey.com/content/players/*",
-		"*://harmlesskey.com/content/characters/*"
+		"*://*.harmlesskey.com/content/players/*",
+		"*://harmlesskey.com/content/characters/*",
+		"*://*.harmlesskey.com/content/characters/*"
 	]
 }

@@ -13,7 +13,7 @@ class HkCharacter extends Character {
 
 		this.setAvatar(this.parseAvatar());
 
-		this.level = 1;
+		this.setLevel(this.parseLevel());
 
 		this.setArmorClass(this.parseArmorClass());
 
@@ -37,8 +37,16 @@ class HkCharacter extends Character {
 
 
 	parseAvatar() {
-		const avatar_url = "https://thispersondoesnotexist.com/image";
+		const avatar_style = document.querySelector('.player-avatar')?.style.backgroundImage;
+		const url_regex = /url\([\"\'\`](.+)[\"\'\`]\)/
+		const avatar_url = avatar_style?.match(url_regex)[1]
 		return avatar_url ?? null;
+	}
+
+	parseLevel() {
+		const level = document.querySelector('.level')?.textContent;
+		console.log(level)
+		return parseInt(level) ?? 1;
 	}
 
 	parseArmorClass() {
