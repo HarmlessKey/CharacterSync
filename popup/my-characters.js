@@ -42,7 +42,9 @@ const syncCharacter = async (e) => {
 	const icon = e.target.querySelector(".fa-sync-alt");
 	icon.classList.add("spin");
 	await chrome.runtime.sendMessage({ function: "sync" });
-	icon.classList.remove("spin");
+	setTimeout(() => {
+		icon.classList.remove("spin")
+	}, 1000);
 };
 
 const renderCharacters = async (list) => {

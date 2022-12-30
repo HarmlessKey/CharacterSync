@@ -9,10 +9,14 @@ const outputStorage = () => {
 	})
 }
 
-const sendMessage = async () => {
-	console.log('message sent')
-	const response = await chrome.runtime.sendMessage({function: "sync"});
-	console.log(response);
+const sendMessage = async (e) => {
+	const icon = e.target.querySelector(".fa-sync-alt");
+	console.log(icon)
+	icon.classList.add("spin");
+	await chrome.runtime.sendMessage({function: "sync"});
+	setTimeout(() => {
+		icon.classList.remove("spin")
+	}, 1000);
 }
 
-document.getElementById("sync_character").addEventListener('click', sendMessage);
+document.getElementById("sync-character").addEventListener('click', sendMessage);

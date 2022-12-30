@@ -22,6 +22,15 @@ chrome.tabs.query({currentWindow: true, active: true}, (tabs) => {
 	}
 });
 
+// Set footer content 
+const setFooterContent = (tab) => {
+	let content = "";
+	if(tab === "#my-characters") {
+		content = "";
+	}
+	document.getElementById("footer").innerHTML = content;
+}
+
 // Navigate to url
 const page_buttons = document.getElementsByClassName('open-page');
 const navigate = (event) => {
@@ -70,6 +79,7 @@ const tabClicks = (e) => {
 	const activePaneId = anchorReference.getAttribute("data-pane");
 	const activePane = document.querySelector(activePaneId);
 	activePane.classList.add("is-active");
+	setFooterContent(activePaneId);
 }
 for (const tab of tabs) {
 	tab.addEventListener("click", tabClicks)

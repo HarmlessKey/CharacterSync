@@ -9,13 +9,6 @@ body {
 	color: var(--font-color);
 	background-color: var(--background-color);
 }
-#root {
-	min-width: 365px;
-}
-#header {
-	padding: .8rem;
-	border-bottom: solid 1px var(--overlay);
-}
 h1, h2, h3, h4 {
 	all: unset;
 	margin: 0 0 .5em 0;
@@ -32,12 +25,24 @@ a {
 	text-decoration: none;
 	font-weight: bold;
 }
+#root {
+	min-width: 365px;
+	display: grid;
+	grid-template-rows: 60px minmax(200px, 1fr) max-content;
+}
+#header {
+	padding: .8rem;
+	border-bottom: solid 1px var(--overlay);
+}
 #header h1 {
 	all: unset;
 	font-size: 1.5rem;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+}
+#footer {
+	padding: .5rem;
 }
 .top {
 	text-align: center;
@@ -111,11 +116,24 @@ button > * {
 }
 .tab-pane { 
 	display: none; 
-	padding: 0 1rem 1rem 1rem;
+	padding: 0 1rem;
 	max-height: 450px;
 	overflow: auto;
 }
 .tab-pane.is-active { display: block; }
+
+.tab-pane .header, .tab-pane .footer {
+	position: sticky;
+	background-color: var(--background-color);
+}
+.tab-pane .header {
+	top: 0;
+	padding-bottom: .5rem;
+}
+.tab-pane .footer {
+	bottom: 0;
+	padding: .5rem 0;
+}
 
 .step {
 	display: none;
@@ -305,9 +323,9 @@ ul.characters li .sheet .stats .stat .name {
 	display: block;
 }
 .spin {
-	-webkit-animation: spin 2s linear infinite;
-	-moz-animation: spin 2s linear infinite;
-	animation: spin 2s linear infinite;
+	-webkit-animation: spin 1s linear infinite;
+	-moz-animation: spin 1s linear infinite;
+	animation: spin 1s linear infinite;
 }
 
 /* ANIMATIONS */
