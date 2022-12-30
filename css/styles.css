@@ -26,9 +26,10 @@ a {
 	font-weight: bold;
 }
 #root {
+	height: 100%;
 	min-width: 365px;
 	display: grid;
-	grid-template-rows: 60px minmax(200px, 1fr) max-content;
+	grid-template-rows: auto 1fr auto;
 }
 #header {
 	padding: .8rem;
@@ -43,6 +44,16 @@ a {
 }
 #footer {
 	padding: .5rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-size: .75rem;
+	background-color: var(--neutral-1);
+	color: var(--neutral-5);
+}
+#footer a {
+	padding-top: 1px;
+	color: var(--neutral-5);
 }
 .top {
 	text-align: center;
@@ -137,6 +148,7 @@ button > * {
 
 .step {
 	display: none;
+	padding-bottom: .5rem;
 }
 .step.is-active {
 	display: block;

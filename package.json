@@ -9,7 +9,7 @@
     "type": "git",
     "url": "git+https://github.com/HarmlessHarm/CharacterSync.git"
   },
-  "author": "Harm Manders",
+  "author": "Harm Manders & Key Roos",
   "homepage": "https://github.com/HarmlessHarm/CharacterSync#readme",
   "devDependencies": {
     "@types/gulp": "^4.0.10",
