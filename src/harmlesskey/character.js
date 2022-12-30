@@ -62,11 +62,13 @@ class HkCharacter extends Character {
 	}
 
 	parseWalkingSpeed() {
-		return null;
+		const speed = document.querySelector('[aria-label="Speed"]')?.value;
+		return parseInt(speed) ?? null;
 	}
 
 	parseInitiative() {
-		return null;
+		const initiative = document.querySelector('[aria-label="Initiative"]')?.value;
+		return parseInt(initiative) ?? null;
 	}
 
 	parseAbilityScore(stat) {
