@@ -70,7 +70,7 @@ const renderCharacters = async (list) => {
 		resource.setAttribute("class", "resource");
 		name.setAttribute("class", "name truncate");
 	
-		resource.innerText = (character.source === "harmlesskey") ? "Harmless Key" : "D&D Beyond";
+		resource.innerText = (character.source === "HarmlessKey") ? "Harmless Key" : "D&D Beyond";
 		name.innerText = character.name;
 	
 		info.appendChild(resource);

@@ -1,10 +1,28 @@
-var {series, parallel, src, dest, watch} = require('gulp');
-var concat = require('gulp-concat');
-var clean = require('gulp-clean');
+// var {series, parallel, src, dest, watch} = require('gulp');
+var gulp = require('gulp');
+var gulp_concat = require('gulp-concat');
+var gulp_clean = require('gulp-clean');
 
 const UTILS = [
-	'src/common/store.js'
+	'src/common/store.js',
+	'src/common/util.js'
 ]
+
+const TARGETS = {
+	'dndbeyond_character': [
+		...UTILS,
+		'src/dndbeyond/utils.js',
+		'src/models/character.js',
+		'src/dndbeyond/character.js',
+		'src/dndbeyond/content.js',
+	],
+	'harmlesskey_character': [
+		...UTILS,
+		'src/models/character.js',
+		'src/harmlesskey/character.js',
+		'src/harmlesskey/content.js',
+	],
+}
 
 const DNDBEYOND_CHARACTER = [
 	...UTILS,
@@ -14,24 +32,34 @@ const DNDBEYOND_CHARACTER = [
 	'src/dndbeyond/content.js',
 ]
 
-const POPUP = [
-	...UTILS,
-	'popup.js'
-]
-
-const cleanDist = () => {
-	return src('./dist/', { read: false, allowEmpty: true }).pipe(clean());
+const targets = {}
+for (const target in TARGETS) {
+	const task = {
+		[target]: () => {
+			return gulp.src(TARGETS[target])
+				.pipe(gulp_concat(`${target}.js`))
+				.pipe(gulp.dest('dist/'))
+		}
+	}
+	targets[target] = task[target]
+	// Add specific task. usage: `npm run gulp harmlesskey_character`
+	gulp.task(target, targets[target]);
 }
 
-const build = () => {
-	return src(DNDBEYOND_CHARACTER)
-			.pipe(concat('dndbeyond_character.js'))
-			.pipe(dest('dist/'))
+
+const clean = () => {
+	return gulp.src('./dist/', { read: false, allowEmpty: true }).pipe(gulp_clean());
 }
 
-const watchSrc = () => {
-	watch(DNDBEYOND_CHARACTER, build);
+const build = async () => {
+	return gulp.series(...Object.values(targets))();
+}
+
+const watch = () => {
+	for (target in TARGETS) {
+		gulp.watch(TARGETS[target], targets[target]);
+	}
 }
 
 exports.build = build;
-exports.default = series(cleanDist, build, watchSrc);
+exports.default = gulp.series(clean, build, watch);
