@@ -9,6 +9,10 @@ const outputStorage = () => {
 	})
 }
 
+const sendMessage = async () => {
+	console.log('message sent')
+	const response = await chrome.runtime.sendMessage({function: "sync"});
+	console.log(response);
+}
 
-document.getElementById("resetStorage").addEventListener("click", resetStorage);
-document.getElementById("isActive").addEventListener('click', outputStorage);
+document.getElementById("sync_character").addEventListener('click', sendMessage);
