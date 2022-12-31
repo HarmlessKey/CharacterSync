@@ -7,10 +7,9 @@
 			<div id="header">
 				<h1>
 					<span>
-						<i class="fas fa-sync-alt" aria-hidden="true"></i>
-						D&D Character Sync
+						<i class="fas fa-sync-alt primary" aria-hidden="true"></i>
+						Character Sync
 					</span>
-					<i class="fab fa-d-and-d primary" aria-hidden="true"></i>
 				</h1>
 			</div>
 			<div id="content">
@@ -25,20 +24,24 @@
 					<div id="zero" class="step is-active">
 						<div class="top">
 							<i aria-hidden="true" class="fas fa-sync-alt"></i>
-							Sync the stats of your Dungeons & Dragons characters.
+							Sync the sheets of your Dungeons & Dragons characters.
 						</div>
 						<button class="w-full step-select" data-step="#first">Get started <i class="ml-1 fas fa-arrow-right"></i></button>
 					</div>
 	
 					<!-- D&D BEYOND -->
 					<div class="step on-site" id="dndbeyond">
-						<div class="logo logo__dndb mb-1"></div>
+						<div class="logo logo__dndb mb-1">
+							<i class="fab fa-d-and-d-beyond" aria-hidden="true"></i>
+						</div>
 						<p>
 							Select a character from <a class="open-page" href="https://dndbeyond.com/characters">my characters</a> to sync.
 						</p>
 					</div>
 					<div class="step on-site" id="dndbeyond-sync">
-						<div class="logo logo__dndb mb-1"></div>
+						<div class="logo logo__dndb mb-1">
+							<i class="fab fa-d-and-d-beyond" aria-hidden="true"></i>
+						</div>
 						<button class="w-full block sync-character">
 							<i class="fas fa-sync-alt" aria-hidden="true"></i>
 							Sync character
@@ -72,7 +75,9 @@
 						</h2>
 						<p>Where do you want to sync characters from?</p>
 						<button class="btn-clear w-full mb-1 step-select btn-logo" data-step="#dndbeyond-info">
-							<div class="logo logo__dndb"></div>
+							<div class="logo logo__dndb">
+								<i class="fab fa-d-and-d-beyond" aria-hidden="true"></i>
+							</div>
 						</button>
 						<button class="btn-clear w-full step-select btn-logo" data-step="#harmlesskey-info">
 							<div class="logo logo__hk"></div>
@@ -111,11 +116,11 @@
 				<!-- CHARACTERS -->
 				<div id="my-characters" class="tab-pane">
 					<div class="header">
-						<label class="input mb-1" for="search-input">
+						<label class="input" for="search-input">
 							<div class="input__icon">
 								<i class="fas fa-search" aria-hidden="true"></i>
 							</div>
-							<input type="text" id="search-input" />
+							<input type="text" id="search-input" placeholder="Search" />
 						</label>
 					</div>
 					<ul class="characters" id="characters">

@@ -1,5 +1,4 @@
 const storage = await chrome.storage.local.get({dnd_sync: {}});
-const characters = storage?.dnd_sync?.characters || {};
 
 const character_list = document.getElementById("characters");
 
@@ -49,6 +48,16 @@ const syncCharacter = async (e) => {
 
 const renderCharacters = async (list) => {
 	character_list.innerHTML = ""; // Clear the list first
+
+	// Add and empty li when no characters are found
+	if(!list.length) {
+		const li = document.createElement("li");
+		li.setAttribute("class", "no-characters");
+		li.innerText = "No characters found";
+		character_list.appendChild(li);
+		return;
+	}
+
 	for(const character of list) {
 		const li = document.createElement("li");
 		li.setAttribute("id", character.url);
@@ -58,9 +67,15 @@ const renderCharacters = async (list) => {
 	
 		const avatar = document.createElement("div");
 		avatar.setAttribute("class", "avatar");
-	
-		if(character.avatar) {
-			avatar.setAttribute("style", `background-image: url(${character.avatar});`)
+		
+		const image = character.avatar ? character.avatar : character.source === "HarmlessKey" ? "../assets/images/logo_harmless_key_icon.png" : "";
+		avatar.setAttribute("style", `background-image: url(${image});`);
+
+		if(character.level) {
+			const level = document.createElement("div");
+			level.setAttribute("class", "level truncate");
+			level.innerText = character.level;
+			avatar.appendChild(level);
 		}
 	
 		const info = document.createElement("div");
@@ -73,9 +88,9 @@ const renderCharacters = async (list) => {
 		resource.innerText = (character.source === "HarmlessKey") ? "Harmless Key" : "D&D Beyond";
 		name.innerText = character.name;
 	
-		info.appendChild(resource);
+		info.prepend(resource);
 		info.appendChild(name);
-		left.appendChild(avatar)
+		left.appendChild(avatar);
 		left.appendChild(info);
 		left.addEventListener("click", collapse);
 		li.appendChild(left);
@@ -159,15 +174,19 @@ const renderCharacters = async (list) => {
 		character_list.appendChild(li);
 	}
 };
+
+// Create characters
+let characters = storage?.dnd_sync?.characters || {};
 renderCharacters(Object.values(characters));
 
 // Watch for changes
 chrome.storage.onChanged.addListener((changes, _namespace) => {
-	const new_characters = changes?.dnd_sync?.newValue?.characters || {};
+	characters = changes?.dnd_sync?.newValue?.characters || {};
 	character_list.innerHTML = "";
-	renderCharacters(Object.values(new_characters));
+	renderCharacters(Object.values(characters));
 });
 
+// Search
 const search_input = document.getElementById("search-input");
 const searchReplace = (input) => {
 	return input ? input.normalize('NFD').replace(/\p{Diacritic}/gu, "").replace(/ /g, "").toLowerCase() : input;

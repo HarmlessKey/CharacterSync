@@ -4,6 +4,7 @@
 	--white: #fff;
 	--font-color: #393a3d;
 	--background-color: #fff;
+	--drop-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
 	--hk-logo: url("../assets/images/logo_harmless_key.png");
 	--dndb-logo: url("../assets/images/logo_dnd_beyond.webp");
 	
@@ -21,6 +22,7 @@
 	:root {
 		--font-color: #d8d8d8;
 		--background-color: #202225;
+		--drop-shadow: 6px 6px 10px rgba(0, 0, 0, 0.6);
 		--dndb-logo: url("../assets/images/logo_dnd_beyond_dark.webp");
 		
 		--neutral-1: #151618;
