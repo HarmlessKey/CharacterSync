@@ -67,6 +67,7 @@ a {
 }
 button, .btn {
 	all: unset;
+	text-transform: uppercase;
 	background-color: var(--primary);
 	color: var(--white);
 	padding: .75rem;
@@ -125,13 +126,31 @@ button > * {
 	color: var(--white);
 }
 
-#tabs { padding: .5rem; }
-#tabs button { 
+#tabs { 
+	padding: .5rem;
+	margin-bottom: .5rem;
+	border-bottom: solid 2px var(--neutral-4);
+	display: flex;
+	justify-content: center;
+	gap: .3rem;
+}
+#tabs .tab {
+	padding-bottom: .5rem;
+	margin-bottom: calc(-.5rem - 2px);
+	cursor: pointer;
+}
+#tabs .tab button {
 	color: var(--neutral-3);
 	font-weight: light;
 }
-#tabs button.is-active { 
+#tabs .tab:hover button {
+	border-radius: .3rem;
 	background-color: var(--overlay);
+}
+#tabs .tab.is-active { 
+	border-bottom: solid 2px var(--primary);
+}
+#tabs .tab.is-active button { 
 	color: var(--neutral-6);
 }
 .tab-pane { 
@@ -155,6 +174,20 @@ button > * {
 }
 .tab-pane .footer {
 	bottom: 0;
+}
+
+.pills { 
+	padding-top: .5rem;
+	overflow-y: auto;
+}
+.pills button { 
+	color: var(--neutral-3);
+	font-weight: light;
+	text-transform: unset;
+}
+.pills button.is-active { 
+	background-color: var(--overlay);
+	color: var(--neutral-6);
 }
 
 .step {

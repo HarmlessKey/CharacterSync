@@ -51,7 +51,7 @@ chrome.tabs.query({currentWindow: true, active: true}, (tabs) => {
 });
 
 // Tab buttons
-const tabs = document.querySelectorAll("#tabs > button");
+const tabs = document.querySelectorAll("#tabs > .tab");
 for (const tab of tabs) {
 	tab.addEventListener("click", tabSelect);
 }

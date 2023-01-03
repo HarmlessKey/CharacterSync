@@ -163,6 +163,37 @@ const renderCharacters = async (list) => {
 // Create characters
 renderCharacters(Object.values(characters));
 
+// Select a filter
+const filter = (e) => {
+	characters = my_characters;
+
+	// Set all pills inactive
+	const pills = document.querySelectorAll(".pills .pill");
+	for(const pill of pills) {
+		pill.classList.remove("is-active");
+	}
+
+	// Clear search field
+	const search_input = document.getElementById("search-input");
+	search_input.value = "";
+
+	const target = e.currentTarget;
+	target.classList.add("is-active"); // Set selected active
+	const source = target.getAttribute("data-source");
+
+	// Filter characters on source
+	if(source !== "all") {
+		characters = Object.values(characters).filter(character => character.source === source).reduce((all, char) => ({...all, [char.url]: char}), {})
+	}
+	renderCharacters(Object.values(characters));
+}
+
+// Filter buttons
+const pills = document.querySelectorAll(".pills .pill");
+for(const pill of pills) {
+	pill.addEventListener("click", filter)
+}
+
 // Watch for changes
 chrome.storage.onChanged.addListener((changes, _namespace) => {
 	characters = changes?.dnd_sync?.newValue?.characters || {};

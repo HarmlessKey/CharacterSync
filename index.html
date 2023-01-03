@@ -13,10 +13,12 @@
 				</h1>
 			</div>
 			<div id="tabs">
-				<button data-pane="#sync" id="sync-tab" class="btn-sm btn-clear">
-					<i class="fas fa-sync-alt" aria-hidden="true"></i>
-					Sync Characters
-				</button>
+				<div class="tab" data-pane="#sync" id="sync-tab">
+					<button class="btn-sm btn-clear">
+						<i class="fas fa-sync-alt" aria-hidden="true"></i>
+						Sync Characters
+					</button>
+				</div>
 			</div>
 			<div id="content">
 	
@@ -43,7 +45,7 @@
 						<div class="logo logo__dndb mb-1">
 							<i class="fab fa-d-and-d-beyond" aria-hidden="true"></i>
 						</div>
-						<button class="w-full block sync-character">
+						<button class="w-full mb-1 block sync-character">
 							<i class="fas fa-sync-alt" aria-hidden="true"></i>
 							Sync character
 						</button>
@@ -129,6 +131,17 @@
 							</div>
 							<input type="text" id="search-input" placeholder="Search" />
 						</label>
+						<div class="pills">
+							<button class="pill btn-sm btn-clear is-active" data-source="all">
+								All
+							</button>
+							<button class="pill btn-sm btn-clear" data-source="DndBeyond">
+								D&D Beyond
+							</button>
+							<button class="pill btn-sm btn-clear" data-source="HarmlessKey">
+								Harmless Key
+							</button>
+						</div>
 					</div>
 					<ul class="characters" id="characters">
 					</ul>

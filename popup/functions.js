@@ -66,12 +66,15 @@ export const setTabs = (characters) => {
 
 		let tab = tab_container.querySelector("#my-characters-tab");
 		if(!tab) {
-			tab = document.createElement("button");
-			tab.setAttribute("class", "btn-sm btn-clear");
-			tab.setAttribute("data-pane", "#my-characters");
+			tab = document.createElement("div");
+			tab.setAttribute("class", "tab");
 			tab.setAttribute("id", "my-characters-tab");
+			tab.setAttribute("data-pane", "#my-characters");
 			tab.addEventListener("click", tabSelect);
-			tab.innerHTML = '<i class="fas fa-users" aria-hidden="true"></i> My Characters';
+			const btn = document.createElement("button");
+			btn.setAttribute("class", "btn-sm btn-clear");
+			btn.innerHTML = '<i class="fas fa-users" aria-hidden="true"></i> My Characters';
+			tab.appendChild(btn);
 			tab_container.prepend(tab);
 		}
 		tab.click();
@@ -88,19 +91,18 @@ export const setTabs = (characters) => {
  * @param {object} e 
  */
 export const tabSelect = (e) => {
-	const tabs = document.querySelectorAll("#tabs > button");
+	const tabs = document.querySelectorAll("#tabs .tab");
 	for (const tab of tabs) {
 		tab.classList.remove("is-active");
 	}
 	const clickedTab = e.currentTarget;
 	clickedTab.classList.add("is-active");
 	e.preventDefault();
-	const myContentPanes = document.querySelectorAll(".tab-pane");
-	for (const pane of myContentPanes) {
+	const panes = document.querySelectorAll(".tab-pane");
+	for (const pane of panes) {
 		pane.classList.remove("is-active");
 	}
-	const anchorReference = e.target;
-	const activePaneId = anchorReference.getAttribute("data-pane");
+	const activePaneId = clickedTab.getAttribute("data-pane");
 	const activePane = document.querySelector(activePaneId);
 	activePane.classList.add("is-active");
 }
