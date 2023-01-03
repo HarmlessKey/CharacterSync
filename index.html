@@ -12,15 +12,16 @@
 					</span>
 				</h1>
 			</div>
+			<div id="tabs">
+				<button data-pane="#sync" id="sync-tab" class="btn-sm btn-clear">
+					<i class="fas fa-sync-alt" aria-hidden="true"></i>
+					Sync Characters
+				</button>
+			</div>
 			<div id="content">
-
-				<div id="tabs">
-					<button data-pane="#start" class="btn-sm btn-clear is-active">Start</button>
-					<button data-pane="#my-characters" class="btn-sm btn-clear">My Characters</button>
-				</div>
 	
 				<!-- START -->
-				<div id="start" class="tab-pane is-active">
+				<div id="sync" class="tab-pane is-active">
 					<div id="zero" class="step is-active">
 						<div class="top">
 							<i aria-hidden="true" class="fas fa-sync-alt"></i>
@@ -46,6 +47,9 @@
 							<i class="fas fa-sync-alt" aria-hidden="true"></i>
 							Sync character
 						</button>
+						<button class="w-full block step-select btn-clear neutral-4" data-step="#first">
+							Sync other characters
+						</button>
 					</div>
 	
 					<!-- HARMLESS KEY -->
@@ -59,9 +63,12 @@
 					</div>
 					<div class="step on-site" id="harmlesskey-sync">
 						<div class="logo logo__hk mb-1"></div>
-						<button class="w-full block sync-character">
+						<button class="w-full block mb-1 sync-character">
 							<i class="fas fa-sync-alt" aria-hidden="true"></i>
 							Sync character
+						</button>
+						<button class="w-full block step-select btn-clear neutral-4" data-step="#first">
+							Sync other characters
 						</button>
 					</div>
 					
@@ -143,7 +150,6 @@
 		</div>
 		
 		<script src="popup/popup.js" type="module"></script>
-		<script src="popup/navigation.js"></script>
 		<script src="popup/my-characters.js" type="module"></script>
   </body>
 </html>

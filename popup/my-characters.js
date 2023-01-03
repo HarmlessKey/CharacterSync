@@ -1,16 +1,10 @@
-const storage = await chrome.storage.local.get({dnd_sync: {}});
+import { syncCharacter, calcMod, getCurrentTab } from "./functions.js";
+import { my_characters, storage } from "./data.js";
 
+let characters = my_characters || {};
 const character_list = document.getElementById("characters");
 
-const getCurrentTab = async () => {
-	const tabs = await chrome.tabs.query({currentWindow: true, active: true});
-	return tabs[0].url;
-}
-
-const calcMod = (value) => {
-	return value ? Math.floor((value - 10) / 2) : 0;
-}
-
+// Open or collapse a character sheet
 const collapse = (e) => {
 	e.preventDefault();
 	const id = e.currentTarget.parentNode.getAttribute("id");
@@ -36,16 +30,7 @@ const deleteCharacter = (e) => {
 	chrome.storage.local.set(storage);
 };
 
-// Sync Character
-const syncCharacter = async (e) => {
-	const icon = e.target.querySelector(".fa-sync-alt");
-	icon.classList.add("spin");
-	await chrome.runtime.sendMessage({ function: "sync" });
-	setTimeout(() => {
-		icon.classList.remove("spin")
-	}, 1000);
-};
-
+// Render Character List Items
 const renderCharacters = async (list) => {
 	character_list.innerHTML = ""; // Clear the list first
 
@@ -176,7 +161,6 @@ const renderCharacters = async (list) => {
 };
 
 // Create characters
-let characters = storage?.dnd_sync?.characters || {};
 renderCharacters(Object.values(characters));
 
 // Watch for changes

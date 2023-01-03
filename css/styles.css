@@ -29,7 +29,7 @@ a {
 	height: 100%;
 	min-width: 365px;
 	display: grid;
-	grid-template-rows: auto 1fr auto;
+	grid-template-rows: auto auto 1fr auto;
 }
 #header {
 	padding: .8rem;
@@ -126,7 +126,10 @@ button > * {
 }
 
 #tabs { padding: .5rem; }
-#tabs button { color: var(--neutral-3); }
+#tabs button { 
+	color: var(--neutral-3);
+	font-weight: light;
+}
 #tabs button.is-active { 
 	background-color: var(--overlay);
 	color: var(--neutral-6);
