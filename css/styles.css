@@ -67,7 +67,7 @@ a {
 
 #dice-roller {
 	display: none;
-	grid-template-rows: 1fr auto;
+	grid-template-rows: auto 1fr auto;
 	height: 100%;
 }
 #dice-roller.is-active {
@@ -91,13 +91,11 @@ a {
 #dice-roller ul#rolls {
 	margin: 0;
   padding: .5rem .5rem 0 .5rem;
+	height: calc(100vh - 189px);
   list-style: none;
-  height: 300px;
-  min-height: 0;
   overflow: auto;
   display: flex;
   flex-direction: column-reverse;
-  margin-bottom: .5rem;
   gap: .5rem;
 }
 #dice-roller ul#rolls .roll .roll__notation {
