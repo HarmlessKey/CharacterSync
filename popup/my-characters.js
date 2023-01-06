@@ -27,7 +27,7 @@ const deleteCharacter = (e) => {
 	li.parentNode.removeChild(li);
 	delete characters[id];
 	storage.dnd_sync.characters = characters;
-	chrome.storage.local.set(storage);
+	chrome.storage.sync.set(storage);
 };
 
 // Render Character List Items

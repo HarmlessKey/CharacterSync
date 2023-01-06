@@ -2,15 +2,15 @@
 
 const storeCharacter = (character) => {
 
-	chrome.storage.local.get({dnd_sync: {}})
+	chrome.storage.sync.get({dnd_sync: {}})
 		.then((result) => {
 			const storage = result.dnd_sync
 			storage.characters = storage.characters ?? {};
 			storage.characters[character.url] = character.getDict()
-			return chrome.storage.local.set({dnd_sync: storage})
+			return chrome.storage.sync.set({dnd_sync: storage})
 		})
 		.then(() => {
-			chrome.storage.local.get({dnd_sync: {}})
+			chrome.storage.sync.get({dnd_sync: {}})
 			.then((result) => {
 				console.log(result.dnd_sync);
 			}) 
@@ -18,6 +18,6 @@ const storeCharacter = (character) => {
 }
 
 const getCharacters = async () => {
-	const storage = await chrome.storage.local.get({dnd_sync: {}});
+	const storage = await chrome.storage.sync.get({dnd_sync: {}});
 	return storage?.dnd_sync?.characters || {};
 }

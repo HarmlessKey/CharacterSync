@@ -14,10 +14,10 @@ const syncCharacter = async () => {
 }
 
 chrome.runtime.onInstalled.addListener(() => {
-	chrome.storage.local.get({dnd_sync: {}}, (result) => {
+	chrome.storage.sync.get({dnd_sync: {}}, (result) => {
 		const storage = result.dnd_sync;
 		storage.active = true;
-		chrome.storage.local.set({dnd_sync: storage}, () => {
+		chrome.storage.sync.set({dnd_sync: storage}, () => {
 			console.log("dnd sync in active")
 		})
 	})
