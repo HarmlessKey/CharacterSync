@@ -16,13 +16,17 @@ const syncCharacter = () => {
 	storeCharacter(character);
 }
 
-const documentChanged = (mutations) => {
+const documentChanged = async (mutations) => {
 	if (window.location.href !== URL) {
 		observer.disconnect();
 		console.log("Disconnected")
 		return
 	}
-	syncCharacter();
+	// Only sync automatically if the character is in storage
+	const characters = await getCharacters();
+	if(characters?.[window.location.href]) {
+		syncCharacter();
+	}
 }
 
 const URL = window.location.href;

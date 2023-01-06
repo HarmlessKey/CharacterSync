@@ -29,7 +29,7 @@ a {
 	height: 100%;
 	min-width: 365px;
 	display: grid;
-	grid-template-rows: auto 1fr auto;
+	grid-template-rows: auto auto 1fr auto;
 }
 #header {
 	padding: .8rem;
@@ -67,14 +67,17 @@ a {
 }
 button, .btn {
 	all: unset;
+	text-transform: uppercase;
 	background-color: var(--primary);
 	color: var(--white);
 	padding: .75rem;
-	border-radius: .3rem;
+	border-radius: 25px;
 	box-sizing: border-box;
 	text-align: center;
 	font-weight: bold;
 	cursor: pointer;
+	min-width: 43px;
+	min-height: 43px;
 }
 button:hover, .btn:hover {
 	background-color: var(--primary-hover);
@@ -84,7 +87,8 @@ button > * {
 }
 .btn-sm {
  font-size: .75rem;
- padding: .4rem;
+ padding: .4rem .5rem;
+ min-height: 25px;
  font-weight: light;
 }
 .btn-clear {
@@ -111,18 +115,42 @@ button > * {
 	background-size: contain;
 	background-repeat: no-repeat;
 	background-position: center top;
+	font-size: 9rem;
+	text-align: center;
 }
 .logo__hk {
 	background-image: var(--hk-logo);
 }
-.logo__dndb {
-	background-image: var(--dndb-logo);
+.logo__dndb .fab {
+	line-height: 80px;
+	color: var(--white);
 }
 
-#tabs { padding: .5rem; }
-#tabs button { color: var(--neutral-3); }
-#tabs button.is-active { 
+#tabs { 
+	padding: .5rem;
+	margin-bottom: .5rem;
+	border-bottom: solid 2px var(--neutral-4);
+	display: flex;
+	justify-content: center;
+	gap: .3rem;
+}
+#tabs .tab {
+	padding-bottom: .5rem;
+	margin-bottom: calc(-.5rem - 2px);
+	cursor: pointer;
+}
+#tabs .tab button {
+	color: var(--neutral-3);
+	font-weight: light;
+}
+#tabs .tab:hover button {
+	border-radius: .3rem;
 	background-color: var(--overlay);
+}
+#tabs .tab.is-active { 
+	border-bottom: solid 2px var(--primary);
+}
+#tabs .tab.is-active button { 
 	color: var(--neutral-6);
 }
 .tab-pane { 
@@ -136,14 +164,30 @@ button > * {
 .tab-pane .header, .tab-pane .footer {
 	position: sticky;
 	background-color: var(--background-color);
+	z-index: 10;
+	margin: 0 -.5rem;
+	padding: .5rem;
 }
 .tab-pane .header {
 	top: 0;
-	padding-bottom: .5rem;
+	padding-top: 0;
 }
 .tab-pane .footer {
 	bottom: 0;
-	padding: .5rem 0;
+}
+
+.pills { 
+	padding-top: .5rem;
+	overflow-y: auto;
+}
+.pills button { 
+	color: var(--neutral-3);
+	font-weight: light;
+	text-transform: unset;
+}
+.pills button.is-active { 
+	background-color: var(--overlay);
+	color: var(--neutral-6);
 }
 
 .step {
@@ -183,7 +227,14 @@ ul.characters li {
 	padding: .5rem;
 	border-radius: .3rem;
 	flex-wrap: wrap;
-	margin-bottom: 1px;
+	margin-bottom: 2px;
+}
+ul.characters li.no-characters {
+	text-align: center;
+	justify-content: center;
+}
+ul.characters li.no-characters:hover {
+	background: none;
 }
 ul.characters li:hover, ul.characters li.is-active { background-color: var(--overlay); }
 ul.characters li .character { 
@@ -193,14 +244,31 @@ ul.characters li .character {
 	flex: 1;
 }
 ul.characters li .character .avatar {
-	width: 45px;
-	height: 45px;
+	width: 50px;
+	height: 50px;
 	border: solid 2px var(--primary);
-	border-radius: .2rem;
-	margin-right: .5rem;
+	border-radius: 50%;
+	margin: -.5rem .75rem -.5rem -.75rem;
 	background-color: var(--neutral-1);
 	background-position: center top;
 	background-size: cover;
+	box-shadow: var(--drop-shadow); 
+	-webkit-box-shadow: var(--drop-shadow); 
+	-moz-box-shadow: var(--drop-shadow);
+	position: relative;
+}
+ul.characters li .character .avatar .level { 
+	position: absolute;
+	height: 1.5rem;
+	width: 1.5rem;
+	border-radius: 50%;
+	background-color: var(--neutral-1);
+	color: var(--white);
+	right: -.5rem;
+	bottom: -.5rem;
+	line-height: 1.5rem;
+	text-align: center;
+	font-size: .8rem;
 }
 ul.characters li .character .info .resource { 
 	color: var(--neutral-4);
@@ -209,8 +277,7 @@ ul.characters li .character .info .resource {
 }
 ul.characters li .character .info .name { 
 	font-weight: bold;
-	font-size: 1.1rem;
-	max-width: 180px;
+	max-width: 160px;
 }
 ul.characters li .actions {
 	display: flex;
@@ -283,12 +350,12 @@ ul.characters li .sheet .stats .stat .name {
 	width: auto;
 	display: flex;
 	background-color: var(--overlay);
-	border-radius: .3rem;
+	border-radius: 25px;
 	height: 2.5rem;
 	cursor: text;
 }
 .input__icon {
-	padding-left: .5rem;
+	padding-left: .75rem;
 }
 .input__icon i {
 	line-height: 2.5rem;

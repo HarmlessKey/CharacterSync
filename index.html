@@ -7,41 +7,50 @@
 			<div id="header">
 				<h1>
 					<span>
-						<i class="fas fa-sync-alt" aria-hidden="true"></i>
-						D&D Character Sync
+						<i class="fas fa-sync-alt primary" aria-hidden="true"></i>
+						Character Sync
 					</span>
-					<i class="fab fa-d-and-d primary" aria-hidden="true"></i>
 				</h1>
 			</div>
-			<div id="content">
-
-				<div id="tabs">
-					<button data-pane="#start" class="btn-sm btn-clear is-active">Start</button>
-					<button data-pane="#my-characters" class="btn-sm btn-clear">My Characters</button>
+			<div id="tabs">
+				<div class="tab" data-pane="#sync" id="sync-tab">
+					<button class="btn-sm btn-clear">
+						<i class="fas fa-sync-alt" aria-hidden="true"></i>
+						Sync Characters
+					</button>
 				</div>
+			</div>
+			<div id="content">
 	
 				<!-- START -->
-				<div id="start" class="tab-pane is-active">
+				<div id="sync" class="tab-pane is-active">
 					<div id="zero" class="step is-active">
 						<div class="top">
 							<i aria-hidden="true" class="fas fa-sync-alt"></i>
-							Sync the stats of your Dungeons & Dragons characters.
+							Sync the sheets of your Dungeons & Dragons characters.
 						</div>
 						<button class="w-full step-select" data-step="#first">Get started <i class="ml-1 fas fa-arrow-right"></i></button>
 					</div>
 	
 					<!-- D&D BEYOND -->
 					<div class="step on-site" id="dndbeyond">
-						<div class="logo logo__dndb mb-1"></div>
+						<div class="logo logo__dndb mb-1">
+							<i class="fab fa-d-and-d-beyond" aria-hidden="true"></i>
+						</div>
 						<p>
 							Select a character from <a class="open-page" href="https://dndbeyond.com/characters">my characters</a> to sync.
 						</p>
 					</div>
 					<div class="step on-site" id="dndbeyond-sync">
-						<div class="logo logo__dndb mb-1"></div>
-						<button class="w-full block sync-character">
+						<div class="logo logo__dndb mb-1">
+							<i class="fab fa-d-and-d-beyond" aria-hidden="true"></i>
+						</div>
+						<button class="w-full mb-1 block sync-character">
 							<i class="fas fa-sync-alt" aria-hidden="true"></i>
 							Sync character
+						</button>
+						<button class="w-full block step-select btn-clear neutral-4" data-step="#first">
+							Sync other characters
 						</button>
 					</div>
 	
@@ -56,9 +65,12 @@
 					</div>
 					<div class="step on-site" id="harmlesskey-sync">
 						<div class="logo logo__hk mb-1"></div>
-						<button class="w-full block sync-character">
+						<button class="w-full block mb-1 sync-character">
 							<i class="fas fa-sync-alt" aria-hidden="true"></i>
 							Sync character
+						</button>
+						<button class="w-full block step-select btn-clear neutral-4" data-step="#first">
+							Sync other characters
 						</button>
 					</div>
 					
@@ -72,7 +84,9 @@
 						</h2>
 						<p>Where do you want to sync characters from?</p>
 						<button class="btn-clear w-full mb-1 step-select btn-logo" data-step="#dndbeyond-info">
-							<div class="logo logo__dndb"></div>
+							<div class="logo logo__dndb">
+								<i class="fab fa-d-and-d-beyond" aria-hidden="true"></i>
+							</div>
 						</button>
 						<button class="btn-clear w-full step-select btn-logo" data-step="#harmlesskey-info">
 							<div class="logo logo__hk"></div>
@@ -111,12 +125,23 @@
 				<!-- CHARACTERS -->
 				<div id="my-characters" class="tab-pane">
 					<div class="header">
-						<label class="input mb-1" for="search-input">
+						<label class="input" for="search-input">
 							<div class="input__icon">
 								<i class="fas fa-search" aria-hidden="true"></i>
 							</div>
-							<input type="text" id="search-input" />
+							<input type="text" id="search-input" placeholder="Search" />
 						</label>
+						<div class="pills">
+							<button class="pill btn-sm btn-clear is-active" data-source="all">
+								All
+							</button>
+							<button class="pill btn-sm btn-clear" data-source="DndBeyond">
+								D&D Beyond
+							</button>
+							<button class="pill btn-sm btn-clear" data-source="HarmlessKey">
+								Harmless Key
+							</button>
+						</div>
 					</div>
 					<ul class="characters" id="characters">
 					</ul>
@@ -138,7 +163,6 @@
 		</div>
 		
 		<script src="popup/popup.js" type="module"></script>
-		<script src="popup/navigation.js"></script>
 		<script src="popup/my-characters.js" type="module"></script>
   </body>
 </html>

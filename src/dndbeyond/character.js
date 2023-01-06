@@ -13,7 +13,7 @@ class DndBeyondCharacter extends Character {
 
 		this.setAvatar(this.parseAvatar());
 
-		this.level = 1;
+		this.setLevel(this.parseLevel());
 
 		this.setArmorClass(this.parseArmorClass());
 
@@ -41,6 +41,12 @@ class DndBeyondCharacter extends Character {
 		const url_regex = /url\([\"\'\`](.+)[\"\'\`]\)/
 		const avatar_url = avatar_style?.match(url_regex)[1]
 		return avatar_url ?? null;
+	}
+
+	parseLevel() {
+		const level = document.querySelector('.ddbc-character-progression-summary__level')?.textContent;
+		const parsedLevel = level.match(/\d+/).join();
+		return parseInt(parsedLevel) ?? null;
 	}
 
 	parseArmorClass() {
