@@ -1,21 +1,76 @@
+let quickRolls = {};
 
 const input = document.getElementById("roll-string");
 input.addEventListener("keypress", (e) => { if(e.key === "Enter") { inputRoll(e.target.value) }});
 
 chrome.storage.session.get(["rolls"], (result) => {
   const rolls = result.rolls || [];
-  console.log(rolls)
   for(const roll of rolls) {
     addRoll(roll);
   }
 });
+
+// Quick Roll
+const quick_btn = document.getElementById("quick-roll-button");
+const quickRoll = () => {
+    console.log("quick")
+    const rolls = [];
+    for(const [die, count] of Object.entries(quickRolls)) {
+        rolls.push(`${count}d${die}`);
+    }
+    inputRoll(rolls.join("+"));
+    quickRolls = {};
+    quick_btn.classList.add("hidden");
+    const dice = document.querySelectorAll("#quick-rolls button");
+    for(const die of dice) {
+        const counter = die.querySelector(".count");
+        if(counter) die.removeChild(counter);
+    }
+};
+quick_btn.addEventListener("click", quickRoll);
+
+const setQuickRoll = (e, operator) => {
+    const btn = e.currentTarget;
+    const die = btn.getAttribute("data-die");
+    const current = quickRolls[die] || 0;
+
+    if(operator === "-") {
+        e.preventDefault();
+        quickRolls[die] = (current > 0) ? current - 1 : 0;
+    } else {
+        quickRolls[die] = (current < 9) ? current + 1 : 9;
+    }
+
+    const counter = btn.querySelector(".count");
+    if(counter) {
+        if(quickRolls[die] == 0) {
+            btn.removeChild(counter);
+        } else {
+            counter.innerText = quickRolls[die];
+        }
+    } else if(quickRolls[die]) {
+        const count = document.createElement("div");
+        count.setAttribute("class", "count");
+        count.innerText = quickRolls[die];
+        btn.appendChild(count);
+    }
+
+    // Show the Roll button
+    if(Object.values(quickRolls).some(val => val > 0)) {
+        quick_btn.classList.remove("hidden");
+    } else {
+        quick_btn.classList.add("hidden");
+    }
+};
 
 // Quick Rolls
 const quick_rolls = document.getElementById("quick-rolls");
 for(const d of [20, 4, 6, 8, 10, 100, 12]) {
   const die = document.createElement("button");
   die.setAttribute("class", `roll-button d${d}`);
-  die.addEventListener("click", () => inputRoll(`1d${d}`));
+  die.setAttribute("data-die", d);
+  die.addEventListener("click", (e) => setQuickRoll(e, "+"));
+  die.addEventListener("contextmenu", (e) => setQuickRoll(e, "-"));
 
   if(d === 100) {
     die.innerHTML = `<i class="fas fa-dice-d10" aria-hidden="true"></i>`+
@@ -25,7 +80,7 @@ for(const d of [20, 4, 6, 8, 10, 100, 12]) {
   }
 
   quick_rolls.appendChild(die);
-}
+};
 
 /**
  * Store rolls in session storage

@@ -165,12 +165,18 @@
 		<div id="dice-roller" class="page">
 			<div id="quick-rolls"></div>
       <ul id="rolls"></ul>
-      <label for="roll-string" class="input">
-				<div class="input__icon">
+			<div class="dice-footer">
+				<label for="roll-string" class="input">
+					<div class="input__icon">
+						<i class="fas fa-dice-d20" aria-hidden="true"></i>
+					</div>
+					<input type="text" id="roll-string" placeholder="Enter your roll (2d6+2) and press enter" />
+				</label>
+				<button class="quick-roll hidden" id="quick-roll-button">
 					<i class="fas fa-dice-d20" aria-hidden="true"></i>
-				</div>
-        <input type="text" id="roll-string" placeholder="Enter your roll (2d6+2) and press enter" />
-      </label>
+					Roll selected dice
+				</button>
+			</div>
 		</div>
 		
 		<script src="popup/popup.js" type="module"></script>
