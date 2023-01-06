@@ -83,18 +83,18 @@ class DndBeyondCharacter extends Character {
 	parseWalkingSpeed() {
 		const container = isMobile() ? ".ct-combat-mobile__extra--speed" : isTablet() ? ".ct-combat-tablet__extra--speed" : ".ct-speed-box__box-value";
 		const parsedWalkingSpeed = document.querySelector(`${container} .ddbc-distance-number .ddbc-distance-number__number`)?.textContent;
-		return parseInt(parsedWalkingSpeed) ?? null;
+		return parseInt(parsedWalkingSpeed) ?? 0;
 	}
 
 	parseInitiative() {
 		const container = isMobile() ? ".ct-combat-mobile__extra--initiative" : isTablet() ? ".ct-combat-tablet__extra--initiative" : ".ct-initiative-box__value";
 		const parsedInitiative = document.querySelector(`${container} .ddbc-signed-number .ddbc-signed-number__number`)?.textContent;
-		return parseInt(parsedInitiative) ?? null;
+		return parseInt(parsedInitiative) ?? 0;
 	}
 
 	parseAbilityScore(n) {
 		const container = isMobile() ? ".ct-main-mobile__ability" : isTablet() ? ".ct-main-tablet__ability" : ".ct-quick-info__ability";
 		const parsedScore = document.querySelectorAll(`${container}`)[n]?.querySelector('.ddbc-ability-summary__secondary')?.textContent;
-		return parseInt(parsedScore) ?? null;
+		return parseInt(parsedScore) ?? 0;
 	}
 }
