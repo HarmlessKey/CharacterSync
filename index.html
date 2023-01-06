@@ -1,17 +1,20 @@
 <html>
 	<head>
 		<link href="css/styles.css" rel="stylesheet">
-	</head>
+		<script src="./libs/mathjs.min.js"></script>
+		<script src="./libs/random-js.min.js"></script>
+		<script src="./libs/dice-roller.min.js"></script>
   <body>
-		<div id="root">
-			<div id="header">
-				<h1>
-					<span>
-						<i class="fas fa-sync-alt primary" aria-hidden="true"></i>
-						Character Sync
-					</span>
-				</h1>
-			</div>
+		<div id="header">
+			<h1>
+				<i class="fas fa-sync-alt primary" aria-hidden="true"></i>
+				Character Sync
+			</h1>
+			<button class="btn-clear" id="header-btn" data-page="dice-roller" aria-labelledby="Dice roller">
+				<i class="fas fa-dice-d20" aria-hidden="true"></i>
+			</button>
+		</div>
+		<div id="character-sync" class="page is-active">
 			<div id="tabs">
 				<div class="tab" data-pane="#sync" id="sync-tab">
 					<button class="btn-sm btn-clear">
@@ -20,136 +23,134 @@
 					</button>
 				</div>
 			</div>
-			<div id="content">
-	
-				<!-- START -->
-				<div id="sync" class="tab-pane is-active">
-					<div id="zero" class="step is-active">
-						<div class="top">
-							<i aria-hidden="true" class="fas fa-sync-alt"></i>
-							Sync the sheets of your Dungeons & Dragons characters.
-						</div>
-						<button class="w-full step-select" data-step="#first">Get started <i class="ml-1 fas fa-arrow-right"></i></button>
+
+			<!-- START -->
+			<div id="sync" class="tab-pane is-active">
+				<div id="zero" class="step is-active">
+					<div class="top">
+						<i aria-hidden="true" class="fas fa-sync-alt"></i>
+						Sync the sheets of your Dungeons & Dragons characters.
 					</div>
-	
-					<!-- D&D BEYOND -->
-					<div class="step on-site" id="dndbeyond">
-						<div class="logo logo__dndb mb-1">
-							<i class="fab fa-d-and-d-beyond" aria-hidden="true"></i>
-						</div>
-						<p>
-							Select a character from <a class="open-page" href="https://dndbeyond.com/characters">my characters</a> to sync.
-						</p>
+					<button class="w-full step-select" data-step="#first">Get started <i class="ml-1 fas fa-arrow-right"></i></button>
+				</div>
+
+				<!-- D&D BEYOND -->
+				<div class="step on-site" id="dndbeyond">
+					<div class="logo logo__dndb mb-1">
+						<i class="fab fa-d-and-d-beyond" aria-hidden="true"></i>
 					</div>
-					<div class="step on-site" id="dndbeyond-sync">
-						<div class="logo logo__dndb mb-1">
-							<i class="fab fa-d-and-d-beyond" aria-hidden="true"></i>
-						</div>
-						<button class="w-full mb-1 block sync-character">
-							<i class="fas fa-sync-alt" aria-hidden="true"></i>
-							Sync character
-						</button>
-						<button class="w-full block step-select btn-clear neutral-4" data-step="#first">
-							Sync other characters
-						</button>
+					<p>
+						Select a character from <a class="open-page" href="https://dndbeyond.com/characters">my characters</a> to sync.
+					</p>
+				</div>
+				<div class="step on-site" id="dndbeyond-sync">
+					<div class="logo logo__dndb mb-1">
+						<i class="fab fa-d-and-d-beyond" aria-hidden="true"></i>
 					</div>
-	
-					<!-- HARMLESS KEY -->
-					<div class="step on-site" id="harmlesskey">
-						<div class="logo logo__hk mb-1"></div>
-						<p>
-							Select a character from 
-							<a class="open-page" href="https://harmlesskey.com/content/players">players</a> or 
-							<a class="open-page" href="https://harmlesskey.com/content/characters">characters</a> to sync.
-						</p>
-					</div>
-					<div class="step on-site" id="harmlesskey-sync">
-						<div class="logo logo__hk mb-1"></div>
-						<button class="w-full block mb-1 sync-character">
-							<i class="fas fa-sync-alt" aria-hidden="true"></i>
-							Sync character
-						</button>
-						<button class="w-full block step-select btn-clear neutral-4" data-step="#first">
-							Sync other characters
-						</button>
-					</div>
-					
-					<!-- DEFAULT -->
-					<div class="step" id="first">
-						<h2>
-							<button class="btn-clear step-select" data-step="#zero">
-								<i class="fas fa-arrow-left" aria-hidden="true"></i>
-							</button>
-							1. Resource
-						</h2>
-						<p>Where do you want to sync characters from?</p>
-						<button class="btn-clear w-full mb-1 step-select btn-logo" data-step="#dndbeyond-info">
-							<div class="logo logo__dndb">
-								<i class="fab fa-d-and-d-beyond" aria-hidden="true"></i>
-							</div>
-						</button>
-						<button class="btn-clear w-full step-select btn-logo" data-step="#harmlesskey-info">
-							<div class="logo logo__hk"></div>
-						</button>
-					</div>
-					<div class="step" id="dndbeyond-info">
-						<h2>
-							<button class="btn-clear step-select" data-step="#first">
-								<i class="fas fa-arrow-left" aria-hidden="true"></i>
-							</button>
-							2. D&D Beyond
-						</h2>
-						<ol>
-							<li>Visit your character sheet on D&D Beyond</li>
-							<li>Open this extension</li>
-							<li>Click the sync button</li>
-						</ol>
-						<a href="https://dndbeyond.com/characters" target="_blank" rel="noopener" class="btn w-full block">Go to D&D Beyond</a>
-					</div>
-					<div class="step" id="harmlesskey-info">
-						<h2>
-							<button class="btn-clear step-select" data-step="#first">
-								<i class="fas fa-arrow-left" aria-hidden="true"></i>
-							</button>
-							2. Harmless Key
-						</h2>
-						<ol>
-							<li>Visit your character sheet on Harmless Key</li>
-							<li>Open this extension</li>
-							<li>Click the sync button</li>
-						</ol>
-						<a href="https://harmlesskey.com/content/characters" target="_blank" rel="noopener" class="block btn w-full">Go to Harmless Key</a>
-					</div>
+					<button class="w-full mb-1 block sync-character">
+						<i class="fas fa-sync-alt" aria-hidden="true"></i>
+						Sync character
+					</button>
+					<button class="w-full block step-select btn-clear neutral-4" data-step="#first">
+						Sync other characters
+					</button>
+				</div>
+
+				<!-- HARMLESS KEY -->
+				<div class="step on-site" id="harmlesskey">
+					<div class="logo logo__hk mb-1"></div>
+					<p>
+						Select a character from 
+						<a class="open-page" href="https://harmlesskey.com/content/players">players</a> or 
+						<a class="open-page" href="https://harmlesskey.com/content/characters">characters</a> to sync.
+					</p>
+				</div>
+				<div class="step on-site" id="harmlesskey-sync">
+					<div class="logo logo__hk mb-1"></div>
+					<button class="w-full block mb-1 sync-character">
+						<i class="fas fa-sync-alt" aria-hidden="true"></i>
+						Sync character
+					</button>
+					<button class="w-full block step-select btn-clear neutral-4" data-step="#first">
+						Sync other characters
+					</button>
 				</div>
 				
-				<!-- CHARACTERS -->
-				<div id="my-characters" class="tab-pane">
-					<div class="header">
-						<label class="input" for="search-input">
-							<div class="input__icon">
-								<i class="fas fa-search" aria-hidden="true"></i>
-							</div>
-							<input type="text" id="search-input" placeholder="Search" />
-						</label>
-						<div class="pills">
-							<button class="pill btn-sm btn-clear is-active" data-source="all">
-								All
-							</button>
-							<button class="pill btn-sm btn-clear" data-source="DndBeyond">
-								D&D Beyond
-							</button>
-							<button class="pill btn-sm btn-clear" data-source="HarmlessKey">
-								Harmless Key
-							</button>
+				<!-- DEFAULT -->
+				<div class="step" id="first">
+					<h2>
+						<button class="btn-clear step-select" data-step="#zero">
+							<i class="fas fa-arrow-left" aria-hidden="true"></i>
+						</button>
+						1. Resource
+					</h2>
+					<p>Where do you want to sync characters from?</p>
+					<button class="btn-clear w-full mb-1 step-select btn-logo" data-step="#dndbeyond-info">
+						<div class="logo logo__dndb">
+							<i class="fab fa-d-and-d-beyond" aria-hidden="true"></i>
 						</div>
+					</button>
+					<button class="btn-clear w-full step-select btn-logo" data-step="#harmlesskey-info">
+						<div class="logo logo__hk"></div>
+					</button>
+				</div>
+				<div class="step" id="dndbeyond-info">
+					<h2>
+						<button class="btn-clear step-select" data-step="#first">
+							<i class="fas fa-arrow-left" aria-hidden="true"></i>
+						</button>
+						2. D&D Beyond
+					</h2>
+					<ol>
+						<li>Visit your character sheet on D&D Beyond</li>
+						<li>Open this extension</li>
+						<li>Click the sync button</li>
+					</ol>
+					<a href="https://dndbeyond.com/characters" target="_blank" rel="noopener" class="btn w-full block">Go to D&D Beyond</a>
+				</div>
+				<div class="step" id="harmlesskey-info">
+					<h2>
+						<button class="btn-clear step-select" data-step="#first">
+							<i class="fas fa-arrow-left" aria-hidden="true"></i>
+						</button>
+						2. Harmless Key
+					</h2>
+					<ol>
+						<li>Visit your character sheet on Harmless Key</li>
+						<li>Open this extension</li>
+						<li>Click the sync button</li>
+					</ol>
+					<a href="https://harmlesskey.com/content/characters" target="_blank" rel="noopener" class="block btn w-full">Go to Harmless Key</a>
+				</div>
+			</div>
+			
+			<!-- CHARACTERS -->
+			<div id="my-characters" class="tab-pane">
+				<div class="header">
+					<label class="input" for="search-input">
+						<div class="input__icon">
+							<i class="fas fa-search" aria-hidden="true"></i>
+						</div>
+						<input type="text" id="search-input" placeholder="Search" />
+					</label>
+					<div class="pills">
+						<button class="pill btn-sm btn-clear is-active" data-source="all">
+							All
+						</button>
+						<button class="pill btn-sm btn-clear" data-source="DndBeyond">
+							D&D Beyond
+						</button>
+						<button class="pill btn-sm btn-clear" data-source="HarmlessKey">
+							Harmless Key
+						</button>
 					</div>
-					<ul class="characters" id="characters">
-					</ul>
-					<div class="footer">
-						<small class="neutral-5 text-center block">
-							These characters are automatically synced every time you visit their sheet.
-						</small>
-					</div>
+				</div>
+				<ul class="characters" id="characters">
+				</ul>
+				<div class="footer">
+					<small class="neutral-5 text-center block">
+						These characters are automatically synced every time you visit their sheet.
+					</small>
 				</div>
 			</div>
 			<div id="footer">
@@ -161,8 +162,19 @@
 				</a>
 			</div>
 		</div>
+		<div id="dice-roller" class="page">
+			<div id="quick-rolls"></div>
+      <ul id="rolls"></ul>
+      <label for="roll-string" class="input">
+				<div class="input__icon">
+					<i class="fas fa-dice-d20" aria-hidden="true"></i>
+				</div>
+        <input type="text" id="roll-string" placeholder="Enter your roll (2d6+2) and press enter" />
+      </label>
+		</div>
 		
 		<script src="popup/popup.js" type="module"></script>
 		<script src="popup/my-characters.js" type="module"></script>
+		<script src="popup/dice-roller.js" type="module"></script>
   </body>
 </html>

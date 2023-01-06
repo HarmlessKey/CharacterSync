@@ -20,6 +20,8 @@
 
 @media (prefers-color-scheme: dark) {
 	:root {
+		color-scheme: dark;
+		
 		--font-color: #d8d8d8;
 		--background-color: #202225;
 		--drop-shadow: 6px 6px 10px rgba(0, 0, 0, 0.6);

@@ -1,4 +1,4 @@
-import { syncCharacter, navigate, stepSelect, setTabs, tabSelect } from "./functions.js";
+import { syncCharacter, navigate, stepSelect, setTabs, tabSelect, pageSelect } from "./functions.js";
 import { my_characters } from "./data.js";
 let characters = my_characters;
 
@@ -49,6 +49,10 @@ chrome.tabs.query({currentWindow: true, active: true}, (tabs) => {
 		}
 	}
 });
+
+// Character Sync or Dice Roller
+const header_btn = document.getElementById("header-btn");
+header_btn.addEventListener("click", pageSelect)
 
 // Tab buttons
 const tabs = document.querySelectorAll("#tabs > .tab");
