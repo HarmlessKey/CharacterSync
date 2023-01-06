@@ -123,7 +123,7 @@ button > * {
 }
 .logo__dndb .fab {
 	line-height: 80px;
-	color: var(--white);
+	color: var(--font-color);
 }
 
 #tabs { 
@@ -257,13 +257,13 @@ ul.characters li .character .avatar {
 	-moz-box-shadow: var(--drop-shadow);
 	position: relative;
 }
-ul.characters li .character .avatar .level { 
+ul.characters li .character .avatar .level {
 	position: absolute;
 	height: 1.5rem;
 	width: 1.5rem;
 	border-radius: 50%;
 	background-color: var(--neutral-1);
-	color: var(--white);
+	color: var(--font-color);
 	right: -.5rem;
 	bottom: -.5rem;
 	line-height: 1.5rem;
