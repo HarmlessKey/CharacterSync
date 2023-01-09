@@ -20,5 +20,8 @@
     "gulp-clean": "^0.4.0",
     "gulp-concat": "^2.6.1",
     "web-ext": "^7.4.0"
+  },
+  "dependencies": {
+    "@dice-roller/rpg-dice-roller": "^5.2.1"
   }
 }

@@ -24,14 +24,6 @@ const TARGETS = {
 	],
 }
 
-const DNDBEYOND_CHARACTER = [
-	...UTILS,
-	'src/dndbeyond/utils.js',
-	'src/models/character.js',
-	'src/dndbeyond/character.js',
-	'src/dndbeyond/content.js',
-]
-
 const targets = {}
 for (const target in TARGETS) {
 	const task = {
@@ -60,6 +52,34 @@ const watch = () => {
 		gulp.watch(TARGETS[target], targets[target]);
 	}
 }
+
+const copy_src = () => {
+	return gulp.src('./src/**')
+		.pipe(gulp.dest('./build/base/src/'))
+}
+
+const copy_css = () => {
+	return gulp.src('./css/**')
+		.pipe(gulp.dest('./build/base/css/'))
+}
+
+const copy_assets = () => {
+	return gulp.src('./assets/**')
+		.pipe(gulp.dest('./build/base/assets/'))
+}
+
+const copy_dist_nobuild = () => {
+    return gulp.src("./dist/**")
+        .pipe(gulp.dest('./build/base/dist/'));
+}
+
+gulp.task("copy-dist", gulp.series("build", "copy-dist-nobuild"));
+
+gulp.task('build-base', gulp.parallel([
+	'copy-src',
+	'copy-dist',
+]))
+
 
 exports.build = build;
 exports.default = gulp.series(clean, build, watch);

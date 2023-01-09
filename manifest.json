@@ -5,11 +5,11 @@
   "description": "Syncs character data across D&D apps",
   "version": "0.1",
 	"background": {
-		"service_worker": "background.js",
+		"service_worker": "src/extension/background.js",
 		"type": "module"
 	},
   "action": {
-    "default_popup": "index.html",
+    "default_popup": "src/extension/index.html",
     "default_icon": {
 			"32":"assets/icons/cs_icon_32.png"
 		}
