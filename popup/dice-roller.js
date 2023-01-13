@@ -12,15 +12,14 @@ chrome.storage.session.get(["rolls"], (result) => {
 
 // Quick Roll
 const quick_btn = document.getElementById("quick-roll-button");
-const quickRoll = () => {
-    console.log("quick")
+const quickRoll = (e) => {
     const rolls = [];
     for(const [die, count] of Object.entries(quickRolls)) {
         rolls.push(`${count}d${die}`);
     }
     inputRoll(rolls.join("+"));
     quickRolls = {};
-    quick_btn.classList.add("hidden");
+    e.currentTarget.classList.add("hidden");
     const dice = document.querySelectorAll("#quick-rolls button");
     for(const die of dice) {
         const counter = die.querySelector(".count");

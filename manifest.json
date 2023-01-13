@@ -8,10 +8,19 @@
 		"service_worker": "background.js",
 		"type": "module"
 	},
+	"icons": {
+		"16":"assets/icons/icon16.png",
+		"32":"assets/icons/icon32.png",
+		"48":"assets/icons/icon48.png",
+		"128":"assets/icons/icon128.png"
+	},
   "action": {
     "default_popup": "index.html",
     "default_icon": {
-			"32":"assets/icons/cs_icon_32.png"
+			"16":"assets/icons/icon16.png",
+			"32":"assets/icons/icon32.png",
+			"48":"assets/icons/icon48.png",
+			"128":"assets/icons/icon128.png"
 		}
   },
 	"permissions": [
