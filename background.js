@@ -64,8 +64,11 @@ chrome.runtime.onMessageExternal.addListener(async (request, sender, sendRespons
 		const storage = await chrome.storage.sync.get({dnd_sync: {}});
 		console.log(storage);
 		const content = {};
+		console.log(request)
 		if (Array.isArray(request.request_content)) {
-			if ("characters" in request.request_content) {
+			console.log('isarray')
+			if (request.request_content.includes("characters")) {
+				console.log('get characters')
 				content.characters = storage?.dnd_sync?.characters || {};
 			}
 		}
