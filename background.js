@@ -1,6 +1,6 @@
 const isDndBeyond = /^https?:\/\/(.*\.)?dndbeyond\.com\/characters\/\d+/;
 const isHarmlessKey = /^https?:\/\/(.*\.)?harmlesskey\.com\/content\/(players|characters)\/\-[a-zA-Z0-9-_]+/;
-const isLocalhost = /^https?:\/\/localhost\/?*/;
+const isLocalhost = /^https?:\/\/localhost.*/;
 
 const getCurrentTab = async () => {
 	const queryOptions = { active: true, lastFocusedWindow: true };
