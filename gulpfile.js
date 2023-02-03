@@ -30,7 +30,7 @@ for (const target in TARGETS) {
 		[target]: () => {
 			return gulp.src(TARGETS[target])
 				.pipe(gulp_concat(`${target}.js`))
-				.pipe(gulp.dest('dist/'))
+				.pipe(gulp.dest('./dist/'))
 		}
 	}
 	targets[target] = task[target]
@@ -55,31 +55,30 @@ const watch = () => {
 
 const copy_src = () => {
 	return gulp.src('./src/**')
-		.pipe(gulp.dest('./build/base/src/'))
+		.pipe(gulp.dest('build/base/src/'))
 }
 
 const copy_css = () => {
 	return gulp.src('./css/**')
-		.pipe(gulp.dest('./build/base/css/'))
+		.pipe(gulp.dest('build/base/css/'))
 }
 
 const copy_assets = () => {
 	return gulp.src('./assets/**')
-		.pipe(gulp.dest('./build/base/assets/'))
+		.pipe(gulp.dest('build/base/assets/'))
 }
 
 const copy_dist_nobuild = () => {
     return gulp.src("./dist/**")
-        .pipe(gulp.dest('./build/base/dist/'));
+        .pipe(gulp.dest('build/base/dist/'));
 }
 
-gulp.task("copy-dist", gulp.series("build", "copy-dist-nobuild"));
+const copy_dist = async () => gulp.series([build, copy_dist_nobuild]);
 
-gulp.task('build-base', gulp.parallel([
-	'copy-src',
-	'copy-dist',
-]))
+gulp.task('build_base', gulp.parallel([
+	copy_src,
+	copy_dist,
+]));
 
 
-exports.build = build;
-exports.default = gulp.series(clean, build, watch);
+exports.default = gulp.series(['build_base', watch]);
