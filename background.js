@@ -61,13 +61,14 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
  */
 chrome.runtime.onMessageExternal.addListener(async (request, sender, sendResponse) => {
 	if (isLocalhost.test(sender.url) || isHarmlessKey.test(sender.url)) {
-		const content = {};
 		const storage = await chrome.storage.sync.get({dnd_sync: {}});
+		console.log(storage);
+		const content = {};
 		if (Array.isArray(request.request_content)) {
 			if ("characters" in request.request_content) {
 				content.characters = storage?.dnd_sync?.characters || {};
 			}
 		}
+		sendResponse(content)
 	}
-	sendResponse({yay: "Message received in Ext!"})
 })
