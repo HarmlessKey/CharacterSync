@@ -1,5 +1,6 @@
 const isDndBeyond = /^https?:\/\/(.*\.)?dndbeyond\.com\/characters\/\d+/;
 const isHarmlessKey = /^https?:\/\/(.*\.)?harmlesskey\.com\/content\/(players|characters)\/\-[a-zA-Z0-9-_]+/;
+const isLocalhost = /^https?:\/\/localhost\/?*/;
 
 const getCurrentTab = async () => {
 	const queryOptions = { active: true, lastFocusedWindow: true };
@@ -54,3 +55,19 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 		}
 	}
 });
+
+/* Receive messages from 3rd party sites
+ * Listens to the requestContent
+ */
+chrome.runtime.onMessageExternal.addListener(async (request, sender, sendResponse) => {
+	if (isLocalhost.test(sender.url) || isHarmlessKey.test(sender.url)) {
+		const content = {};
+		const storage = await chrome.storage.sync.get({dnd_sync: {}});
+		if (Array.isArray(request.request_content)) {
+			if ("characters" in request.request_content) {
+				content.characters = storage?.dnd_sync?.characters || {};
+			}
+		}
+	}
+	sendResponse({yay: "Message received in Ext!"})
+})

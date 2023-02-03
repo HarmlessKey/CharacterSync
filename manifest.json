@@ -29,6 +29,11 @@
 		"scripting",
 		"tabs"
   ],
+	"externally_connectable": {
+		"matches": [
+			"*://localhost/*"
+		]
+	},
 	"host_permissions": [
 		"*://*.dndbeyond.com/characters/*",
 		"*://harmlesskey.com/content/players/*",
