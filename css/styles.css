@@ -4,10 +4,14 @@
 @import "./font-awesome/brands.min.css";
 
 body {
-	all: unset;
+	min-width: 365px;
+	margin: 0;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 	color: var(--font-color);
 	background-color: var(--background-color);
+	display: grid;
+	grid-template-rows: auto 1fr;
+	font-size: 15px;
 }
 h1, h2, h3, h4 {
 	all: unset;
@@ -25,22 +29,27 @@ a {
 	text-decoration: none;
 	font-weight: bold;
 }
-#root {
+#character-sync {
 	height: 100%;
-	min-width: 365px;
+	grid-template-rows: auto 1fr auto;
+	display: none;
+}
+#character-sync.is-active {
 	display: grid;
-	grid-template-rows: auto auto 1fr auto;
 }
 #header {
 	padding: .8rem;
 	border-bottom: solid 1px var(--overlay);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 }
 #header h1 {
 	all: unset;
 	font-size: 1.5rem;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+}
+#header button {
+	margin: -.5rem 0;
 }
 #footer {
 	padding: .5rem;
@@ -55,6 +64,93 @@ a {
 	padding-top: 1px;
 	color: var(--neutral-5);
 }
+
+#dice-roller {
+	display: none;
+	grid-template-rows: auto 1fr auto;
+	height: 100%;
+}
+#dice-roller.is-active {
+	display: grid;
+}
+#dice-roller .dice-footer {
+	padding: .5rem;
+	position: relative;
+}
+#dice-roller .dice-footer .quick-roll {
+	position: absolute;
+	top: .5rem;
+	left: .5rem;
+	width: calc(100% - 1rem);
+	height: 40px;
+}
+#dice-roller #quick-rolls {
+  padding: .5rem;
+  display: flex;
+  justify-content: space-between;
+}
+#dice-roller #quick-rolls .roll-button {
+	padding: 0;
+	font-size: 1.4rem;
+	position: relative;
+}
+#dice-roller #quick-rolls .roll-button.d100 {
+	font-size: 1rem;
+}
+#dice-roller #quick-rolls .roll-button.d100 i:first-child {
+	vertical-align: super;
+	margin-right: -1px;
+}
+#dice-roller #quick-rolls .roll-button.d100 i:nth-child(2) {
+	vertical-align: sub;
+	margin-left: -1px;
+}
+#dice-roller #quick-rolls .roll-button .count {
+	position: absolute;
+	right: -.1rem;
+	bottom: -.1rem;
+	font-size: .8rem;
+	background-color: var(--neutral-3);
+	color: var(--neutral-2);
+	width: 15px;
+	height: 15px;
+	border-radius: 50%;
+	font-weight: normal;
+	text-align: center;
+	line-height: 15px;
+}
+#dice-roller ul#rolls {
+	margin: 0;
+  padding: .5rem .5rem 0 .5rem;
+	height: calc(100vh - 189px);
+  list-style: none;
+  overflow: auto;
+  display: flex;
+  flex-direction: column-reverse;
+  gap: .5rem;
+}
+#dice-roller ul#rolls .roll .roll__notation {
+  font-weight: bold;
+	font-style: italic;
+}
+#dice-roller ul#rolls .roll .roll__result {
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--overlay);
+  align-items: center;
+	border-radius: .3rem;
+}
+#dice-roller ul#rolls .roll .roll__result-output {
+  padding: .5rem;
+  font-weight: bold;
+}
+#dice-roller ul#rolls .roll .roll__result-total {
+  font-weight: bold;
+  font-size: 1.2rem;
+  width: max-content;
+  padding: .5rem;
+}
+
 .top {
 	text-align: center;
 	font-size: 1.8rem;
@@ -405,6 +501,9 @@ ul.characters li .sheet .stats .stat .name {
 	-webkit-animation: spin 1s linear infinite;
 	-moz-animation: spin 1s linear infinite;
 	animation: spin 1s linear infinite;
+}
+.hidden {
+	display: none;
 }
 
 /* ANIMATIONS */

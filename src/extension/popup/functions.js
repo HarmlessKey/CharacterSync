@@ -49,10 +49,34 @@ export const calcMod = (value) => {
 export const navigate = (event) => {
 	const element = event.target;
 	chrome.tabs.query({active: true, currentWindow: true}, (tabs) => {
-			const tab = tabs[0];
-			chrome.tabs.update(tab.id, {url: element.getAttribute("href")});
+		const tab = tabs[0];
+		chrome.tabs.update(tab.id, {url: element.getAttribute("href")});
 	});
 };
+
+/**
+ * Selects Characer Sync or Dice Roller
+ */
+export const pageSelect = (e) => {
+	const btn = e.currentTarget;
+	
+	const pages = document.querySelectorAll(".page");
+	for(const p of pages) {
+		p.classList.remove("is-active");
+	}
+	const new_page = btn.getAttribute("data-page");
+	const page = document.getElementById(new_page);
+	page.classList.add("is-active");
+
+	const data_page = new_page === "dice-roller" ? "character-sync" : "dice-roller";
+	btn.setAttribute("data-page", data_page);
+	btn.setAttribute("data-page", data_page);
+	btn.innerHTML = (new_page === "dice-roller") ? '<i class="fas fa-users" aria-hidden="true"></i>' : '<i class="fas fa-dice-d20" aria-hidden="true"></i>';
+
+	if(new_page === "dice-roller") {
+		document.getElementById("roll-string").focus();
+	}
+}
 
 /**
  * Adds the my-characters tab if there are characters
