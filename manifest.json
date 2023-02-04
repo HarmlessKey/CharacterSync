@@ -31,7 +31,8 @@
   ],
 	"externally_connectable": {
 		"matches": [
-			"*://harmlesskey.com/*"
+			"*://harmlesskey.com/*",
+			"*://*.harmlesskey.com/*"
 		]
 	},
 	"host_permissions": [
