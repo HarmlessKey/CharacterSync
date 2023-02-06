@@ -60,17 +60,27 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
  * Listens to the requestContent
  */
 chrome.runtime.onMessageExternal.addListener(async (request, sender, sendResponse) => {
-	if (isLocalhost.test(sender.url) || isHarmlessKey.test(sender.url)) {
-		const storage = await chrome.storage.sync.get({dnd_sync: {}});
-		const content = {};
-		if (Array.isArray(request.request_content)) {
-			if (request.request_content.includes("characters")) {
-				content.characters = storage?.dnd_sync?.characters || {};
-			}
-			if (request.request_content.includes("version")) {
-				content.version = "0.2.0";
-			}
+	console.group(`Received request from:`, sender.url);
+
+	const storage = await chrome.storage.sync.get({dnd_sync: {}});
+	const content = {};
+
+	// Content requests
+	if (Array.isArray(request.request_content)) {
+		console.group("Content request")
+		if (request.request_content.includes("characters")) {
+			console.log("Characters");
+			content.characters = storage?.dnd_sync?.characters || {};
 		}
-		sendResponse(content)
+		if (request.request_content.includes("version")) {
+			console.log("Version");
+			content.version = "0.2.1";
+		}
+		console.groupEnd();
 	}
+	console.log("Response", content);
+	console.groupEnd();
+
+	// Send response
+	sendResponse(content);
 })
