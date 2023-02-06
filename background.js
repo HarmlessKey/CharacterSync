@@ -74,7 +74,7 @@ chrome.runtime.onMessageExternal.addListener(async (request, sender, sendRespons
 		}
 		if (request.request_content.includes("version")) {
 			console.log("Version");
-			content.version = "0.2.1";
+			content.version = chrome.runtime.getManifest().version;
 		}
 		console.groupEnd();
 	}
