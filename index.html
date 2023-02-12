@@ -75,6 +75,25 @@
 						Sync other characters
 					</button>
 				</div>
+
+				<!-- DICE CLOUD -->
+				<div class="step on-site" id="dicecloud">
+					<h2 class="text-center text-xl mb-2">Dice Cloud</h2>
+					<p>
+						Select a character from your 
+						<a class="open-page" href="https://dicecloud.com/character-list">Characters</a>
+					</p>
+				</div>
+				<div class="step on-site" id="dicecloud-sync">
+					<h2 class="text-center text-xl mb-2">Dice Cloud</h2>
+					<button class="w-full block mb-1 sync-character">
+						<i class="fas fa-sync-alt" aria-hidden="true"></i>
+						Sync character
+					</button>
+					<button class="w-full block step-select btn-clear neutral-4" data-step="#first">
+						Sync other characters
+					</button>
+				</div>
 				
 				<!-- DEFAULT -->
 				<div class="step" id="first">
@@ -85,13 +104,16 @@
 						1. Resource
 					</h2>
 					<p>Where do you want to sync characters from?</p>
-					<button class="btn-clear w-full mb-1 step-select btn-logo" data-step="#dndbeyond-info">
+					<button class="btn-clear w-full step-select btn-logo" data-step="#dndbeyond-info">
 						<div class="logo logo__dndb">
 							<i class="fab fa-d-and-d-beyond" aria-hidden="true"></i>
 						</div>
 					</button>
-					<button class="btn-clear w-full step-select btn-logo" data-step="#harmlesskey-info">
+					<button class="btn-clear w-full my-1 step-select btn-logo" data-step="#harmlesskey-info">
 						<div class="logo logo__hk"></div>
+					</button>
+					<button class="btn-clear w-full step-select btn-logo py-2" data-step="#dicecloud-info">
+						Dice Cloud
 					</button>
 				</div>
 				<div class="step" id="dndbeyond-info">
@@ -122,6 +144,20 @@
 					</ol>
 					<a href="https://harmlesskey.com/content/characters" target="_blank" rel="noopener" class="block btn w-full">Go to Harmless Key</a>
 				</div>
+				<div class="step" id="dicecloud-info">
+					<h2>
+						<button class="btn-clear step-select" data-step="#first">
+							<i class="fas fa-arrow-left" aria-hidden="true"></i>
+						</button>
+						2. Dice Cloud
+					</h2>
+					<ol>
+						<li>Visit your character sheet on Dice Cloud</li>
+						<li>Open this extension</li>
+						<li>Click the sync button</li>
+					</ol>
+					<a href="https://dicecloud.com/character-list" target="_blank" rel="noopener" class="block btn w-full">Go to Dice Cloud</a>
+				</div>
 			</div>
 			
 			<!-- CHARACTERS -->
@@ -142,6 +178,9 @@
 						</button>
 						<button class="pill btn-sm btn-clear" data-source="HarmlessKey">
 							Harmless Key
+						</button>
+						<button class="pill btn-sm btn-clear" data-source="DiceCloud">
+							Dice Cloud
 						</button>
 					</div>
 				</div>
