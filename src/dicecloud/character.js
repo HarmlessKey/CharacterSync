@@ -3,7 +3,7 @@ class DiceCloudCharacter extends Character {
 		super("DiceCloud");
 	}
 
-	updateCharacter() {
+	async updateCharacter() {
 		if(!this.source) {
 			this.source = "DiceCloud";
 		}
@@ -13,7 +13,7 @@ class DiceCloudCharacter extends Character {
 
 		this.setAvatar(this.parseAvatar());
 
-		// this.setLevel(this.parseLevel());
+		this.setLevel(await this.parseLevel());
 
 		this.setArmorClass(this.parseStat("Armor Class"));
 
@@ -41,16 +41,28 @@ class DiceCloudCharacter extends Character {
 		return avatar_url ?? null;
 	}
 
-	// parseLevel() {}
+	async parseLevel() {
+		const container = document.querySelector('.class-details .v-card__title')
+		if (!container) {
+			document.querySelectorAll('.v-tab')[6].click()
+			await new Promise(resolve => setTimeout(resolve, 10))
+			document.querySelectorAll('.v-tab')[0].click()
+		}
+		
+		const level_str = document.querySelector('.class-details .v-card__title').textContent.trim()
+		const level = parseInt(level_str.replace(/\D*/, ""));
+		console.log("in timeout", level);
+		return level ?? null;
+	}
 
 	parseStat(stat) {
 		const containers = document.querySelectorAll('.stat');
 		
 		let parsedStat;
 		for(const container of containers) {
-			const name = container.querySelector('.v-card .layout .name')?.textContent;
+			const name = container?.querySelector('.v-card .layout .name')?.textContent;
 			if(name.trim() === stat) {
-				parsedStat = container.querySelector('.v-card .layout .value')?.textContent;
+				parsedStat = container?.querySelector('.v-card .layout .value')?.textContent;
 			}
 		}
 		return parseInt(parsedStat) ?? null;
@@ -61,9 +73,9 @@ class DiceCloudCharacter extends Character {
 		
 		let parsedStat;
 		for(const container of containers) {
-			const name = container.querySelector('.v-card .layout .name')?.textContent;
+			const name = container?.querySelector('.v-card .layout .name')?.textContent;
 			if(name.trim() === check) {
-				parsedStat = container.querySelector('.v-card .layout div .v-btn .v-btn__content .value')?.textContent;
+				parsedStat = container?.querySelector('.v-card .layout div .v-btn .v-btn__content .value')?.textContent;
 			}
 		}
 		return parseInt(parsedStat) ?? null;
@@ -77,7 +89,7 @@ class DiceCloudCharacter extends Character {
 
 	parseAbilityScore(n) {
 		const container = document.querySelectorAll('.ability-scores .v-list .ability-list-tile')[n];
-		const parsedScore = container.querySelector('.v-list-item__action div .v-btn .v-btn__content div .value span')?.textContent;
+		const parsedScore = container?.querySelector('.v-list-item__action div .v-btn .v-btn__content div .value span')?.textContent;
 		return parseInt(parsedScore) ?? 0;
 	}
 }

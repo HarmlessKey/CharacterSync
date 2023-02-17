@@ -11,12 +11,15 @@ chrome.runtime.onMessage.addListener((request, response, sendRequest) => {
 	}
 })
 
-const syncCharacter = () => {
-	character.updateCharacter();
+const syncCharacter = async () => {
+	await character.updateCharacter()
 	storeCharacter(character);
 }
 
+var timer;
+
 const documentChanged = async (mutations) => {
+	clearTimeout(timer);
 	if (window.location.href !== URL) {
 		observer.disconnect();
 		console.log("Disconnected")
@@ -25,7 +28,7 @@ const documentChanged = async (mutations) => {
 	// Only sync automatically if the character is in storage
 	const characters = await getCharacters();
 	if(characters?.[window.location.href]) {
-		syncCharacter();
+		timer = setTimeout(async () => await syncCharacter(), 2000);
 	}
 }
 
