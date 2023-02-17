@@ -3,7 +3,7 @@
 	"author": "Harm Manders & Key Roos",
   "name": "D&D Character Sync",
   "description": "Syncs character data across D&D apps",
-  "version": "0.2.1",
+  "version": "0.3.0",
 	"background": {
 		"service_worker": "background.js",
 		"type": "module"
