@@ -16,6 +16,12 @@ const TARGETS = {
 		'src/dndbeyond/character.js',
 		'src/dndbeyond/content.js',
 	],
+	'dicecloud_character': [
+		...UTILS,
+		'src/models/character.js',
+		'src/dicecloud/character.js',
+		'src/dicecloud/content.js',
+	],
 	'harmlesskey_character': [
 		...UTILS,
 		'src/models/character.js',

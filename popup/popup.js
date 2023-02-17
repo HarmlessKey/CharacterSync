@@ -16,6 +16,7 @@ chrome.tabs.query({currentWindow: true, active: true}, (tabs) => {
 	const current_page = tabs[0].url;
 	const isDNDB = current_page.includes("dndbeyond.com");
 	const isHK = current_page.includes("harmlesskey.com");
+	const isDC = current_page.includes("dicecloud.com");
 	
 	// Create a sync button
 	const sync_btn = document.createElement("button");
@@ -46,6 +47,18 @@ chrome.tabs.query({currentWindow: true, active: true}, (tabs) => {
 			}
 		} else {
 			document.querySelector("#harmlesskey").classList.add("is-active");		
+		}
+	}
+	if(isDC) {
+		stepSelect();
+		if(current_page.match(/\/(character)+\/.+/)) {
+			document.querySelector("#dicecloud-sync").classList.add("is-active");
+
+			if(characters && !Object.keys(characters).includes(current_page)) {
+				my_characters_footer.prepend(sync_btn);
+			}
+		} else {
+			document.querySelector("#dicecloud").classList.add("is-active");		
 		}
 	}
 });

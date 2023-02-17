@@ -4,7 +4,7 @@ class Character {
 		this.url = null;
 		this.name = null;
 		this.avatar = null;
-		this.level = 0;
+		this.level = null;
 		this.armor_class = 0;
 		this.hit_points = 0;
 		this.max_hit_points = 0;

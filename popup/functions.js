@@ -55,7 +55,7 @@ export const navigate = (event) => {
 };
 
 /**
- * Selects Characer Sync or Dice Roller
+ * Selects Character Sync or Dice Roller
  */
 export const pageSelect = (e) => {
 	const btn = e.currentTarget;
