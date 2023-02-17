@@ -1,6 +1,6 @@
 
 
-const storeCharacter = (character) => {
+function storeCharacter(character) {
 
 	chrome.storage.sync.get({dnd_sync: {}})
 		.then((result) => {
@@ -17,7 +17,7 @@ const storeCharacter = (character) => {
 		})
 }
 
-const getCharacters = async () => {
+async function getCharacters() {
 	const storage = await chrome.storage.sync.get({dnd_sync: {}});
 	return storage?.dnd_sync?.characters || {};
 }
