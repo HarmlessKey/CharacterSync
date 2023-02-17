@@ -70,7 +70,7 @@ const renderCharacters = async (list) => {
 		resource.setAttribute("class", "resource");
 		name.setAttribute("class", "name truncate");
 	
-		resource.innerText = (character.source === "HarmlessKey") ? "Harmless Key" : "D&D Beyond";
+		resource.innerText = getSourceName(character.source);
 		name.innerText = character.name;
 	
 		info.prepend(resource);
@@ -212,3 +212,17 @@ const search = (e) => {
 	renderCharacters(filtered);
 };
 search_input.addEventListener("keyup", search);
+
+// Get source name
+function getSourceName(source) {
+	switch (source) {
+		case "HarmlessKey":
+			return "Harmless Key";
+		case "DnDBeyond": 
+			return "D&D Beyond"
+		case "DiceCloud":
+			return "Dice Cloud"
+		default: 
+			return "D&D Beyond";
+	}
+}

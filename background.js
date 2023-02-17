@@ -1,5 +1,6 @@
 const isDndBeyond = /^https?:\/\/(.*\.)?dndbeyond\.com\/characters\/\d+/;
 const isHarmlessKey = /^https?:\/\/(.*\.)?harmlesskey\.com\/content\/(players|characters)\/\-[a-zA-Z0-9-_]+/;
+const isDiceCloud = /^https?:\/\/(.*\.)?dicecloud\.com\/character\/[A-z\d]+/;
 const isLocalhost = /^https?:\/\/localhost.*/;
 
 const getCurrentTab = async () => {
@@ -11,7 +12,7 @@ const getCurrentTab = async () => {
 const syncCharacter = async () => {
 	console.log("Sync character")
 	const tab = await getCurrentTab();
-	chrome.tabs.sendMessage(tab.id, {sync:'send id with message in future'})
+	chrome.tabs.sendMessage(tab.id, { sync:'send id with message in future' })
 }
 
 chrome.runtime.onInstalled.addListener(() => {
@@ -19,7 +20,7 @@ chrome.runtime.onInstalled.addListener(() => {
 		const storage = result.dnd_sync;
 		storage.active = true;
 		chrome.storage.sync.set({dnd_sync: storage}, () => {
-			console.log("dnd sync in active")
+			console.log("dnd sync is active")
 		})
 	})
 })
@@ -43,6 +44,14 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 			chrome.scripting.executeScript({
 				target: { tabId: tabId },
 				files: ["dist/dndbeyond_character.js"]
+			})
+		}
+
+		if (isDiceCloud.test(tab.url)) {
+			console.log("Is Dice Cloud!")
+			chrome.scripting.executeScript({
+				target: { tabId: tabId },
+				files: ["dist/dicecloud_character.js"]
 			})
 		}
 
