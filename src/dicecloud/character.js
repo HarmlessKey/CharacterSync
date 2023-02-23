@@ -9,6 +9,11 @@ class DiceCloudCharacter extends Character {
 		}
 		this.url = window.location.href;
 
+		this.isV1 = false;
+		if (/v1\.dicecloud\.com/.test(this.url)) {
+			this.isV1 = true;
+		}
+
 		this.setName(this.parseName());
 
 		this.setAvatar(this.parseAvatar());
@@ -31,8 +36,14 @@ class DiceCloudCharacter extends Character {
 	}
 
 	parseName() {
-		const parsedName = document.querySelector('.v-toolbar__title')?.textContent
-		return parsedName.trim() ?? null;
+		let parsedName = null;
+		if (this.isV1) {
+			parsedName = document.querySelector('.character-name')?.textContent;
+		}
+		else {
+			parsedName = document.querySelector('.v-toolbar__title')?.textContent
+		}
+		return parsedName?.trim() ?? null;
 	}
 
 
