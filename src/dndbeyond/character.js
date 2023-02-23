@@ -26,7 +26,7 @@ class DndBeyondCharacter extends Character {
 		["strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma"].forEach((ability, i) => {
 			this.setAbilityScore(ability, this.parseAbilityScore(i));
 		});
-
+-
 		console.log("updated character to:", this);
 	}
 
@@ -39,13 +39,19 @@ class DndBeyondCharacter extends Character {
 	parseAvatar() {
 		const avatar_style = document.querySelector('.ddbc-character-avatar__portrait')?.style.backgroundImage;
 		const url_regex = /url\([\"\'\`](.+)[\"\'\`]\)/
-		const avatar_url = avatar_style?.match(url_regex)[1]
-		return avatar_url ?? null;
+		const avatar_match = avatar_style?.match(url_regex)
+
+		return avatar_match ? avatar_match[1] : null;
 	}
 
 	parseLevel() {
-		const level = document.querySelector('.ddbc-character-progression-summary__level')?.textContent;
-		const parsedLevel = level.match(/\d+/).join();
+		let level = document.querySelector('.ddbc-character-progression-summary__level')?.textContent;
+		if (!level) {
+			// Non Milestone leveling
+			level = document.querySelector('ddbc-character-progression-summary__xp-bar .ddbc-xp-bar__item--cur .ddbc-xp-bar__label')?.textContent;
+		}
+
+		const parsedLevel = level?.match(/\d+/).join();
 		return parseInt(parsedLevel) ?? null;
 	}
 
