@@ -3,7 +3,7 @@
 	"author": "Harm Manders & Key Roos",
   "name": "D&D Character Sync",
   "description": "Syncs character data across D&D apps",
-  "version": "0.3.0",
+  "version": "0.3.1",
 	"background": {
 		"service_worker": "background.js",
 		"type": "module"
@@ -41,6 +41,7 @@
 		"*://*.harmlesskey.com/content/players/*",
 		"*://harmlesskey.com/content/characters/*",
 		"*://*.harmlesskey.com/content/characters/*",
-		"*://dicecloud.com/character/*"
+		"*://dicecloud.com/character/*",
+		"*://v1.dicecloud.com/character/*"
 	]
 }
