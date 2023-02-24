@@ -408,6 +408,14 @@ ul.characters li .character .avatar {
 	-moz-box-shadow: var(--drop-shadow);
 	position: relative;
 }
+ul.characters li .character .avatar .default-avatar {
+	text-align: center;
+	font-size: 24px;
+	line-height: 50px;
+	width: 50px;
+	margin-top: 1px;
+	color: var(--neutral-4);
+}
 ul.characters li .character .avatar .level {
 	position: absolute;
 	height: 1.5rem;
