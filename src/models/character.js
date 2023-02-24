@@ -108,6 +108,7 @@ class Character {
 			"name": this.name,
 			"avatar": this.avatar,
 			"level": this.level,
+			"xp": this.xp,
 			"armor_class": this.armor_class,
 			"max_hit_points": this.max_hit_points,
 			"walking_speed": this.walking_speed,
