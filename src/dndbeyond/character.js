@@ -43,7 +43,7 @@ class DndBeyondCharacter extends Character {
 		const url_regex = /url\([\"\'\`](.+)[\"\'\`]\)/
 		const avatar_match = avatar_style?.match(url_regex)
 
-		return avatar_match ? avatar_match[1] : null;
+		return avatar_match ? avatar_match[1] : "https://www.dndbeyond.com/Content/Skins/Waterdeep/images/characters/default-avatar-builder.png";
 	}
 
 	parseLevel() {
