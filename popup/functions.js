@@ -21,7 +21,7 @@ export const syncCharacter = async (e) => {
 	// Remove the sync button from my-characters overview
 	const footer = document.querySelector("#my-characters .footer");
 	const btn = footer.querySelector(".sync-character")
-	footer.removeChild(btn);
+	footer?.removeChild(btn);
 };
 
 /**

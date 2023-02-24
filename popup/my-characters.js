@@ -55,6 +55,9 @@ const renderCharacters = async (list) => {
 		
 		const image = character.avatar ? character.avatar : character.source === "HarmlessKey" ? "../assets/images/logo_harmless_key_icon.png" : "";
 		avatar.setAttribute("style", `background-image: url(${image});`);
+		if (image === "") {
+			avatar.innerHTML = '<i class="far fa-helmet-battle default-avatar"></i>';
+		}
 
 		if(character.level) {
 			const level = document.createElement("div");

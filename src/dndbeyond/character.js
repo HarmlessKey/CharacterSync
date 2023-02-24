@@ -15,6 +15,8 @@ class DndBeyondCharacter extends Character {
 
 		this.setLevel(this.parseLevel());
 
+		this.setXp(this.parseXp());
+
 		this.setArmorClass(this.parseArmorClass());
 
 		this.setMaxHitPoints(this.parseMaxHitPoints())
@@ -26,7 +28,7 @@ class DndBeyondCharacter extends Character {
 		["strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma"].forEach((ability, i) => {
 			this.setAbilityScore(ability, this.parseAbilityScore(i));
 		});
-
+-
 		console.log("updated character to:", this);
 	}
 
@@ -39,14 +41,30 @@ class DndBeyondCharacter extends Character {
 	parseAvatar() {
 		const avatar_style = document.querySelector('.ddbc-character-avatar__portrait')?.style.backgroundImage;
 		const url_regex = /url\([\"\'\`](.+)[\"\'\`]\)/
-		const avatar_url = avatar_style?.match(url_regex)[1]
-		return avatar_url ?? null;
+		const avatar_match = avatar_style?.match(url_regex)
+
+		return avatar_match ? avatar_match[1] : "https://www.dndbeyond.com/Content/Skins/Waterdeep/images/characters/default-avatar-builder.png";
 	}
 
 	parseLevel() {
-		const level = document.querySelector('.ddbc-character-progression-summary__level')?.textContent;
-		const parsedLevel = level.match(/\d+/).join();
+		let level = document.querySelector('.ddbc-character-progression-summary__level')?.textContent;
+		if (!level) {
+			// Non Milestone leveling
+			const xp_container = document.querySelector('.ddbc-character-progression-summary__xp-bar');
+			level = xp_container?.querySelector('.ddbc-xp-bar__item--cur .ddbc-xp-bar__label')?.textContent;
+		}
+
+		const parsedLevel = level?.match(/\d+/).join();
 		return parseInt(parsedLevel) ?? null;
+	}
+
+	parseXp() {
+		const xp_container = document.querySelector('.ddbc-character-progression-summary__xp-bar');
+		if (!xp_container) {
+			return null;
+		}
+		const xp_data = xp_container.querySelector('.ddbc-character-progression-summary__xp-data')?.textContent?.split('/');
+		return xp_data ? parseInt(xp_data[0].trim()) : null;		
 	}
 
 	parseArmorClass() {
