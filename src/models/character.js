@@ -5,6 +5,7 @@ class Character {
 		this.name = null;
 		this.avatar = null;
 		this.level = null;
+		this.xp = null;
 		this.armor_class = 0;
 		this.hit_points = 0;
 		this.max_hit_points = 0;
@@ -45,6 +46,13 @@ class Character {
 	}
 	setLevel(level) {
 		this.level = level;
+	}
+
+	getXp() {
+		return this.xp
+	}
+	setXp(xp) {
+		this.xp = xp;
 	}
 	
 	getArmorClass() {

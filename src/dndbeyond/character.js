@@ -15,6 +15,8 @@ class DndBeyondCharacter extends Character {
 
 		this.setLevel(this.parseLevel());
 
+		this.setXp(this.parseXp());
+
 		this.setArmorClass(this.parseArmorClass());
 
 		this.setMaxHitPoints(this.parseMaxHitPoints())
@@ -48,11 +50,21 @@ class DndBeyondCharacter extends Character {
 		let level = document.querySelector('.ddbc-character-progression-summary__level')?.textContent;
 		if (!level) {
 			// Non Milestone leveling
-			level = document.querySelector('ddbc-character-progression-summary__xp-bar .ddbc-xp-bar__item--cur .ddbc-xp-bar__label')?.textContent;
+			const xp_container = document.querySelector('.ddbc-character-progression-summary__xp-bar');
+			level = xp_container?.querySelector('.ddbc-xp-bar__item--cur .ddbc-xp-bar__label')?.textContent;
 		}
 
 		const parsedLevel = level?.match(/\d+/).join();
 		return parseInt(parsedLevel) ?? null;
+	}
+
+	parseXp() {
+		const xp_container = document.querySelector('.ddbc-character-progression-summary__xp-bar');
+		if (!xp_container) {
+			return null;
+		}
+		const xp_data = xp_container.querySelector('.ddbc-character-progression-summary__xp-data')?.textContent?.split('/');
+		return xp_data ? parseInt(xp_data[0].trim()) : null;		
 	}
 
 	parseArmorClass() {
