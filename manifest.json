@@ -2,8 +2,8 @@
   "manifest_version": 3,
 	"author": "Harm Manders & Key Roos",
   "name": "D&D Character Sync",
-  "description": "Syncs character data across D&D apps",
-  "version": "0.3.1",
+  "description": "Store character sheets from different D&D apps",
+  "version": "0.4.0",
 	"background": {
 		"service_worker": "background.js",
 		"type": "module"
