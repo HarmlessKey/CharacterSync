@@ -29,16 +29,20 @@ const PATHS = {
 	},
 	background: {
 		src: "src/background.js",
-		dest: `${BASE_BUILD}`
+		dest: BASE_BUILD
 	},
 	index: {
 		src: "src/index.html",
-		dest: `${BASE_BUILD}`
+		dest: BASE_BUILD
 	},
 	manifest: {
 		src: "manifest.json",
-		dest: `${BASE_BUILD}`
+		dest: BASE_BUILD
 	},
+	readme: {
+		src: "README.md",
+		dest: BASE_BUILD
+	}
 }
 
 const UTILS = [
@@ -117,6 +121,9 @@ const copy_index = () =>
 const copy_manifest = () => 
 	gulp.src(PATHS.manifest.src).pipe(gulp.dest(PATHS.manifest.dest))
 
+const copy_readme = () => 
+	gulp.src(PATHS.readme.src).pipe(gulp.dest(PATHS.readme.dest))
+
 
 const watch_targets = () => {
 	for (const target in TARGETS) {
@@ -144,7 +151,8 @@ const build_base = gulp.parallel([
 		copy_index,
 		copy_assets,
 		copy_css,
-		copy_lib
+		copy_lib,
+		copy_readme
 	]);
 
 exports.build = gulp.series(clean_build, build_base);
