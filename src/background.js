@@ -43,7 +43,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 			console.log("Is dnd beyond!")
 			chrome.scripting.executeScript({
 				target: { tabId: tabId },
-				files: ["dist/dndbeyond_character.js"]
+				files: ["content/dndbeyond_character.js"]
 			})
 		}
 
@@ -51,7 +51,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 			console.log("Is Dice Cloud!")
 			chrome.scripting.executeScript({
 				target: { tabId: tabId },
-				files: ["dist/dicecloud_character.js"]
+				files: ["content/dicecloud_character.js"]
 			})
 		}
 
@@ -59,7 +59,7 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 			console.log("Is Harmless Key (the best dnd app)!")
 			chrome.scripting.executeScript({
 				target: { tabId: tabId },
-				files: ["dist/harmlesskey_character.js"]
+				files: ["content/harmlesskey_character.js"]
 			})
 		}
 	}

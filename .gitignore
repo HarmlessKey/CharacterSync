@@ -1,3 +1,9 @@
+# Custom ignore part
+
+build
+
+
+
 # Created by https://www.toptal.com/developers/gitignore/api/node,windows,macos
 # Edit at https://www.toptal.com/developers/gitignore?templates=node,windows,macos
 
@@ -8,7 +14,8 @@
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 ._*
