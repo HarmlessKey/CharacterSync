@@ -12,7 +12,7 @@ function storeCharacter(character) {
 		.then(() => {
 			chrome.storage.sync.get({dnd_sync: {}})
 			.then((result) => {
-				console.log(result.dnd_sync);
+				console.log("Current storage:", result.dnd_sync);
 			}) 
 		})
 }
