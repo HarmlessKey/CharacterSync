@@ -45,7 +45,6 @@ class HkCharacter extends Character {
 
 	parseLevel() {
 		const level = document.querySelector('.level')?.textContent;
-		console.log(level)
 		return parseInt(level) ?? 1;
 	}
 
