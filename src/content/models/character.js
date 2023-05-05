@@ -18,6 +18,11 @@ class Character {
 		this.intelligence = 0;
 		this.wisdom = 0;
 		this.charisma = 0;
+		this.senses = {
+			passive_perception: 0,
+			passive_investigation: 0,
+			passive_insight:0
+		}
 	}
 
 	getUrl() {
@@ -97,8 +102,18 @@ class Character {
 		this.initiative = initiative;
 	}
 
+	getAbilityScore(ability) {
+		return this[ability]
+	}
 	setAbilityScore(ability, score) {
 		this[ability] = score;
+	}
+
+	getSense(sense) {
+		return this.senses[sense];s
+	}
+	setSense(sense, score) {
+		this.senses[sense] = score;
 	}
 	
 	getDict() {
@@ -117,7 +132,8 @@ class Character {
 			"constitution": this.constitution,
 			"intelligence": this.intelligence,
 			"wisdom": this.wisdom,
-			"charisma": this.charisma
+			"charisma": this.charisma,
+			"senses": this.sesnses
 		}
 	}
 }

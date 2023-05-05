@@ -28,6 +28,10 @@ class DndBeyondCharacter extends Character {
 		["strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma"].forEach((ability, i) => {
 			this.setAbilityScore(ability, this.parseAbilityScore(i));
 		});
+
+		["passive_perception", "passive_investigation", "passive_insight"].forEach((sense, i) => {
+			this.setSense(sense, this.parseSense(i));
+		});
 -
 		console.log("updated character to:", this);
 	}
@@ -106,13 +110,20 @@ class DndBeyondCharacter extends Character {
 
 	parseInitiative() {
 		const container = isMobile() ? ".ct-combat-mobile__extra--initiative" : isTablet() ? ".ct-combat-tablet__extra--initiative" : ".ct-initiative-box__value";
-		const parsedInitiative = document.querySelector(`${container} .ddbc-signed-number .ddbc-signed-number__number`)?.textContent;
-		return parseInt(parsedInitiative) ?? 0;
+		const initiativeSign = document.querySelector(`${container} .ddbc-signed-number .ddbc-signed-number__sign`)?.textContent;
+		const initiativeNumber = document.querySelector(`${container} .ddbc-signed-number .ddbc-signed-number__number`)?.textContent;
+		return parseInt(`${initiativeSign}${initiativeNumber}`) ?? 0;
 	}
 
 	parseAbilityScore(n) {
 		const container = isMobile() ? ".ct-main-mobile__ability" : isTablet() ? ".ct-main-tablet__ability" : ".ct-quick-info__ability";
 		const parsedScore = document.querySelectorAll(`${container}`)[n]?.querySelector('.ddbc-ability-summary__secondary')?.textContent;
 		return parseInt(parsedScore) ?? 0;
+	}
+
+	parseSense(n) {
+		const container = ".ct-senses__callout";
+		const parsedSense = document.querySelectorAll(`${container}`)[n]?.querySelector('.ct-senses__callout-value')?.textContent;
+		return parseInt(parsedSense) ?? 0;
 	}
 }
