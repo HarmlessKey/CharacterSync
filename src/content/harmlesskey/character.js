@@ -56,7 +56,7 @@ class HkCharacter extends Character {
 	parseMaxHitPoints() {
 
 		const max_hit_points = document.querySelector('[aria-label="Hit points *"]')?.value
-		return max_hit_points;
+		return parseInt(max_hit_points);
 
 	}
 
