@@ -1,11 +1,11 @@
-class HkCharacter extends Character {
+class SmCharacter extends Character {
 	constructor() {
-		super("HarmlessKey");
+		super("Shieldmaiden");
 	}
 
 	updateCharacter() {
 		if(!this.source) {
-			this.source = "HarmlessKey";
+			this.source = "Shieldmaiden";
 		}
 		this.url = window.location.href;
 

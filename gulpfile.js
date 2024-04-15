@@ -64,11 +64,11 @@ const TARGETS = {
 		'src/content/dicecloud/character.js',
 		'src/content/dicecloud/content.js',
 	],
-	'harmlesskey_character': [
+	'shieldmaiden_character': [
 		...UTILS,
 		'src/content/models/character.js',
-		'src/content/harmlesskey/character.js',
-		'src/content/harmlesskey/content.js',
+		'src/content/shieldmaiden/character.js',
+		'src/content/shieldmaiden/content.js',
 	],
 }
 
@@ -82,7 +82,7 @@ for (const target in TARGETS) {
 		}
 	}
 	targets[target] = task[target]
-	// Add specific task. usage: `npm run gulp harmlesskey_character`
+	// Add specific task. usage: `npm run gulp shieldmaiden_character`
 	gulp.task(target, targets[target]);
 }
 

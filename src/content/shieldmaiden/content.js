@@ -31,7 +31,7 @@ const documentChanged = async (mutations) => {
 
 const URL = window.location.href;
 
-const character = new HkCharacter();
+const character = new SmCharacter();
 
 const observer = new MutationObserver(documentChanged);
 observer.observe(document, { childList: true, subtree: true });

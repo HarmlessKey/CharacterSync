@@ -1,5 +1,5 @@
 const isDndBeyond = /^https?:\/\/(.*\.)?dndbeyond\.com\/characters\/\d+/;
-const isHarmlessKey = /^https?:\/\/(.*\.)?harmlesskey\.com\/content\/(players|characters)\/\-[a-zA-Z0-9-_]+/;
+const isShieldmaiden = /^https?:\/\/(.*\.)?shieldmaiden\.app\/content\/(players|characters)\/\-[a-zA-Z0-9-_]+/;
 const isDiceCloud = /^https?:\/\/(.*\.)?dicecloud\.com\/character\/[A-z\d]+/;
 const isLocalhost = /^https?:\/\/localhost.*/;
 
@@ -55,11 +55,11 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 			})
 		}
 
-		if (isHarmlessKey.test(tab.url)) {
-			console.log("Is Harmless Key (the best dnd app)!")
+		if (isShieldmaiden.test(tab.url)) {
+			console.log("Is Shieldmaiden (the best dnd app)!")
 			chrome.scripting.executeScript({
 				target: { tabId: tabId },
-				files: ["content/harmlesskey_character.js"]
+				files: ["content/shieldmaiden_character.js"]
 			})
 		}
 	}
