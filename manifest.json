@@ -31,6 +31,8 @@
   ],
 	"externally_connectable": {
 		"matches": [
+			"*://shieldmaiden.app/*",
+			"*://*.shieldmaiden.app/*",
 			"*://harmlesskey.com/*",
 			"*://*.harmlesskey.com/*"
 		]
@@ -41,6 +43,10 @@
 		"*://*.harmlesskey.com/content/players/*",
 		"*://harmlesskey.com/content/characters/*",
 		"*://*.harmlesskey.com/content/characters/*",
+		"*://shieldmaiden.app/content/players/*",
+		"*://*.shieldmaiden.app/content/players/*",
+		"*://shieldmaiden.app/content/characters/*",
+		"*://*.shieldmaiden.app/content/characters/*",
 		"*://dicecloud.com/character/*",
 		"*://v1.dicecloud.com/character/*"
 	]
