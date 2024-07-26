@@ -36,84 +36,96 @@ class Character {
 		return this.name
 	}
 	setName(name) {
-		this.name = name;
+		if (name !== undefined)
+			this.name = name;
 	}
 	
 	getAvatar() {
 		return this.avatar
 	}
 	setAvatar(avatar) {
-		this.avatar = avatar;
+		if (avatar !== undefined)
+			this.avatar = avatar;
 	}
 	
 	getLevel() {
 		return this.level
 	}
 	setLevel(level) {
-		this.level = level;
+		if (level !== undefined)
+			this.level = level;
 	}
 
 	getXp() {
 		return this.xp
 	}
 	setXp(xp) {
-		this.xp = xp;
+		if (xp !== undefined)
+			this.xp = xp;
 	}
 	
 	getArmorClass() {
 		return this.armor_class
 	}
 	setArmorClass(armor_class) {
-		this.armor_class = armor_class;
+		if (armor_class !== undefined)
+			this.armor_class = armor_class;
 	}
 	
 	getHitPoints() {
 		return this.hit_points
 	}
 	setHitPoints(hit_points) {
-		this.hit_points = hit_points;
+		if (hit_points !== undefined)
+			this.hit_points = hit_points;
 	}
 	
 	getMaxHitPoints() {
 		return this.max_hit_points
 	}
 	setMaxHitPoints(max_hit_points) {
-		this.max_hit_points = max_hit_points;
+		if (max_hit_points !== undefined)
+			this.max_hit_points = max_hit_points;
 	}
 	
 	getTempHitPoints() {
 		return this.temp_hit_points
 	}
 	setTempHitPoints(temp_hit_points) {
-		this.temp_hit_points = temp_hit_points;
+		if (temp_hit_points !== undefined)
+			this.temp_hit_points = temp_hit_points;
 	}
 
 	getWalkingSpeed() {
 		return this.walking_speed;
 	}
 	setWalkingSpeed(walking_speed) {
-		this.walking_speed = walking_speed;
+		if (walking_speed !== undefined)
+			this.walking_speed = walking_speed;
 	}
 
 	getInitiative() {
 		return this.initiative;
 	}
 	setInitiative(initiative) {
-		this.initiative = initiative;
+		if (initiative !== undefined)
+			this.initiative = initiative;
 	}
 
 	getAbilityScore(ability) {
 		return this[ability]
 	}
 	setAbilityScore(ability, score) {
-		this[ability] = score;
+		if (score !== undefined)
+			this[ability] = score;
 	}
 
 	getSense(sense) {
 		return this.senses[sense];s
 	}
 	setSense(sense, score) {
-		this.senses[sense] = score;
+		if (score !== undefined)
+			this.senses[sense] = score;
 	}
 	
 	getDict() {
@@ -133,7 +145,7 @@ class Character {
 			"intelligence": this.intelligence,
 			"wisdom": this.wisdom,
 			"charisma": this.charisma,
-			"senses": this.sesnses
+			"senses": this.senses
 		}
 	}
 }
