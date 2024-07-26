@@ -103,27 +103,28 @@ class DndBeyondCharacter extends Character {
 	}
 
 	parseWalkingSpeed() {
-		const container = isMobile() ? ".ct-combat-mobile__extra--speed" : isTablet() ? ".ct-combat-tablet__extra--speed" : ".ct-speed-box__box-value";
-		const parsedWalkingSpeed = document.querySelector(`${container} .ddbc-distance-number .ddbc-distance-number__number`)?.textContent;
-		return parseInt(parsedWalkingSpeed) ?? 0;
+		const container = isMobile() ? "section[class^=styles_boxMobile]" : isTablet() ? ".ct-combat-tablet__extra--speed" : ".ct-quick-info__box--speed";
+		const parsedWalkingSpeed = document.querySelector(`${container} [class^=styles_numberDisplay]`)?.textContent;
+		console.log("Parsed speed:", parseInt(parsedWalkingSpeed))
+		return parsedWalkingSpeed ? parseInt(parsedWalkingSpeed) : undefined;
 	}
-
+	
 	parseInitiative() {
-		const container = isMobile() ? ".ct-combat-mobile__extra--initiative" : isTablet() ? ".ct-combat-tablet__extra--initiative" : ".ct-initiative-box__value";
-		const initiativeSign = document.querySelector(`${container} .ddbc-signed-number .ddbc-signed-number__sign`)?.textContent;
-		const initiativeNumber = document.querySelector(`${container} .ddbc-signed-number .ddbc-signed-number__number`)?.textContent;
-		return parseInt(`${initiativeSign}${initiativeNumber}`) ?? 0;
+		const container = isMobile() ? ".ct-combat-mobile__extra--initiative" : isTablet() ? ".ct-combat-tablet__extra--initiative" : ".ct-combat__summary-group--initiative";
+		const parsedInitiative = document.querySelector(`${container} [class^=styles_numberDisplay]`)?.textContent;
+		console.log("Parsed initiative:", parseInt(parsedInitiative))
+		return parsedInitiative? parseInt(parsedInitiative) : undefined;
 	}
 
 	parseAbilityScore(n) {
 		const container = isMobile() ? ".ct-main-mobile__ability" : isTablet() ? ".ct-main-tablet__ability" : ".ct-quick-info__ability";
 		const parsedScore = document.querySelectorAll(`${container}`)[n]?.querySelector('.ddbc-ability-summary__secondary')?.textContent;
-		return parseInt(parsedScore) ?? 0;
+		return parsedScore ? parseInt(parsedScore) : 0;
 	}
 
 	parseSense(n) {
 		const container = ".ct-senses__callout";
 		const parsedSense = document.querySelectorAll(`${container}`)[n]?.querySelector('.ct-senses__callout-value')?.textContent;
-		return parseInt(parsedSense) ?? 0;
+		return parsedSense ? parseInt(parsedSense) : 0;
 	}
 }
