@@ -270,8 +270,8 @@ button > * {
 	font-size: 9rem;
 	text-align: center;
 }
-.logo__hk {
-	background-image: var(--hk-logo);
+.logo__sm {
+	background-image: var(--sm-logo);
 }
 .logo__dndb .fab {
 	line-height: 80px;

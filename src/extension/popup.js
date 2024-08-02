@@ -11,11 +11,11 @@ chrome.storage.onChanged.addListener((changes, _namespace) => {
 // Add my-characters tab if there are characters
 setTabs(characters);
 
-// Check if HK or DNDB
+// Check if SM, DC or DNDB
 chrome.tabs.query({currentWindow: true, active: true}, (tabs) => {
 	const current_page = tabs[0].url;
 	const isDNDB = current_page.includes("dndbeyond.com");
-	const isHK = current_page.includes("harmlesskey.com");
+	const isSM = current_page.includes("shieldmaiden.app");
 	const isDC = current_page.includes("dicecloud.com");
 	
 	// Create a sync button
@@ -37,16 +37,16 @@ chrome.tabs.query({currentWindow: true, active: true}, (tabs) => {
 			document.querySelector("#dndbeyond").classList.add("is-active");
 		}
 	}
-	if(isHK) {
+	if(isSM) {
 		stepSelect();
 		if(current_page.match(/\/(content\/)+((characters)|(players))+\/.+/)) {
-			document.querySelector("#harmlesskey-sync").classList.add("is-active");
+			document.querySelector("#shieldmaiden-sync").classList.add("is-active");
 
 			if(characters && !Object.keys(characters).includes(current_page)) {
 				my_characters_footer.prepend(sync_btn);
 			}
 		} else {
-			document.querySelector("#harmlesskey").classList.add("is-active");		
+			document.querySelector("#shieldmaiden").classList.add("is-active");		
 		}
 	}
 	if(isDC) {

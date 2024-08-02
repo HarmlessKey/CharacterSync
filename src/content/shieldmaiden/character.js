@@ -1,11 +1,11 @@
-class HkCharacter extends Character {
+class SmCharacter extends Character {
 	constructor() {
-		super("HarmlessKey");
+		super("Shieldmaiden");
 	}
 
 	updateCharacter() {
 		if(!this.source) {
-			this.source = "HarmlessKey";
+			this.source = "Shieldmaiden";
 		}
 		this.url = window.location.href;
 
@@ -56,7 +56,7 @@ class HkCharacter extends Character {
 	parseMaxHitPoints() {
 
 		const max_hit_points = document.querySelector('[aria-label="Hit points *"]')?.value
-		return max_hit_points;
+		return parseInt(max_hit_points);
 
 	}
 

@@ -53,7 +53,7 @@ const renderCharacters = async (list) => {
 		const avatar = document.createElement("div");
 		avatar.setAttribute("class", "avatar");
 		
-		const image = character.avatar ? character.avatar : character.source === "HarmlessKey" ? "../assets/images/logo_harmless_key_icon.png" : "";
+		const image = character.avatar ? character.avatar : (character.source === "HarmlessKey" || character.source === "Shieldmaiden") ? "../assets/images/logo_shieldmaiden_icon.png" : "";
 		avatar.setAttribute("style", `background-image: url(${image});`);
 		if (image === "") {
 			avatar.innerHTML = '<i class="far fa-helmet-battle default-avatar"></i>';
@@ -220,7 +220,8 @@ search_input.addEventListener("keyup", search);
 function getSourceName(source) {
 	switch (source) {
 		case "HarmlessKey":
-			return "Harmless Key";
+		case "Shieldmaiden":
+			return "Shieldmaiden";
 		case "DnDBeyond": 
 			return "D&D Beyond"
 		case "DiceCloud":
