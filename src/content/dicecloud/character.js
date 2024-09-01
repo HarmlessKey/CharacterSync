@@ -16,7 +16,7 @@ class DiceCloudCharacter extends Character {
 
 		this.setName(this.parseName());
 
-		this.setAvatar(this.parseAvatar());
+		this.setAvatar(await this.parseAvatar());
 
 		this.setLevel(await this.parseLevel());
 
@@ -34,6 +34,29 @@ class DiceCloudCharacter extends Character {
 			}
 		);
 
+		[
+			"acrobatics",
+			"animal_handling",
+			"arcana",
+			"athletics",
+			"deception",
+			"history",
+			"insight",
+			"intimidation",
+			"investigation",
+			"medicine",
+			"nature",
+			"perception",
+			"performance",
+			"persuasion",
+			"religion",
+			"sleight_of_hand",
+			"stealth",
+			"survival",
+		].forEach((skill, i) => {
+			this.setSkill(skill, this.parseSkill(i));
+		});
+
 		console.log("updated character to:", this);
 	}
 
@@ -47,12 +70,18 @@ class DiceCloudCharacter extends Character {
 		return parsedName?.trim() ?? null;
 	}
 
-	parseAvatar() {
+	async parseAvatar() {
 		if (this.isV1) {
 			return null;
 		}
-		const avatar_url = document.querySelector(".v-avatar img")?.src;
-		return avatar_url ?? null;
+		const container = document.querySelector(".build-tab .v-card .v-image .v-image__image");
+		if (!container) {
+			document.querySelectorAll(".v-tab")[5].click();
+			await new Promise((resolve) => setTimeout(resolve, 10));
+			document.querySelectorAll(".v-tab")[0].click();
+		}
+		const avatar_url = container?.style.backgroundImage;
+		return avatar_url ? avatar_url.match(/url\("(.+)"\)/)[1] : null;
 	}
 
 	async parseLevel() {
@@ -70,8 +99,8 @@ class DiceCloudCharacter extends Character {
 			document.querySelectorAll(".v-tab")[0].click();
 		}
 
-		const level_str = document.querySelector(".class-details .v-card__title").textContent.trim();
-		const level = parseInt(level_str.replace(/\D*/, ""));
+		const level_str = document.querySelector(".class-details .v-card__title")?.textContent?.trim();
+		const level = parseInt(level_str?.replace(/\D*/, ""));
 		return level ?? null;
 	}
 
@@ -148,5 +177,35 @@ class DiceCloudCharacter extends Character {
 		}
 
 		return parseInt(parsedScore) ?? 0;
+	}
+
+	parseSkill(n) {
+		const container = ".skills .v-card .v-list .v-list-item";
+		const parsedSkill = document
+			.querySelectorAll(container)
+			[n]?.querySelector(".prof-mod")?.textContent;
+		const parsedSkillValue = parsedSkill ? parseInt(parsedSkill) : undefined;
+
+		const parsedSkillProficiencyIcon = document
+			.querySelectorAll(container)
+			[n]?.querySelector(".v-icon");
+		const parsedSkillProficiency = this.parseSkillProficiency(parsedSkillProficiencyIcon);
+
+		return { value: parsedSkillValue, proficiency: parsedSkillProficiency };
+	}
+
+	parseSkillProficiency(icon) {
+		switch (true) {
+			case icon?.classList.contains("mdi-radiobox-blank"):
+				return 0;
+			case icon?.classList.contains("mdi-brightness-1"):
+				return 1;
+			case icon?.classList.contains("mdi-album"):
+				return 2;
+			case icon?.classList.contains("mdi-brightness-3"):
+				return 0.5;
+			default:
+				0;
+		}
 	}
 }

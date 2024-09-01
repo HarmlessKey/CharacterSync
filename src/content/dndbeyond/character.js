@@ -202,12 +202,4 @@ class DndBeyondCharacter extends Character {
 			: undefined;
 		return { value: parsedSkillValue, proficiency: parseSkillProficiency };
 	}
-
-	parseSkillProficiency(n) {
-		const container = ".ct-skills__item";
-		const parsedSkill = document
-			.querySelectorAll(`${container}`)
-			[n]?.querySelector(".ct-skills__col--modifier")?.textContent;
-		return parsedSkill ? parseInt(parsedSkill) : undefined;
-	}
 }
