@@ -74,15 +74,19 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 chrome.runtime.onMessageExternal.addListener(async (request, sender, sendResponse) => {
 	console.group(`Received request from:`, sender.url);
 
-	const storage = await chrome.storage.sync.get({dnd_sync: {}});
+	const storage = await chrome.storage.sync.get();
+
 	const content = {};
 
 	// Content requests
 	if (Array.isArray(request.request_content)) {
-		console.group("Content request")
+		console.group("Content request");
 		if (request.request_content.includes("characters")) {
+			const characters = Object.fromEntries(
+				Object.entries(storage).filter(([key]) => key !== "config")
+			);
 			console.log("Characters");
-			content.characters = storage?.dnd_sync?.characters || {};
+			content.characters = characters || {};
 		}
 		if (request.request_content.includes("version")) {
 			console.log("Version");
@@ -95,4 +99,4 @@ chrome.runtime.onMessageExternal.addListener(async (request, sender, sendRespons
 
 	// Send response
 	sendResponse(content);
-})
+});
