@@ -1,8 +1,10 @@
-// var {series, parallel, src, dest, watch} = require('gulp');
 var gulp = require("gulp");
 var gulp_concat = require("gulp-concat");
 var gulp_clean = require("gulp-clean");
-const gulpClean = require("gulp-clean");
+var zip = require("gulp-zip");
+var package = require("./package.json");
+
+var package_version = package.version.replace(".", "_");
 
 BASE_BUILD = "build/base";
 BUILD_INTER = "build/intermediates";
@@ -95,7 +97,8 @@ const clean_content = () =>
 
 const copy_content = gulp.series(clean_content, build_content, copy_content_nobuild);
 
-const clean_build = () => gulp.src("./build/", { read: false, allowEmpty: true }).pipe(gulpClean());
+const clean_build = () =>
+	gulp.src("./build/", { read: false, allowEmpty: true }).pipe(gulp_clean());
 
 const copy_assets = () => gulp.src(PATHS.assets.src).pipe(gulp.dest(PATHS.assets.dest));
 
@@ -143,8 +146,12 @@ const build_base = gulp.parallel([
 	copy_readme,
 ]);
 
-const zip = () => gulp.src(BASE_BUILD).pipe(zip("test.zip")).pipe(gulp.dest());
+const zip_base = () =>
+	gulp
+		.src(`${BASE_BUILD}/**`)
+		.pipe(zip(`dndCharacterSync-${package_version}.zip`))
+		.pipe(gulp.dest("./dist"));
 
 exports.build = gulp.series(clean_build, build_base);
-exports.export = gulp.series(clean_build, build_base, zip);
+exports.export = gulp.series(clean_build, build_base, zip_base);
 exports.default = gulp.series(clean_build, build_base, watch);
