@@ -5,6 +5,7 @@ var gulp_clean = require("gulp-clean");
 const gulpClean = require("gulp-clean");
 
 BASE_BUILD = "build/base";
+BUILD_INTER = "build/intermediates";
 
 const PATHS = {
 	assets: {
@@ -76,7 +77,7 @@ for (const target in TARGETS) {
 			return gulp
 				.src(TARGETS[target])
 				.pipe(gulp_concat(`${target}.js`))
-				.pipe(gulp.dest("./content/"));
+				.pipe(gulp.dest(`${BUILD_INTER}/content/`));
 		},
 	};
 	targets[target] = task[target];
@@ -87,10 +88,10 @@ for (const target in TARGETS) {
 const build_content = gulp.series(...Object.values(targets));
 
 const copy_content_nobuild = () =>
-	gulp.src("./content/**").pipe(gulp.dest("./build/base/content/"));
+	gulp.src(`${BUILD_INTER}/content/**`).pipe(gulp.dest(`${BASE_BUILD}/content/`));
 
 const clean_content = () =>
-	gulp.src("./content/", { read: false, allowEmpty: true }).pipe(gulp_clean());
+	gulp.src(`${BUILD_INTER}/content`, { read: false, allowEmpty: true }).pipe(gulp_clean());
 
 const copy_content = gulp.series(clean_content, build_content, copy_content_nobuild);
 
@@ -116,7 +117,7 @@ const watch_targets = () => {
 	for (const target in TARGETS) {
 		gulp.watch(TARGETS[target], targets[target]);
 	}
-	gulp.watch("content/**", copy_content_nobuild);
+	gulp.watch(`${BUILD_INTER}/content/**`, copy_content_nobuild);
 };
 
 const watch = () => {
