@@ -1,6 +1,6 @@
 {
 	"name": "dnd-character-sync",
-	"version": "0.8.0",
+	"version": "0.9.0",
 	"description": "A Chrome extension that grabs your Dungeons & Dragons character's stats from various platforms like D&D Beyond and Shieldmaiden.",
 	"scripts": {
 		"gulp": "gulp"
@@ -19,6 +19,7 @@
 		"gulp": "^4.0.2",
 		"gulp-clean": "^0.4.0",
 		"gulp-concat": "^2.6.1",
+		"gulp-zip": "^5.1.0",
 		"web-ext": "^7.4.0"
 	}
 }
