@@ -1,23 +1,17 @@
+async function getStorage() {
+	return await chrome.storage.sync.get();
+}
 
-
-function storeCharacter(character) {
-
-	chrome.storage.sync.get({dnd_sync: {}})
-		.then((result) => {
-			const storage = result.dnd_sync
-			storage.characters = storage.characters ?? {};
-			storage.characters[character.url] = character.getDict()
-			return chrome.storage.sync.set({dnd_sync: storage})
-		})
-		.then(() => {
-			chrome.storage.sync.get({dnd_sync: {}})
-			.then((result) => {
-				console.log("Current storage:", result.dnd_sync);
-			}) 
-		})
+async function storeCharacter(character) {
+	await chrome.storage.sync.set({ [character.url]: character });
+	const storage = await getStorage();
+	console.log("Current storage:", storage);
 }
 
 async function getCharacters() {
-	const storage = await chrome.storage.sync.get({dnd_sync: {}});
-	return storage?.dnd_sync?.characters || {};
+	const storage = await getStorage();
+	const characters = Object.fromEntries(
+		Object.entries(storage).filter(([key]) => key !== "config")
+	);
+	return characters || {};
 }
