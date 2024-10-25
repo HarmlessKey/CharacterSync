@@ -1,7 +1,7 @@
 import { syncCharacter, calcMod, getCurrentTab } from "./functions.js";
-import { my_characters, storage } from "./data.js";
+import { getCharacters } from "./data.js";
 
-let characters = my_characters || {};
+let characters = await getCharacters();
 const character_list = document.getElementById("characters");
 
 // Open or collapse a character sheet
@@ -186,7 +186,7 @@ renderCharacters(Object.values(characters));
 
 // Select a filter
 const filter = (e) => {
-	characters = my_characters;
+	characters = getCharacters();
 
 	// Set all pills inactive
 	const pills = document.querySelectorAll(".pills .pill");
@@ -218,8 +218,9 @@ for (const pill of pills) {
 }
 
 // Watch for changes
-chrome.storage.onChanged.addListener((changes, _namespace) => {
-	characters = changes?.dnd_sync?.newValue?.characters || {};
+chrome.storage.onChanged.addListener(async (changes, _namespace) => {
+	console.log("CHANGED!!!!!", changes);
+	characters = await getCharacters();
 	character_list.innerHTML = "";
 	renderCharacters(Object.values(characters));
 });
