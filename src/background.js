@@ -16,8 +16,17 @@ const syncCharacter = async () => {
 	chrome.tabs.sendMessage(tab.id, { sync: "send id with message in future" });
 };
 
-chrome.runtime.onInstalled.addListener(() => {
-	chrome.storage.sync.get({ config: {} }, (result) => {
+chrome.runtime.onInstalled.addListener(async () => {
+	// Check if old characters in storage and convert them to new characters
+	await chrome.storage.sync.get("dnd_sync", async (result) => {
+		if (result?.dnd_sync?.characters) {
+			console.log("Migrating old character sync storage to new storage");
+			const oldCharacters = result.dnd_sync.characters;
+			await chrome.storage.sync.remove("dnd_sync");
+			await chrome.storage.sync.set({ ...oldCharacters });
+		}
+	});
+	chrome.storage.sync.get({ config: {} }, async (result) => {
 		const config = result.config;
 		config.active = true;
 		chrome.storage.sync.set({ config }, () => {
