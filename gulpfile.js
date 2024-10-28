@@ -4,7 +4,7 @@ var gulp_clean = require("gulp-clean");
 var zip = require("gulp-zip");
 var package = require("./package.json");
 
-var package_version = package.version.replace(".", "_");
+var package_version = package.version.replaceAll(".", "_");
 
 BASE_BUILD = "build/base";
 BUILD_INTER = "build/intermediates";
