@@ -3,7 +3,7 @@
 	"author": "Harm Manders & Key Roos",
 	"name": "D&D Character Sync",
 	"description": "Store character sheets from different D&D apps",
-	"version": "0.9.0",
+	"version": "0.9.1",
 	"background": {
 		"service_worker": "background.js",
 		"type": "module"
