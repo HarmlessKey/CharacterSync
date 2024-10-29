@@ -22,7 +22,7 @@ const collapse = (e) => {
 
 // Delete character
 const deleteCharacter = (e) => {
-	const id = e.target.getAttribute("data-url");
+	const id = e.target.getAttribute("data-id");
 	const li = document.getElementById(id);
 	li.parentNode.removeChild(li);
 	delete characters[id];
@@ -42,9 +42,9 @@ const renderCharacters = async (list) => {
 		return;
 	}
 
-	for (const character of list) {
+	for (const [char_id, character] of list) {
 		const li = document.createElement("li");
-		li.setAttribute("id", character.url);
+		li.setAttribute("id", char_id);
 
 		const left = document.createElement("div");
 		left.setAttribute("class", "character");
@@ -166,7 +166,7 @@ const renderCharacters = async (list) => {
 
 		const delete_btn = document.createElement("button");
 		delete_btn.setAttribute("class", "btn-clear delete-character");
-		delete_btn.setAttribute("data-url", character.url);
+		delete_btn.setAttribute("data-id", char_id);
 		delete_btn.addEventListener("click", deleteCharacter);
 		delete_btn.innerHTML = '<i class="fas fa-trash-alt"></i>';
 
@@ -182,7 +182,7 @@ const renderCharacters = async (list) => {
 };
 
 // Create characters
-renderCharacters(Object.values(characters));
+renderCharacters(Object.entries(characters));
 
 // Select a filter
 const filter = (e) => {
@@ -204,11 +204,11 @@ const filter = (e) => {
 
 	// Filter characters on source
 	if (source !== "all") {
-		characters = Object.values(characters)
-			.filter((character) => character.source === source)
+		characters = Object.entries(characters)
+			.filter(([char_id, character]) => character.source === source)
 			.reduce((all, char) => ({ ...all, [char.url]: char }), {});
 	}
-	renderCharacters(Object.values(characters));
+	renderCharacters(Object.entries(characters));
 };
 
 // Filter buttons
@@ -219,10 +219,9 @@ for (const pill of pills) {
 
 // Watch for changes
 chrome.storage.onChanged.addListener(async (changes, _namespace) => {
-	console.log("CHANGED!!!!!", changes);
 	characters = await getCharacters();
 	character_list.innerHTML = "";
-	renderCharacters(Object.values(characters));
+	renderCharacters(Object.entries(characters));
 });
 
 // Search
@@ -238,7 +237,7 @@ const searchReplace = (input) => {
 };
 const search = (e) => {
 	const input = e.target.value;
-	const filtered = Object.values(characters).filter((char) =>
+	const filtered = Object.entries(characters).filter(([c_id, char]) =>
 		searchReplace(char.name).includes(searchReplace(input))
 	);
 	renderCharacters(filtered);
