@@ -26,6 +26,7 @@
 	"permissions": ["storage", "activeTab", "scripting", "tabs"],
 	"externally_connectable": {
 		"matches": [
+			"*://localhost/*",
 			"*://shieldmaiden.app/*",
 			"*://*.shieldmaiden.app/*",
 			"*://harmlesskey.com/*",

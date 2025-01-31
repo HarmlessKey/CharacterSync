@@ -114,25 +114,20 @@ class DndBeyondCharacter extends Character {
 	}
 
 	parseMaxHitPoints() {
+		// Open health-manager panel by clicking on health data
 		if (isDesktop()) {
-			const hit_point_items = document.querySelectorAll(".ct-health-summary__hp-item");
-			if (hit_point_items.length == 0) {
-				return 0;
-			}
-			const max_hit_points = hit_point_items[hit_point_items.length - 1].lastChild.textContent;
-			return max_hit_points ? parseInt(max_hit_points) : undefined;
+			document.querySelector(".ct-quick-info__health")?.children[0].click();
 		} else {
-			// Open health-manager panel by clicking on health data
 			document.querySelector(".ct-status-summary-mobile__data")?.click();
-			const health_manager = document.querySelector(".ct-health-manager");
-			if (health_manager) {
-				const max_hit_points = document.querySelector(
-					".ct-health-manager__health-max-current"
-				).textContent;
-				// Close health-manager panel by clicking on close button
-				document.querySelector(".ct-quick-nav__edge-toggle--visible")?.click();
-				return max_hit_points ? parseInt(max_hit_points) : undefined;
-			}
+		}
+		const health_manager = document.querySelector(".ct-health-manager");
+		if (health_manager) {
+			const max_hit_points = document.querySelector(
+				".ct-health-manager__health-max-current"
+			).textContent;
+			// Close health-manager panel by clicking on close button
+			document.querySelector(".ct-quick-nav__edge-toggle--visible")?.click();
+			return max_hit_points ? parseInt(max_hit_points) : undefined;
 		}
 	}
 
