@@ -13,7 +13,7 @@ console.log(characters);
 
 // Watch for changes in characters
 chrome.storage.onChanged.addListener(async (changes, _namespace) => {
-	console.log("POPUP CHANGED!!!!!", changes);
+	console.log("Popup updated", changes);
 
 	// characters = changes?.dnd_sync?.newValue?.characters || {};
 	characters = await getCharacters();

@@ -4,7 +4,7 @@ class SmCharacter extends Character {
 	}
 
 	updateCharacter() {
-		if(!this.source) {
+		if (!this.source) {
 			this.source = "Shieldmaiden";
 		}
 		this.url = window.location.href;
@@ -17,34 +17,35 @@ class SmCharacter extends Character {
 
 		this.setArmorClass(this.parseArmorClass());
 
-		this.setMaxHitPoints(this.parseMaxHitPoints())
+		this.setMaxHitPoints(this.parseMaxHitPoints());
 
 		this.setWalkingSpeed(this.parseWalkingSpeed());
 
 		this.setInitiative(this.parseInitiative());
 
-		["strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma"].forEach((ability) => {
-			this.setAbilityScore(ability, this.parseAbilityScore(ability));
-		});
+		["strength", "dexterity", "constitution", "intelligence", "wisdom", "charisma"].forEach(
+			(ability) => {
+				this.setAbilityScore(ability, this.parseAbilityScore(ability));
+			}
+		);
 
-		console.log("updated character to:", this);
+		console.log("Updated character to:", this);
 	}
 
 	parseName() {
-		const parsedName = document.querySelector('[aria-label="Character name *"]')?.value
+		const parsedName = document.querySelector('[aria-label="Character name *"]')?.value;
 		return parsedName ?? null;
 	}
 
-
 	parseAvatar() {
-		const avatar_style = document.querySelector('.player-avatar')?.style.backgroundImage;
-		const url_regex = /url\([\"\'\`](.+)[\"\'\`]\)/
-		const avatar_url = avatar_style?.match(url_regex)[1]
+		const avatar_style = document.querySelector(".player-avatar")?.style.backgroundImage;
+		const url_regex = /url\([\"\'\`](.+)[\"\'\`]\)/;
+		const avatar_url = avatar_style?.match(url_regex)[1];
 		return avatar_url ?? null;
 	}
 
 	parseLevel() {
-		const level = document.querySelector('.level')?.textContent;
+		const level = document.querySelector(".level")?.textContent;
 		return parseInt(level) ?? 1;
 	}
 
@@ -54,10 +55,8 @@ class SmCharacter extends Character {
 	}
 
 	parseMaxHitPoints() {
-
-		const max_hit_points = document.querySelector('[aria-label="Hit points *"]')?.value
+		const max_hit_points = document.querySelector('[aria-label="Hit points *"]')?.value;
 		return parseInt(max_hit_points);
-
 	}
 
 	parseWalkingSpeed() {

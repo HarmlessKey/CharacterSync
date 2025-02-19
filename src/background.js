@@ -49,7 +49,7 @@ chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
 });
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-	console.log("updated tab");
+	console.log("Updated tab");
 	if (changeInfo.status === "complete") {
 		if (isDndBeyond.test(tab.url)) {
 			console.log("Is dnd beyond!");
