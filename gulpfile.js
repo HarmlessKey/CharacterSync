@@ -132,6 +132,7 @@ const watch = () => {
 	gulp.watch(PATHS.background.src, copy_background);
 	gulp.watch(PATHS.index.src, copy_index);
 	gulp.watch(PATHS.manifest.src, copy_manifest);
+	gulp.watch(PATHS.content.src, copy_content);
 };
 
 const build_base = gulp.parallel([
