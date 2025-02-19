@@ -65,13 +65,13 @@ class DndBeyondCharacter extends Character {
 	}
 
 	parseAvatar() {
-		const avatar_style = document.querySelector(".ddbc-character-avatar__portrait")?.style
-			.backgroundImage;
-		const url_regex = /url\([\"\'\`](.+)[\"\'\`]\)/;
-		const avatar_match = avatar_style?.match(url_regex);
+		const avatar_src = document.querySelector(".ddbc-character-avatar__portrait")?.src;
+		// regex to match url before query params
+		const url_regex = /^[^?]+/;
+		const avatar_match = avatar_src?.match(url_regex);
 
 		return avatar_match
-			? avatar_match[1]
+			? avatar_match[0]
 			: "https://www.dndbeyond.com/Content/Skins/Waterdeep/images/characters/default-avatar-builder.png";
 	}
 
