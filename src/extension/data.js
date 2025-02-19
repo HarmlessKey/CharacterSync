@@ -3,7 +3,7 @@ export const getStorage = async () => {
 };
 
 export const getCharacters = async () => {
-	console.log("GET CHARACTERS FUNCTIONS");
+	console.log("Get characters functions");
 	const characters = Object.fromEntries(
 		Object.entries(await getStorage()).filter(([key]) => key !== "config")
 	);

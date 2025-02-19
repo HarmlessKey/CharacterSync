@@ -219,7 +219,6 @@ for (const pill of pills) {
 
 // Watch for changes
 chrome.storage.onChanged.addListener(async (changes, _namespace) => {
-	console.log("CHANGED!!!!!", changes);
 	characters = await getCharacters();
 	character_list.innerHTML = "";
 	renderCharacters(Object.values(characters));

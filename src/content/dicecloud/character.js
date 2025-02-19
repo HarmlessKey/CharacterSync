@@ -57,7 +57,7 @@ class DiceCloudCharacter extends Character {
 			this.setSkill(skill, this.parseSkill(i));
 		});
 
-		console.log("updated character to:", this);
+		console.log("Updated character to:", this);
 	}
 
 	parseName() {
