@@ -152,10 +152,19 @@ class DndBeyondCharacter extends Character {
 			: isTablet()
 			? ".ct-main-tablet__ability"
 			: ".ct-quick-info__ability";
-		const parsedScore = document
+
+		// Top score can be ability score or modifier
+		const topScore = document
+			.querySelectorAll(`${container}`)
+			[n]?.querySelector(".ddbc-ability-summary__primary")?.textContent;
+		const bottomScore = document
 			.querySelectorAll(`${container}`)
 			[n]?.querySelector(".ddbc-ability-summary__secondary")?.textContent;
-		return parsedScore ? parseInt(parsedScore) : undefined;
+		if (!topScore || !bottomScore) {
+			return undefined;
+		}
+		// Ability score is always higher than modifier so return the higher value
+		return Math.max(parseInt(topScore), parseInt(bottomScore));
 	}
 
 	parseSense(n) {
