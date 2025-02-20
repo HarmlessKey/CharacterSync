@@ -1,48 +1,53 @@
 {
-	"manifest_version": 3,
-	"author": "Harm Manders & Key Roos",
-	"name": "D&D Character Sync",
-	"description": "Store character sheets from different D&D apps",
-	"version": "0.9.3",
-	"background": {
-		"service_worker": "background.js",
-		"type": "module"
-	},
-	"icons": {
-		"16": "assets/icons/icon16.png",
-		"32": "assets/icons/icon32.png",
-		"48": "assets/icons/icon48.png",
-		"128": "assets/icons/icon128.png"
-	},
-	"action": {
-		"default_popup": "index.html",
-		"default_icon": {
-			"16": "assets/icons/icon16.png",
-			"32": "assets/icons/icon32.png",
-			"48": "assets/icons/icon48.png",
-			"128": "assets/icons/icon128.png"
-		}
-	},
-	"permissions": ["storage", "activeTab", "scripting", "tabs"],
-	"externally_connectable": {
-		"matches": [
-			"*://shieldmaiden.app/*",
-			"*://*.shieldmaiden.app/*",
-			"*://harmlesskey.com/*",
-			"*://*.harmlesskey.com/*"
-		]
-	},
-	"host_permissions": [
-		"*://*.dndbeyond.com/characters/*",
-		"*://harmlesskey.com/content/players/*",
-		"*://*.harmlesskey.com/content/players/*",
-		"*://harmlesskey.com/content/characters/*",
-		"*://*.harmlesskey.com/content/characters/*",
-		"*://shieldmaiden.app/content/players/*",
-		"*://*.shieldmaiden.app/content/players/*",
-		"*://shieldmaiden.app/content/characters/*",
-		"*://*.shieldmaiden.app/content/characters/*",
-		"*://dicecloud.com/character/*",
-		"*://v1.dicecloud.com/character/*"
-	]
+  "manifest_version": 3,
+  "author": "Harm Manders & Key Roos",
+  "name": "D&D Character Sync",
+  "description": "Store character sheets from different D&D apps",
+  "version": "0.9.4",
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "icons": {
+    "16": "assets/icons/icon16.png",
+    "32": "assets/icons/icon32.png",
+    "48": "assets/icons/icon48.png",
+    "128": "assets/icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "index.html",
+    "default_icon": {
+      "16": "assets/icons/icon16.png",
+      "32": "assets/icons/icon32.png",
+      "48": "assets/icons/icon48.png",
+      "128": "assets/icons/icon128.png"
+    }
+  },
+  "permissions": [
+    "storage",
+    "activeTab",
+    "scripting",
+    "tabs"
+  ],
+  "externally_connectable": {
+    "matches": [
+      "*://shieldmaiden.app/*",
+      "*://*.shieldmaiden.app/*",
+      "*://harmlesskey.com/*",
+      "*://*.harmlesskey.com/*"
+    ]
+  },
+  "host_permissions": [
+    "*://*.dndbeyond.com/characters/*",
+    "*://harmlesskey.com/content/players/*",
+    "*://*.harmlesskey.com/content/players/*",
+    "*://harmlesskey.com/content/characters/*",
+    "*://*.harmlesskey.com/content/characters/*",
+    "*://shieldmaiden.app/content/players/*",
+    "*://*.shieldmaiden.app/content/players/*",
+    "*://shieldmaiden.app/content/characters/*",
+    "*://*.shieldmaiden.app/content/characters/*",
+    "*://dicecloud.com/character/*",
+    "*://v1.dicecloud.com/character/*"
+  ]
 }

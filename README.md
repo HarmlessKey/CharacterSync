@@ -25,11 +25,21 @@ Select the `build/base` directory to load the extension.
 
 ### Packaging
 
-Build extension
+To build extension for distribution via Chrome Web Store make sure to update `package.json` to a new version using:
 
 ```sh
-npm run gulp build
+npm version [patch, minor, major]
 ```
+
+Then build the extension using:
+
+```sh
+npm run gulp export
+```
+
+`gulp export` will automatically use the version defined in `package.json` so there is no need to update `manifest.json`
+
+Finally use the `.zip` generated in `/dist` to upload to chrome web store.
 
 ### Note on local extension development
 

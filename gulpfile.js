@@ -3,6 +3,7 @@ var gulp_concat = require("gulp-concat");
 var gulp_clean = require("gulp-clean");
 var zip = require("gulp-zip");
 var package = require("./package.json");
+var fs = require("fs");
 
 var package_version = package.version.replaceAll(".", "_");
 
@@ -116,6 +117,13 @@ const copy_manifest = () => gulp.src(PATHS.manifest.src).pipe(gulp.dest(PATHS.ma
 
 const copy_readme = () => gulp.src(PATHS.readme.src).pipe(gulp.dest(PATHS.readme.dest));
 
+const update_manifest_version = (done) => {
+	const manifest = JSON.parse(fs.readFileSync("manifest.json"));
+	manifest.version = package.version;
+	fs.writeFileSync("manifest.json", JSON.stringify(manifest, null, 2));
+	done();
+};
+
 const watch_targets = () => {
 	for (const target in TARGETS) {
 		gulp.watch(TARGETS[target], targets[target]);
@@ -154,5 +162,5 @@ const zip_base = () =>
 		.pipe(gulp.dest("./dist"));
 
 exports.build = gulp.series(clean_build, build_base);
-exports.export = gulp.series(clean_build, build_base, zip_base);
+exports.export = gulp.series(clean_build, update_manifest_version, build_base, zip_base);
 exports.default = gulp.series(clean_build, build_base, watch);
