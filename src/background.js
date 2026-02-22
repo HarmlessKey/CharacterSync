@@ -67,7 +67,8 @@ chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
 	if (req.CS_BRIDGE) {
 		const isAllowedSender =
 			/^https?:\/\/(.*\.)?shieldmaiden\.app/.test(sender.tab?.url) ||
-			/^https?:\/\/(.*\.)?harmlesskey\.com/.test(sender.tab?.url);
+			/^https?:\/\/(.*\.)?harmlesskey\.com/.test(sender.tab?.url) ||
+			/^https?:\/\/localhost(:\d+)?/.test(sender.tab?.url); // DEV
 		if (isAllowedSender) {
 			chrome.storage.sync.get().then((storage) => {
 				const content = {};
