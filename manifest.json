@@ -34,7 +34,8 @@
       "*://shieldmaiden.app/*",
       "*://*.shieldmaiden.app/*",
       "*://harmlesskey.com/*",
-      "*://*.harmlesskey.com/*"
+      "*://*.harmlesskey.com/*",
+      "*://localhost/*"
     ]
   },
   "host_permissions": [

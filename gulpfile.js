@@ -124,6 +124,16 @@ const update_manifest_version = (done) => {
 	done();
 };
 
+const strip_localhost = (done) => {
+	const manifest_path = `${BASE_BUILD}/manifest.json`;
+	const manifest = JSON.parse(fs.readFileSync(manifest_path));
+	manifest.externally_connectable.matches = manifest.externally_connectable.matches.filter(
+		(match) => !match.includes("localhost")
+	);
+	fs.writeFileSync(manifest_path, JSON.stringify(manifest, null, 2));
+	done();
+};
+
 const watch_targets = () => {
 	for (const target in TARGETS) {
 		gulp.watch(TARGETS[target], targets[target]);
@@ -162,5 +172,5 @@ const zip_base = () =>
 		.pipe(gulp.dest("./dist"));
 
 exports.build = gulp.series(clean_build, build_base);
-exports.export = gulp.series(clean_build, update_manifest_version, build_base, zip_base);
+exports.export = gulp.series(clean_build, update_manifest_version, build_base, strip_localhost, zip_base);
 exports.default = gulp.series(clean_build, build_base, watch);
