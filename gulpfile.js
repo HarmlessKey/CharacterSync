@@ -4,11 +4,13 @@ var gulp_clean = require("gulp-clean");
 var zip = require("gulp-zip");
 var package = require("./package.json");
 var fs = require("fs");
+var path = require("path");
 
 var package_version = package.version.replaceAll(".", "_");
 
 BASE_BUILD = "build/base";
 BUILD_INTER = "build/intermediates";
+FIREFOX_BUILD = "build/firefox";
 
 const PATHS = {
 	assets: {
@@ -127,9 +129,11 @@ const update_manifest_version = (done) => {
 const strip_localhost = (done) => {
 	const manifest_path = `${BASE_BUILD}/manifest.json`;
 	const manifest = JSON.parse(fs.readFileSync(manifest_path));
-	manifest.externally_connectable.matches = manifest.externally_connectable.matches.filter(
-		(match) => !match.includes("localhost")
-	);
+	if (manifest.externally_connectable) {
+		manifest.externally_connectable.matches = manifest.externally_connectable.matches.filter(
+			(match) => !match.includes("localhost")
+		);
+	}
 	fs.writeFileSync(manifest_path, JSON.stringify(manifest, null, 2));
 	done();
 };
@@ -171,6 +175,73 @@ const zip_base = () =>
 		.pipe(zip(`dndCharacterSync-${package_version}.zip`))
 		.pipe(gulp.dest("./dist"));
 
+const build_firefox_manifest = (done) => {
+	const manifest = JSON.parse(fs.readFileSync(`${BASE_BUILD}/manifest.json`));
+	delete manifest.background.type;
+	delete manifest.externally_connectable;
+	manifest.content_scripts = [
+		...(manifest.content_scripts || []),
+		{
+			matches: [
+				"*://shieldmaiden.app/*",
+				"*://*.shieldmaiden.app/*",
+				"*://harmlesskey.com/*",
+				"*://*.harmlesskey.com/*",
+			],
+			js: ["content/bridge.js"],
+			run_at: "document_start",
+		},
+	];
+	fs.mkdirSync(FIREFOX_BUILD, { recursive: true });
+	fs.writeFileSync(`${FIREFOX_BUILD}/manifest.json`, JSON.stringify(manifest, null, 2));
+	done();
+};
+
+const copy_base_to_firefox = () =>
+	gulp.src([`${BASE_BUILD}/**`, `!${BASE_BUILD}/manifest.json`]).pipe(gulp.dest(FIREFOX_BUILD));
+
+const copy_bridge_script = () =>
+	gulp.src("src/content/bridge/bridge.js").pipe(gulp.dest(`${FIREFOX_BUILD}/content`));
+
+const build_firefox_base = gulp.series(
+	gulp.parallel(copy_base_to_firefox, copy_bridge_script),
+	build_firefox_manifest
+);
+
+const zip_firefox = async () => {
+	const webExt = require("web-ext").default;
+	await webExt.cmd.build(
+		{
+			sourceDir: path.resolve(FIREFOX_BUILD),
+			artifactsDir: path.resolve("./dist"),
+			filename: `dndCharacterSync-firefox-${package_version}.zip`,
+			overwriteDest: true,
+		},
+		{ shouldExitProgram: false }
+	);
+};
+
+const zip_edge = () =>
+	gulp
+		.src(`${BASE_BUILD}/**`)
+		.pipe(zip(`dndCharacterSync-edge-${package_version}.zip`))
+		.pipe(gulp.dest("./dist"));
+
 exports.build = gulp.series(clean_build, build_base);
 exports.export = gulp.series(clean_build, update_manifest_version, build_base, strip_localhost, zip_base);
+exports["export:firefox"] = gulp.series(
+	clean_build,
+	update_manifest_version,
+	build_base,
+	strip_localhost,
+	build_firefox_base,
+	zip_firefox
+);
+exports["export:edge"] = gulp.series(
+	clean_build,
+	update_manifest_version,
+	build_base,
+	strip_localhost,
+	zip_edge
+);
 exports.default = gulp.series(clean_build, build_base, watch);

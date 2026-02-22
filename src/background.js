@@ -46,6 +46,30 @@ chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
 			syncCharacter();
 		}
 	}
+
+	// Firefox bridge: relayed external request from bridge.js content script on Shieldmaiden/HarmlessKey
+	if (req.CS_BRIDGE) {
+		const isAllowedSender =
+			/^https?:\/\/(.*\.)?shieldmaiden\.app/.test(sender.tab?.url) ||
+			/^https?:\/\/(.*\.)?harmlesskey\.com/.test(sender.tab?.url);
+		if (isAllowedSender) {
+			chrome.storage.sync.get().then((storage) => {
+				const content = {};
+				if (Array.isArray(req.request_content)) {
+					if (req.request_content.includes("characters")) {
+						content.characters = Object.fromEntries(
+							Object.entries(storage).filter(([key]) => key !== "config")
+						);
+					}
+					if (req.request_content.includes("version")) {
+						content.version = chrome.runtime.getManifest().version;
+					}
+				}
+				sendResponse(content);
+			});
+			return true; // keep port open for async sendResponse
+		}
+	}
 });
 
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {

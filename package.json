@@ -3,7 +3,11 @@
 	"version": "0.9.5",
 	"description": "A Chrome extension that grabs your Dungeons & Dragons character's stats from various platforms like D&D Beyond and Shieldmaiden.",
 	"scripts": {
-		"gulp": "gulp"
+		"gulp": "gulp",
+		"export": "gulp export",
+		"export:firefox": "gulp export:firefox",
+		"export:edge": "gulp export:edge",
+		"start:firefox": "web-ext run --source-dir=build/firefox"
 	},
 	"repository": {
 		"type": "git",
