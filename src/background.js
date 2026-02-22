@@ -10,10 +10,26 @@ const getCurrentTab = async () => {
 	return tab;
 };
 
+const getContentScriptFile = (url) => {
+	if (isDndBeyond.test(url)) return "content/dndbeyond_character.js";
+	if (isDiceCloud.test(url)) return "content/dicecloud_character.js";
+	if (isShieldmaiden.test(url)) return "content/shieldmaiden_character.js";
+	return null;
+};
+
 const syncCharacter = async () => {
 	console.log("Sync character");
 	const tab = await getCurrentTab();
-	chrome.tabs.sendMessage(tab.id, { sync: "send id with message in future" });
+	try {
+		await chrome.tabs.sendMessage(tab.id, { sync: "send id with message in future" });
+	} catch {
+		// Content script not running yet (page was open before extension loaded) — inject and retry
+		const file = getContentScriptFile(tab.url);
+		if (file) {
+			await chrome.scripting.executeScript({ target: { tabId: tab.id }, files: [file] });
+			chrome.tabs.sendMessage(tab.id, { sync: "send id with message in future" });
+		}
+	}
 };
 
 chrome.runtime.onInstalled.addListener(async () => {
@@ -75,28 +91,10 @@ chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
 	console.log("Updated tab");
 	if (changeInfo.status === "complete") {
-		if (isDndBeyond.test(tab.url)) {
-			console.log("Is dnd beyond!");
-			chrome.scripting.executeScript({
-				target: { tabId: tabId },
-				files: ["content/dndbeyond_character.js"],
-			});
-		}
-
-		if (isDiceCloud.test(tab.url)) {
-			console.log("Is Dice Cloud!");
-			chrome.scripting.executeScript({
-				target: { tabId: tabId },
-				files: ["content/dicecloud_character.js"],
-			});
-		}
-
-		if (isShieldmaiden.test(tab.url)) {
-			console.log("Is Shieldmaiden (the best dnd app)!");
-			chrome.scripting.executeScript({
-				target: { tabId: tabId },
-				files: ["content/shieldmaiden_character.js"],
-			});
+		const file = getContentScriptFile(tab.url);
+		if (file) {
+			console.log("Injecting content script:", file);
+			chrome.scripting.executeScript({ target: { tabId }, files: [file] });
 		}
 	}
 });

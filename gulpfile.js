@@ -177,7 +177,7 @@ const zip_base = () =>
 
 const build_firefox_manifest = (done) => {
 	const manifest = JSON.parse(fs.readFileSync(`${BASE_BUILD}/manifest.json`));
-	delete manifest.background.type;
+	manifest.background = { scripts: [manifest.background.service_worker] };
 	delete manifest.externally_connectable;
 	manifest.content_scripts = [
 		...(manifest.content_scripts || []),
@@ -192,6 +192,13 @@ const build_firefox_manifest = (done) => {
 			run_at: "document_start",
 		},
 	];
+	manifest.browser_specific_settings = {
+		gecko: { id: "dnd-character-sync@harmlesskey.com" },
+	};
+	manifest.web_accessible_resources = [
+		...(manifest.web_accessible_resources || []),
+		{ resources: ["assets/fonts/*"], matches: ["<all_urls>"] },
+	];
 	fs.mkdirSync(FIREFOX_BUILD, { recursive: true });
 	fs.writeFileSync(`${FIREFOX_BUILD}/manifest.json`, JSON.stringify(manifest, null, 2));
 	done();
@@ -203,8 +210,19 @@ const copy_base_to_firefox = () =>
 const copy_bridge_script = () =>
 	gulp.src("src/content/bridge/bridge.js").pipe(gulp.dest(`${FIREFOX_BUILD}/content`));
 
+const fix_firefox_css = (done) => {
+	const dir = `${FIREFOX_BUILD}/css/font-awesome`;
+	fs.readdirSync(dir).forEach((file) => {
+		const p = `${dir}/${file}`;
+		const content = fs.readFileSync(p, "utf8");
+		fs.writeFileSync(p, content.replaceAll("chrome-extension://", "moz-extension://"));
+	});
+	done();
+};
+
 const build_firefox_base = gulp.series(
 	gulp.parallel(copy_base_to_firefox, copy_bridge_script),
+	fix_firefox_css,
 	build_firefox_manifest
 );
 
@@ -228,6 +246,7 @@ const zip_edge = () =>
 		.pipe(gulp.dest("./dist"));
 
 exports.build = gulp.series(clean_build, build_base);
+exports["build:firefox"] = gulp.series(clean_build, build_base, build_firefox_base);
 exports.export = gulp.series(clean_build, update_manifest_version, build_base, strip_localhost, zip_base);
 exports["export:firefox"] = gulp.series(
 	clean_build,

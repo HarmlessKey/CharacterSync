@@ -7,7 +7,7 @@
 		"export": "gulp export",
 		"export:firefox": "gulp export:firefox",
 		"export:edge": "gulp export:edge",
-		"start:firefox": "web-ext run --source-dir=build/firefox"
+		"build:firefox": "gulp build:firefox"
 	},
 	"repository": {
 		"type": "git",
