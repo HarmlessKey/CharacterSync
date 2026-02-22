@@ -7,7 +7,9 @@
 		"export": "gulp export",
 		"export:firefox": "gulp export:firefox",
 		"export:edge": "gulp export:edge",
-		"build:firefox": "gulp build:firefox"
+		"export:all": "gulp export:all",
+		"build:firefox": "gulp build:firefox",
+		"watch:firefox": "gulp watch:firefox"
 	},
 	"repository": {
 		"type": "git",

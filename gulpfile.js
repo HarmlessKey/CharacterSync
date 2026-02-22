@@ -8,47 +8,19 @@ var path = require("path");
 
 var package_version = package.version.replaceAll(".", "_");
 
-BASE_BUILD = "build/base";
-BUILD_INTER = "build/intermediates";
-FIREFOX_BUILD = "build/firefox";
+const BASE_BUILD = "build/base";
+const BUILD_INTER = "build/intermediates";
+const FIREFOX_BUILD = "build/firefox";
 
 const PATHS = {
-	assets: {
-		src: "src/assets/**",
-		dest: `${BASE_BUILD}/assets`,
-	},
-	css: {
-		src: "src/css/**",
-		dest: `${BASE_BUILD}/css`,
-	},
-	content: {
-		src: "content/**",
-		dest: `${BASE_BUILD}/content`,
-	},
-	extension: {
-		src: "src/extension/**",
-		dest: `${BASE_BUILD}/extension`,
-	},
-	lib: {
-		src: "lib/**",
-		dest: `${BASE_BUILD}/lib`,
-	},
-	background: {
-		src: "src/background.js",
-		dest: BASE_BUILD,
-	},
-	index: {
-		src: "src/index.html",
-		dest: BASE_BUILD,
-	},
-	manifest: {
-		src: "manifest.json",
-		dest: BASE_BUILD,
-	},
-	readme: {
-		src: "README.md",
-		dest: BASE_BUILD,
-	},
+	assets:     { src: "src/assets/**",    dest: `${BASE_BUILD}/assets` },
+	css:        { src: "src/css/**",       dest: `${BASE_BUILD}/css` },
+	extension:  { src: "src/extension/**", dest: `${BASE_BUILD}/extension` },
+	lib:        { src: "lib/**",           dest: `${BASE_BUILD}/lib` },
+	background: { src: "src/background.js",dest: BASE_BUILD },
+	index:      { src: "src/index.html",   dest: BASE_BUILD },
+	manifest:   { src: "manifest.json",    dest: BASE_BUILD },
+	readme:     { src: "README.md",        dest: BASE_BUILD },
 };
 
 const UTILS = ["src/common/store.js", "src/common/util.js"];
@@ -75,49 +47,43 @@ const TARGETS = {
 	],
 };
 
+// --- Copy helpers derived from PATHS ---
+
+const copies = Object.fromEntries(
+	Object.entries(PATHS).map(([key, { src, dest }]) => [
+		key,
+		() => gulp.src(src).pipe(gulp.dest(dest)),
+	])
+);
+
+// --- Content script bundling ---
+
 const targets = {};
 for (const target in TARGETS) {
-	const task = {
-		[target]: () => {
-			return gulp
-				.src(TARGETS[target])
-				.pipe(gulp_concat(`${target}.js`))
-				.pipe(gulp.dest(`${BUILD_INTER}/content/`));
-		},
-	};
-	targets[target] = task[target];
+	targets[target] = () =>
+		gulp
+			.src(TARGETS[target])
+			.pipe(gulp_concat(`${target}.js`))
+			.pipe(gulp.dest(`${BUILD_INTER}/content/`));
 	// Add specific task. usage: `npm run gulp shieldmaiden_character`
 	gulp.task(target, targets[target]);
 }
 
-const build_content = gulp.series(...Object.values(targets));
-
-const copy_content_nobuild = () =>
+const build_content_scripts = gulp.series(...Object.values(targets));
+const copy_content_to_base = () =>
 	gulp.src(`${BUILD_INTER}/content/**`).pipe(gulp.dest(`${BASE_BUILD}/content/`));
-
 const clean_content = () =>
 	gulp.src(`${BUILD_INTER}/content`, { read: false, allowEmpty: true }).pipe(gulp_clean());
+const build_content = gulp.series(clean_content, build_content_scripts, copy_content_to_base);
 
-const copy_content = gulp.series(clean_content, build_content, copy_content_nobuild);
+// --- Base build ---
 
 const clean_build = () =>
 	gulp.src("./build/", { read: false, allowEmpty: true }).pipe(gulp_clean());
 
-const copy_assets = () => gulp.src(PATHS.assets.src).pipe(gulp.dest(PATHS.assets.dest));
+const build_base = gulp.parallel(build_content, ...Object.values(copies));
 
-const copy_css = () => gulp.src(PATHS.css.src).pipe(gulp.dest(PATHS.css.dest));
-
-const copy_extension = () => gulp.src(PATHS.extension.src).pipe(gulp.dest(PATHS.extension.dest));
-
-const copy_lib = () => gulp.src(PATHS.lib.src).pipe(gulp.dest(PATHS.lib.dest));
-
-const copy_background = () => gulp.src(PATHS.background.src).pipe(gulp.dest(PATHS.background.dest));
-
-const copy_index = () => gulp.src(PATHS.index.src).pipe(gulp.dest(PATHS.index.dest));
-
-const copy_manifest = () => gulp.src(PATHS.manifest.src).pipe(gulp.dest(PATHS.manifest.dest));
-
-const copy_readme = () => gulp.src(PATHS.readme.src).pipe(gulp.dest(PATHS.readme.dest));
+// --- Manifest helpers ---
 
 const update_manifest_version = (done) => {
 	const manifest = JSON.parse(fs.readFileSync("manifest.json"));
@@ -138,42 +104,7 @@ const strip_localhost = (done) => {
 	done();
 };
 
-const watch_targets = () => {
-	for (const target in TARGETS) {
-		gulp.watch(TARGETS[target], targets[target]);
-	}
-	gulp.watch(`${BUILD_INTER}/content/**`, copy_content_nobuild);
-};
-
-const watch = () => {
-	watch_targets();
-	gulp.watch(PATHS.assets.src, copy_assets);
-	gulp.watch(PATHS.css.src, copy_css);
-	gulp.watch(PATHS.extension.src, copy_extension);
-	gulp.watch(PATHS.lib.src, copy_lib);
-	gulp.watch(PATHS.background.src, copy_background);
-	gulp.watch(PATHS.index.src, copy_index);
-	gulp.watch(PATHS.manifest.src, copy_manifest);
-	gulp.watch(PATHS.content.src, copy_content);
-};
-
-const build_base = gulp.parallel([
-	copy_content,
-	copy_extension,
-	copy_background,
-	copy_manifest,
-	copy_index,
-	copy_assets,
-	copy_css,
-	copy_lib,
-	copy_readme,
-]);
-
-const zip_base = () =>
-	gulp
-		.src(`${BASE_BUILD}/**`)
-		.pipe(zip(`dndCharacterSync-${package_version}.zip`))
-		.pipe(gulp.dest("./dist"));
+// --- Firefox build ---
 
 const build_firefox_manifest = (done) => {
 	const manifest = JSON.parse(fs.readFileSync(`${BASE_BUILD}/manifest.json`));
@@ -187,6 +118,7 @@ const build_firefox_manifest = (done) => {
 				"*://*.shieldmaiden.app/*",
 				"*://harmlesskey.com/*",
 				"*://*.harmlesskey.com/*",
+				"*://localhost/*",
 			],
 			js: ["content/bridge.js"],
 			run_at: "document_start",
@@ -220,11 +152,19 @@ const fix_firefox_css = (done) => {
 	done();
 };
 
-const build_firefox_base = gulp.series(
+const build_firefox = gulp.series(
 	gulp.parallel(copy_base_to_firefox, copy_bridge_script),
 	fix_firefox_css,
 	build_firefox_manifest
 );
+
+// --- Zip tasks ---
+
+const zip_base = () =>
+	gulp
+		.src(`${BASE_BUILD}/**`)
+		.pipe(zip(`dndCharacterSync-${package_version}.zip`))
+		.pipe(gulp.dest("./dist"));
 
 const zip_firefox = async () => {
 	const webExt = require("web-ext").default;
@@ -245,22 +185,64 @@ const zip_edge = () =>
 		.pipe(zip(`dndCharacterSync-edge-${package_version}.zip`))
 		.pipe(gulp.dest("./dist"));
 
+// --- Watch ---
+
+const watch_content_scripts = () => {
+	for (const target in TARGETS) {
+		gulp.watch(TARGETS[target], targets[target]);
+	}
+	gulp.watch(`${BUILD_INTER}/content/**`, copy_content_to_base);
+};
+
+const watch = () => {
+	watch_content_scripts();
+	for (const [key, { src }] of Object.entries(PATHS)) {
+		gulp.watch(src, copies[key]);
+	}
+};
+
+const watch_firefox = () => {
+	watch();
+	gulp.watch(`${BASE_BUILD}/**`, build_firefox);
+};
+
+// --- Export pipeline ---
+
+const strip_dev = (done) => {
+	const file_path = `${BASE_BUILD}/background.js`;
+	const content = fs.readFileSync(file_path, "utf8");
+	fs.writeFileSync(
+		file_path,
+		content
+			.split("\n")
+			.filter((line) => !line.includes("// DEV"))
+			.join("\n")
+	);
+	done();
+};
+
+const strip_firefox_localhost = (done) => {
+	const manifest_path = `${FIREFOX_BUILD}/manifest.json`;
+	const manifest = JSON.parse(fs.readFileSync(manifest_path));
+	manifest.content_scripts = manifest.content_scripts.map((entry) => ({
+		...entry,
+		matches: entry.matches.filter((match) => !match.includes("localhost")),
+	}));
+	fs.writeFileSync(manifest_path, JSON.stringify(manifest, null, 2));
+	done();
+};
+
+const prepare_export = gulp.series(clean_build, update_manifest_version, build_base, strip_localhost, strip_dev);
+const export_firefox = gulp.series(build_firefox, strip_firefox_localhost, zip_firefox);
+
 exports.build = gulp.series(clean_build, build_base);
-exports["build:firefox"] = gulp.series(clean_build, build_base, build_firefox_base);
-exports.export = gulp.series(clean_build, update_manifest_version, build_base, strip_localhost, zip_base);
-exports["export:firefox"] = gulp.series(
-	clean_build,
-	update_manifest_version,
-	build_base,
-	strip_localhost,
-	build_firefox_base,
-	zip_firefox
-);
-exports["export:edge"] = gulp.series(
-	clean_build,
-	update_manifest_version,
-	build_base,
-	strip_localhost,
-	zip_edge
+exports["build:firefox"] = gulp.series(clean_build, build_base, build_firefox);
+exports.export = gulp.series(prepare_export, zip_base);
+exports["export:firefox"] = gulp.series(prepare_export, export_firefox);
+exports["export:edge"] = gulp.series(prepare_export, zip_edge);
+exports["export:all"] = gulp.series(
+	prepare_export,
+	gulp.parallel(zip_base, zip_edge, export_firefox)
 );
 exports.default = gulp.series(clean_build, build_base, watch);
+exports["watch:firefox"] = gulp.series(clean_build, build_base, build_firefox, watch_firefox);
