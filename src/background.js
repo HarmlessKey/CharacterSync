@@ -2,7 +2,6 @@ const isDndBeyond = /^https?:\/\/(.*\.)?dndbeyond\.com\/characters\/\d+/;
 const isShieldmaiden =
 	/^https?:\/\/(.*\.)?shieldmaiden\.app\/content\/(players|characters)\/\-[a-zA-Z0-9-_]+/;
 const isDiceCloud = /^https?:\/\/(.*\.)?dicecloud\.com\/character\/[A-z\d]+/;
-const isLocalhost = /^https?:\/\/localhost.*/;
 
 const getCurrentTab = async () => {
 	const queryOptions = { active: true, lastFocusedWindow: true };
@@ -68,7 +67,10 @@ chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
 		const isAllowedSender =
 			/^https?:\/\/(.*\.)?shieldmaiden\.app/.test(sender.tab?.url) ||
 			/^https?:\/\/(.*\.)?harmlesskey\.com/.test(sender.tab?.url) ||
-			/^https?:\/\/localhost(:\d+)?/.test(sender.tab?.url); // DEV
+			// DEV-START
+			/^https?:\/\/localhost(:\d+)?/.test(sender.tab?.url) ||
+			// DEV-END
+			false;
 		if (isAllowedSender) {
 			chrome.storage.sync.get().then((storage) => {
 				const content = {};

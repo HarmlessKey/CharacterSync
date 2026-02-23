@@ -125,7 +125,10 @@ const build_firefox_manifest = (done) => {
 		},
 	];
 	manifest.browser_specific_settings = {
-		gecko: { id: "dnd-character-sync@harmlesskey.com" },
+		gecko: {
+			id: "dnd-character-sync@harmlesskey.com",
+			data_collection_permissions: { required: ["none"], optional: [] },
+		},
 	};
 	manifest.web_accessible_resources = [
 		...(manifest.web_accessible_resources || []),
@@ -213,10 +216,7 @@ const strip_dev = (done) => {
 	const content = fs.readFileSync(file_path, "utf8");
 	fs.writeFileSync(
 		file_path,
-		content
-			.split("\n")
-			.filter((line) => !line.includes("// DEV"))
-			.join("\n")
+		content.replace(/\s*\/\/ DEV-START[\s\S]*?\/\/ DEV-END\n?/g, "\n")
 	);
 	done();
 };
