@@ -212,19 +212,8 @@ const strip_dev = (done) => {
 	done();
 };
 
-const strip_firefox_localhost = (done) => {
-	const manifest_path = `${FIREFOX_BUILD}/manifest.json`;
-	const manifest = JSON.parse(fs.readFileSync(manifest_path));
-	manifest.content_scripts = manifest.content_scripts.map((entry) => ({
-		...entry,
-		matches: entry.matches.filter((match) => !match.includes("localhost")),
-	}));
-	fs.writeFileSync(manifest_path, JSON.stringify(manifest, null, 2));
-	done();
-};
-
 const prepare_export = gulp.series(clean_build, update_manifest_version, build_base, strip_localhost, strip_dev);
-const export_firefox = gulp.series(build_firefox, strip_firefox_localhost, zip_firefox);
+const export_firefox = gulp.series(build_firefox, zip_firefox);
 
 exports.build = gulp.series(clean_build, build_base);
 exports["build:firefox"] = gulp.series(clean_build, build_base, build_firefox);

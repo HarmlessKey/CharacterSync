@@ -3,7 +3,7 @@
   "author": "Harm Manders & Key Roos",
   "name": "D&D Character Sync",
   "description": "Store character sheets from different D&D apps",
-  "version": "0.10.0",
+  "version": "0.11.0",
   "background": {
     "service_worker": "background.js",
     "type": "module"
@@ -38,7 +38,9 @@
         "*://*.harmlesskey.com/*",
         "*://localhost/*"
       ],
-      "js": ["content/bridge.js"],
+      "js": [
+        "content/bridge.js"
+      ],
       "run_at": "document_start"
     }
   ],
