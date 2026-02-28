@@ -62,7 +62,7 @@ chrome.runtime.onMessage.addListener((req, sender, sendResponse) => {
 		}
 	}
 
-	// Firefox bridge: relayed external request from bridge.js content script on Shieldmaiden/HarmlessKey
+	// Bridge: relayed external request from bridge.js content script on Shieldmaiden/HarmlessKey
 	if (req.CS_BRIDGE) {
 		const isAllowedSender =
 			/^https?:\/\/(.*\.)?shieldmaiden\.app/.test(sender.tab?.url) ||

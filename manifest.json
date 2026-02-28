@@ -29,6 +29,19 @@
     "scripting",
     "tabs"
   ],
+  "content_scripts": [
+    {
+      "matches": [
+        "*://shieldmaiden.app/*",
+        "*://*.shieldmaiden.app/*",
+        "*://harmlesskey.com/*",
+        "*://*.harmlesskey.com/*",
+        "*://localhost/*"
+      ],
+      "js": ["content/bridge.js"],
+      "run_at": "document_start"
+    }
+  ],
   "externally_connectable": {
     "matches": [
       "*://shieldmaiden.app/*",

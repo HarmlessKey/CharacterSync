@@ -20,6 +20,7 @@ const PATHS = {
 	background: { src: "src/background.js",dest: BASE_BUILD },
 	index:      { src: "src/index.html",   dest: BASE_BUILD },
 	manifest:   { src: "manifest.json",    dest: BASE_BUILD },
+	bridge:     { src: "src/content/bridge/bridge.js", dest: `${BASE_BUILD}/content` },
 	readme:     { src: "README.md",        dest: BASE_BUILD },
 };
 
@@ -100,6 +101,12 @@ const strip_localhost = (done) => {
 			(match) => !match.includes("localhost")
 		);
 	}
+	if (manifest.content_scripts) {
+		manifest.content_scripts = manifest.content_scripts.map((entry) => ({
+			...entry,
+			matches: entry.matches.filter((match) => !match.includes("localhost")),
+		}));
+	}
 	fs.writeFileSync(manifest_path, JSON.stringify(manifest, null, 2));
 	done();
 };
@@ -110,20 +117,6 @@ const build_firefox_manifest = (done) => {
 	const manifest = JSON.parse(fs.readFileSync(`${BASE_BUILD}/manifest.json`));
 	manifest.background = { scripts: [manifest.background.service_worker] };
 	delete manifest.externally_connectable;
-	manifest.content_scripts = [
-		...(manifest.content_scripts || []),
-		{
-			matches: [
-				"*://shieldmaiden.app/*",
-				"*://*.shieldmaiden.app/*",
-				"*://harmlesskey.com/*",
-				"*://*.harmlesskey.com/*",
-				"*://localhost/*",
-			],
-			js: ["content/bridge.js"],
-			run_at: "document_start",
-		},
-	];
 	manifest.browser_specific_settings = {
 		gecko: {
 			id: "dnd-character-sync@harmlesskey.com",
@@ -142,8 +135,6 @@ const build_firefox_manifest = (done) => {
 const copy_base_to_firefox = () =>
 	gulp.src([`${BASE_BUILD}/**`, `!${BASE_BUILD}/manifest.json`]).pipe(gulp.dest(FIREFOX_BUILD));
 
-const copy_bridge_script = () =>
-	gulp.src("src/content/bridge/bridge.js").pipe(gulp.dest(`${FIREFOX_BUILD}/content`));
 
 const fix_firefox_css = (done) => {
 	const dir = `${FIREFOX_BUILD}/css/font-awesome`;
@@ -156,7 +147,7 @@ const fix_firefox_css = (done) => {
 };
 
 const build_firefox = gulp.series(
-	gulp.parallel(copy_base_to_firefox, copy_bridge_script),
+	copy_base_to_firefox,
 	fix_firefox_css,
 	build_firefox_manifest
 );

@@ -1,5 +1,4 @@
-// Firefox bridge: relays window.postMessage from Shieldmaiden/HarmlessKey to the extension background.
-// Required because Firefox does not support externally_connectable or onMessageExternal.
+// Bridge: relays window.postMessage from Shieldmaiden/HarmlessKey to the extension background.
 // The Shieldmaiden website sends window.postMessage({CS_BRIDGE, requestId, ...payload})
 // and listens for window.postMessage({CS_BRIDGE_RESPONSE, requestId, ...response}).
 window.addEventListener("message", (event) => {
