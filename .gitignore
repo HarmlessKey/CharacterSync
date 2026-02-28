@@ -208,8 +208,3 @@ $RECYCLE.BIN/
 
 # End of https://www.toptal.com/developers/gitignore/api/node,windows,macos
 
-css/font-awesome/
-
-assets/fonts/
-
-content/
