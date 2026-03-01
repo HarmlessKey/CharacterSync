@@ -1,8 +1,8 @@
 # D&D Character Sync
 
-A Chrome extension to store D&D Character data from different resources.
+A browser extension to store D&D Character data from different resources.
 
-[D&D Character Sync](https://chrome.google.com/webstore/detail/dd-character-sync/jgcbbmbchbkdjbgiiheminkkkecjohpg)
+[D&D Character Sync on Chrome Web Store](https://chrome.google.com/webstore/detail/dd-character-sync/jgcbbmbchbkdjbgiiheminkkkecjohpg)
 
 ## Local development
 
@@ -12,110 +12,160 @@ Install dependencies
 npm i
 ```
 
-Build and watch files
+### Build commands
+
+| Command | Description |
+|---|---|
+| `npm run gulp` | Clean build + watch (Chrome) |
+| `npm run gulp build` | One-off Chrome build |
+| `npm run gulp build:firefox` | One-off Firefox build |
+| `npm run gulp watch:firefox` | Clean build + watch (Chrome & Firefox) |
+| `npm run gulp export` | Bump manifest version, build, zip for Chrome Web Store |
+| `npm run gulp export:firefox` | Same as above, packaged for Firefox Add-ons |
+| `npm run gulp export:edge` | Same as above, packaged for Edge Add-ons |
+| `npm run gulp export:all` | Builds and zips all three targets in parallel |
+
+The `export` commands automatically sync the version from `package.json` into `manifest.json`, so bump the version there first:
 
 ```sh
-npm run gulp
+npm version [patch | minor | major]
+npm run gulp export:all
 ```
 
-Load extension into Chrome:
-![Load extension in Chrome](docs/chrome_load_ext.png)
+Zips are written to `./dist/`.
 
-Select the `build/base` directory to load the extension.
+### Installing a debug build
 
-### Packaging
+#### Chrome
 
-To build extension for distribution via Chrome Web Store make sure to update `package.json` to a new version using:
+1. Go to `chrome://extensions`
+2. Enable **Developer mode** (top-right toggle)
+3. Click **Load unpacked** and select the `build/base` directory
+
+#### Firefox
+
+First run a Firefox build:
 
 ```sh
-npm version [patch, minor, major]
+npm run gulp build:firefox
 ```
 
-Then build the extension using:
+1. Go to `about:debugging`
+2. Click **This Firefox**
+3. Click **Load Temporary Add-on…** and select any file inside the `build/firefox` directory
 
-```sh
-npm run gulp export
-```
+> Firefox add-ons loaded this way are temporary and removed when the browser restarts.
 
-`gulp export` will automatically use the version defined in `package.json` so there is no need to update `manifest.json`
+#### Edge
 
-Finally use the `.zip` generated in `/dist` to upload to chrome web store.
+1. Go to `edge://extensions`
+2. Enable **Developer mode** (left sidebar)
+3. Click **Load unpacked** and select the `build/base` directory
 
 ### Note on local extension development
 
-The only way to load the extension in Shieldmaiden.app is to run the local dev env of shieldmaiden and update the ENV file with the id of the local Sync ext.
+Development builds of the extension (via `npm run gulp` or `npm run gulp build`) work with both a local Shieldmaiden dev environment and the live Shieldmaiden.app — no extension ID configuration is needed. The bridge content script is injected automatically and communication happens via `window.postMessage`.
+
+Note that production/export builds strip `localhost` from the manifest, so they will not work against a local Shieldmaiden dev environment.
 
 ## Accessing storage data from your website
 
-The local storage of the extension can be accessed from your website using `chrome.runtime.sendMessage()`.
+The extension exposes character storage to allowed websites via a **bridge content script** that relays `window.postMessage` calls to the extension background. This works in all supported browsers without requiring access to the `chrome` global from page scripts.
 
 ### Getting access
 
-For this to work the extension needs to grant access from your domain. If you are interested in accessing the extensions storage on your website you can create a pull request with an update to `manifest.json` with your domain added to the externally_connectable.matches list.
+The extension must grant access to your domain. Add it to `manifest.json` in two places:
 
 ```json
+"content_scripts": [
+  {
+    "matches": [
+      ...
+      "*://your-domain.com/*"
+    ],
+    "js": ["content/bridge.js"],
+    "run_at": "document_start"
+  }
+],
 "externally_connectable": {
   "matches": [
     ...
     "*://your-domain.com/*"
   ]
-},
+}
 ```
+
+Submit a pull request with these changes to request access.
 
 ### Accessing storage data
 
-With [chrome.runtime.sendMessage()](https://developer.chrome.com/docs/extensions/reference/runtime/#method-sendMessage) storage data can be retrieved from the extension.
+Send a `window.postMessage` with `CS_BRIDGE: true` and a unique `requestId`. The bridge content script relays it to the extension and posts the response back to the page.
 
-```typescript
-chrome.runtime.sendMessage(
-  extensionId: "jgcbbmbchbkdjbgiiheminkkkecjohpg",
-  message: {
-    request_content: string[]
-  },
-  callback: function
-)
+```javascript
+function sendBridgeMessage(payload) {
+  return new Promise((resolve) => {
+    const requestId = crypto.randomUUID();
+
+    const handler = (event) => {
+      if (event.source !== window) return;
+      if (!event.data?.CS_BRIDGE_RESPONSE) return;
+      if (event.data.requestId !== requestId) return;
+      window.removeEventListener("message", handler);
+      resolve(event.data);
+    };
+
+    window.addEventListener("message", handler);
+    window.postMessage({ CS_BRIDGE: true, requestId, ...payload }, "*");
+  });
+}
 ```
 
-With `message.request_content` you can request the content you'd like to be in the response, right now the options are "characters" and "version".
+With `request_content` you can specify what to include in the response. Supported values are `"characters"` and `"version"`.
 
-Below is an example for retrieving all characters using this method.
+#### Retrieve all characters
 
 ```javascript
 async function getCharacterSyncCharacters() {
-	return new Promise((resolve, reject) => {
-		chrome.runtime.sendMessage(
-			"jgcbbmbchbkdjbgiiheminkkkecjohpg", // The ID of the extension
-			{ request_content: ["characters"] }, // The requested content "characters" | "version"
-			(response) => {
-				// Handle the response
-				if (response && response.characters) {
-					resolve(response.characters);
-				} else {
-					reject("No characters found or the extension is not installed.");
-				}
-			}
-		);
-	});
+  const response = await sendBridgeMessage({ request_content: ["characters"] });
+  if (response.characters) {
+    return response.characters;
+  }
+  throw new Error("No characters found or the extension is not installed.");
 }
 ```
 
-With a simple request you can check if a user has the extension installed.
+#### Check if the extension is installed
 
 ```javascript
 async function extensionInstalled() {
-	return new Promise((resolve) => {
-		chrome.runtime.sendMessage(
-			"jgcbbmbchbkdjbgiiheminkkkecjohpg", // The ID of the extension
-			{ request_content: ["version"] }, // The requested content "characters" | "version"
-			(response) => {
-				// Handle the response
-				if (response) {
-					resolve(true);
-				} else {
-					return false;
-				}
-			}
-		);
-	});
+  try {
+    const response = await sendBridgeMessage({ request_content: ["version"] });
+    return !!response.version;
+  } catch {
+    return false;
+  }
 }
+```
+
+### Response shape
+
+```typescript
+{
+  CS_BRIDGE_RESPONSE: true,
+  requestId: string,
+  characters?: Record<string, Character>, // keyed by character URL
+  version?: string,                        // e.g. "0.11.0"
+}
+```
+
+### Legacy: chrome.runtime.sendMessage
+
+The extension still supports direct `chrome.runtime.sendMessage` calls from allowed domains for backwards compatibility, but the bridge / `postMessage` approach above is preferred as it works across all supported browsers.
+
+```javascript
+chrome.runtime.sendMessage(
+  "jgcbbmbchbkdjbgiiheminkkkecjohpg",
+  { request_content: ["characters"] },
+  (response) => console.log(response.characters)
+);
 ```
